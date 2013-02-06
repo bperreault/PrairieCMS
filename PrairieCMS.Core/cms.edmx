@@ -1,0 +1,964 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="cmsEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="cmsEntitiesStoreContainer">
+          <EntitySet Name="cms_Page_Map" EntityType="cmsEntities.Store.cms_Page_Map" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="cmsContent_Type" EntityType="cmsEntities.Store.cmsContent_Type" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="cmsContent_Type_Mapping" EntityType="cmsEntities.Store.cmsContent_Type_Mapping" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="cmsLevel_Mapping" EntityType="cmsEntities.Store.cmsLevel_Mapping" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="cmsSiteSetup" EntityType="cmsEntities.Store.cmsSiteSetup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Content_Template" EntityType="cmsEntities.Store.Content_Template" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Log" EntityType="cmsEntities.Store.Log" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Master_Template" EntityType="cmsEntities.Store.Master_Template" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="cmsEntities.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="webpages_Membership" EntityType="cmsEntities.Store.webpages_Membership" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="cmsEntities.Store.webpages_OAuthMembership" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="webpages_Roles" EntityType="cmsEntities.Store.webpages_Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="cmsEntities.Store.webpages_UsersInRoles" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_cms_Page_Map_Master_Template" Association="cmsEntities.Store.FK_cms_Page_Map_Master_Template">
+            <End Role="Master_Template" EntitySet="Master_Template" />
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cms_Page_Map_webpages_Roles" Association="cmsEntities.Store.FK_cms_Page_Map_webpages_Roles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cmsContent_Type_Mapping_cms_Page_Map" Association="cmsEntities.Store.FK_cmsContent_Type_Mapping_cms_Page_Map">
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Level_Mapping" Association="cmsEntities.Store.FK_Content_Type_Level_Mapping">
+            <End Role="cmsLevel_Mapping" EntitySet="cmsLevel_Mapping" />
+            <End Role="cmsContent_Type" EntitySet="cmsContent_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Mapping_Content_Template" Association="cmsEntities.Store.FK_Content_Type_Mapping_Content_Template">
+            <End Role="Content_Template" EntitySet="Content_Template" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Mapping_Content_Type" Association="cmsEntities.Store.FK_Content_Type_Mapping_Content_Type">
+            <End Role="cmsContent_Type" EntitySet="cmsContent_Type" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Mapping_webpages_Roles" Association="cmsEntities.Store.FK_Content_Type_Mapping_webpages_Roles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleId" Association="cmsEntities.Store.fk_RoleId">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSetup_Master_Template" Association="cmsEntities.Store.FK_SiteSetup_Master_Template">
+            <End Role="Master_Template" EntitySet="Master_Template" />
+            <End Role="cmsSiteSetup" EntitySet="cmsSiteSetup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSetup_Master_Template1" Association="cmsEntities.Store.FK_SiteSetup_Master_Template1">
+            <End Role="Master_Template" EntitySet="Master_Template" />
+            <End Role="cmsSiteSetup" EntitySet="cmsSiteSetup" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="cmsEntities.Store.fk_UserId">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="cms_Page_Map">
+          <Key>
+            <PropertyRef Name="pkMapID" />
+          </Key>
+          <Property Name="pkMapID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="pageName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="fkMasterThemeID" Type="int" Nullable="false" />
+          <Property Name="fkEditorRoleID" Type="int" Nullable="false" />
+          <Property Name="fkBelongsTo" Type="int" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="modifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="modifiedBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="pageTitle" Type="nvarchar" MaxLength="200" />
+          <Property Name="tags" Type="nvarchar" MaxLength="500" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="cmsContent_Type">
+          <Key>
+            <PropertyRef Name="pkContentTypeId" />
+          </Key>
+          <Property Name="pkContentTypeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="contentName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="fkLevelMappingId" Type="int" />
+          <Property Name="contentTemplate" Type="nvarchar" MaxLength="500" />
+          <Property Name="companyid" Type="int" />
+        </EntityType>
+        <EntityType Name="cmsContent_Type_Mapping">
+          <Key>
+            <PropertyRef Name="pkBcId" />
+          </Key>
+          <Property Name="pkBcId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fkParent" Type="int" Nullable="false" />
+          <Property Name="fkEditorsRole" Type="int" Nullable="false" />
+          <Property Name="fkContentType" Type="int" Nullable="false" />
+          <Property Name="fkContent" Type="int" />
+          <Property Name="insertionPoint" Type="nvarchar" MaxLength="50" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="dateModified" Type="datetime" Nullable="false" />
+          <Property Name="modifiedBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="companyid" Type="int" />
+        </EntityType>
+        <EntityType Name="cmsLevel_Mapping">
+          <Key>
+            <PropertyRef Name="pkLevelMappingId" />
+          </Key>
+          <Property Name="pkLevelMappingId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="pageLevelDescriptor" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="cmsSiteSetup">
+          <Key>
+            <PropertyRef Name="pkSiteSetupId" />
+          </Key>
+          <Property Name="pkSiteSetupId" Type="int" Nullable="false" />
+          <Property Name="fkMaster_Template" Type="int" Nullable="false" />
+          <Property Name="fkFooterContentId" Type="int" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="dateModified" Type="datetime" Nullable="false" />
+          <Property Name="modifiedBy" Type="nchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Content_Template">
+          <Key>
+            <PropertyRef Name="pkContentID" />
+          </Key>
+          <Property Name="pkContentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="contentName" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="html" Type="text" />
+          <Property Name="belongsTo" Type="int" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="modifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="modifiedBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="markDown" Type="text" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="pkId" />
+          </Key>
+          <Property Name="pkId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="varchar" MaxLength="250" />
+          <Property Name="Info" Type="varchar(max)" />
+          <Property Name="Date_Entered" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Master_Template">
+          <Key>
+            <PropertyRef Name="pkMasterID" />
+          </Key>
+          <Property Name="pkMasterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="themeName" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="html" Type="text" />
+          <Property Name="fkBelongsTo" Type="int" Nullable="false" />
+          <Property Name="createdOn" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="modifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="modifiedBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="markDown" Type="text" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="56" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="company" Type="int" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="ProviderUserId" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="webpages_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_cms_Page_Map_Master_Template">
+          <End Role="Master_Template" Type="cmsEntities.Store.Master_Template" Multiplicity="1" />
+          <End Role="cms_Page_Map" Type="cmsEntities.Store.cms_Page_Map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master_Template">
+              <PropertyRef Name="pkMasterID" />
+            </Principal>
+            <Dependent Role="cms_Page_Map">
+              <PropertyRef Name="fkMasterThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cms_Page_Map_webpages_Roles">
+          <End Role="webpages_Roles" Type="cmsEntities.Store.webpages_Roles" Multiplicity="1" />
+          <End Role="cms_Page_Map" Type="cmsEntities.Store.cms_Page_Map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="cms_Page_Map">
+              <PropertyRef Name="fkEditorRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cmsContent_Type_Mapping_cms_Page_Map">
+          <End Role="cms_Page_Map" Type="cmsEntities.Store.cms_Page_Map" Multiplicity="1" />
+          <End Role="cmsContent_Type_Mapping" Type="cmsEntities.Store.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cms_Page_Map">
+              <PropertyRef Name="pkMapID" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkParent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Level_Mapping">
+          <End Role="cmsLevel_Mapping" Type="cmsEntities.Store.cmsLevel_Mapping" Multiplicity="0..1" />
+          <End Role="cmsContent_Type" Type="cmsEntities.Store.cmsContent_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmsLevel_Mapping">
+              <PropertyRef Name="pkLevelMappingId" />
+            </Principal>
+            <Dependent Role="cmsContent_Type">
+              <PropertyRef Name="fkLevelMappingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Mapping_Content_Template">
+          <End Role="Content_Template" Type="cmsEntities.Store.Content_Template" Multiplicity="0..1" />
+          <End Role="cmsContent_Type_Mapping" Type="cmsEntities.Store.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content_Template">
+              <PropertyRef Name="pkContentID" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkContent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Mapping_Content_Type">
+          <End Role="cmsContent_Type" Type="cmsEntities.Store.cmsContent_Type" Multiplicity="1" />
+          <End Role="cmsContent_Type_Mapping" Type="cmsEntities.Store.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmsContent_Type">
+              <PropertyRef Name="pkContentTypeId" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkContentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Mapping_webpages_Roles">
+          <End Role="webpages_Roles" Type="cmsEntities.Store.webpages_Roles" Multiplicity="1" />
+          <End Role="cmsContent_Type_Mapping" Type="cmsEntities.Store.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkEditorsRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleId">
+          <End Role="webpages_Roles" Type="cmsEntities.Store.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="cmsEntities.Store.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSetup_Master_Template">
+          <End Role="Master_Template" Type="cmsEntities.Store.Master_Template" Multiplicity="1" />
+          <End Role="cmsSiteSetup" Type="cmsEntities.Store.cmsSiteSetup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master_Template">
+              <PropertyRef Name="pkMasterID" />
+            </Principal>
+            <Dependent Role="cmsSiteSetup">
+              <PropertyRef Name="fkMaster_Template" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSetup_Master_Template1">
+          <End Role="Master_Template" Type="cmsEntities.Store.Master_Template" Multiplicity="1" />
+          <End Role="cmsSiteSetup" Type="cmsEntities.Store.cmsSiteSetup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master_Template">
+              <PropertyRef Name="pkMasterID" />
+            </Principal>
+            <Dependent Role="cmsSiteSetup">
+              <PropertyRef Name="fkMaster_Template" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="Users" Type="cmsEntities.Store.Users" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="cmsEntities.Store.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PrairieCMS.Core.data" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="cmsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cmsContent_Type" EntityType="PrairieCMS.Core.data.cmsContent_Type" />
+          <EntitySet Name="cmsContent_Type_Mapping" EntityType="PrairieCMS.Core.data.cmsContent_Type_Mapping" />
+          <EntitySet Name="cmsLevel_Mapping" EntityType="PrairieCMS.Core.data.cmsLevel_Mapping" />
+          <EntitySet Name="cmsSiteSetups" EntityType="PrairieCMS.Core.data.cmsSiteSetup" />
+          <EntitySet Name="Content_Template" EntityType="PrairieCMS.Core.data.Content_Template" />
+          <EntitySet Name="Logs" EntityType="PrairieCMS.Core.data.Log" />
+          <EntitySet Name="Master_Template" EntityType="PrairieCMS.Core.data.Master_Template" />
+          <EntitySet Name="Users" EntityType="PrairieCMS.Core.data.User" />
+          <EntitySet Name="webpages_Membership" EntityType="PrairieCMS.Core.data.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="PrairieCMS.Core.data.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="PrairieCMS.Core.data.webpages_Roles" />
+          <AssociationSet Name="FK_Content_Type_Level_Mapping" Association="PrairieCMS.Core.data.FK_Content_Type_Level_Mapping">
+            <End Role="cmsLevel_Mapping" EntitySet="cmsLevel_Mapping" />
+            <End Role="cmsContent_Type" EntitySet="cmsContent_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Mapping_Content_Type" Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Type">
+            <End Role="cmsContent_Type" EntitySet="cmsContent_Type" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Mapping_Content_Template" Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Template">
+            <End Role="Content_Template" EntitySet="Content_Template" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Content_Type_Mapping_webpages_Roles" Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_webpages_Roles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSetup_Master_Template" Association="PrairieCMS.Core.data.FK_SiteSetup_Master_Template">
+            <End Role="Master_Template" EntitySet="Master_Template" />
+            <End Role="cmsSiteSetup" EntitySet="cmsSiteSetups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteSetup_Master_Template1" Association="PrairieCMS.Core.data.FK_SiteSetup_Master_Template1">
+            <End Role="Master_Template" EntitySet="Master_Template" />
+            <End Role="cmsSiteSetup" EntitySet="cmsSiteSetups" />
+          </AssociationSet>
+          <AssociationSet Name="webpages_UsersInRoles" Association="PrairieCMS.Core.data.webpages_UsersInRoles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="cms_Page_Map" EntityType="PrairieCMS.Core.data.cms_Page_Map" />
+          
+          <AssociationSet Name="FK_cms_Page_Map_Master_Template" Association="PrairieCMS.Core.data.FK_cms_Page_Map_Master_Template">
+            <End Role="Master_Template" EntitySet="Master_Template" />
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cms_Page_Map_webpages_Roles" Association="PrairieCMS.Core.data.FK_cms_Page_Map_webpages_Roles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cmsContent_Type_Mapping_cms_Page_Map" Association="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map">
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="cmsContent_Type">
+          <Key>
+            <PropertyRef Name="pkContentTypeId" />
+          </Key>
+          <Property Name="pkContentTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="contentName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="fkLevelMappingId" Type="Int32" />
+          <Property Name="contentTemplate" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="companyid" Type="Int32" />
+          <NavigationProperty Name="cmsLevel_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Level_Mapping" FromRole="cmsContent_Type" ToRole="cmsLevel_Mapping" />
+          <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Type" FromRole="cmsContent_Type" ToRole="cmsContent_Type_Mapping" />
+        </EntityType>
+        <EntityType Name="cmsContent_Type_Mapping">
+          <Key>
+            <PropertyRef Name="pkBcId" />
+          </Key>
+          <Property Name="pkBcId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fkParent" Type="Int32" Nullable="false" />
+          <Property Name="fkEditorsRole" Type="Int32" Nullable="false" />
+          <Property Name="fkContentType" Type="Int32" Nullable="false" />
+          <Property Name="fkContent" Type="Int32" />
+          <Property Name="insertionPoint" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="createdBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="dateModified" Type="DateTime" Nullable="false" />
+          <Property Name="modifiedBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="companyid" Type="Int32" />
+          <NavigationProperty Name="cmsContent_Type" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Type" FromRole="cmsContent_Type_Mapping" ToRole="cmsContent_Type" />
+          <NavigationProperty Name="Content_Template" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Template" FromRole="cmsContent_Type_Mapping" ToRole="Content_Template" />
+          <NavigationProperty Name="webpages_Roles" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_webpages_Roles" FromRole="cmsContent_Type_Mapping" ToRole="webpages_Roles" />
+          <NavigationProperty Name="cms_Page_Map" Relationship="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map" FromRole="cmsContent_Type_Mapping" ToRole="cms_Page_Map" />
+        </EntityType>
+        <EntityType Name="cmsLevel_Mapping">
+          <Key>
+            <PropertyRef Name="pkLevelMappingId" />
+          </Key>
+          <Property Name="pkLevelMappingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pageLevelDescriptor" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="cmsContent_Type" Relationship="PrairieCMS.Core.data.FK_Content_Type_Level_Mapping" FromRole="cmsLevel_Mapping" ToRole="cmsContent_Type" />
+        </EntityType>
+        <EntityType Name="cmsSiteSetup">
+          <Key>
+            <PropertyRef Name="pkSiteSetupId" />
+          </Key>
+          <Property Name="pkSiteSetupId" Type="Int32" Nullable="false" />
+          <Property Name="fkMaster_Template" Type="Int32" Nullable="false" />
+          <Property Name="fkFooterContentId" Type="Int32" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="createdBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="dateModified" Type="DateTime" Nullable="false" />
+          <Property Name="modifiedBy" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="Master_Template" Relationship="PrairieCMS.Core.data.FK_SiteSetup_Master_Template" FromRole="cmsSiteSetup" ToRole="Master_Template" />
+          <NavigationProperty Name="Master_Template1" Relationship="PrairieCMS.Core.data.FK_SiteSetup_Master_Template1" FromRole="cmsSiteSetup" ToRole="Master_Template" />
+        </EntityType>
+        <EntityType Name="Content_Template">
+          <Key>
+            <PropertyRef Name="pkContentID" />
+          </Key>
+          <Property Name="pkContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="contentName" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="html" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="belongsTo" Type="Int32" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" />
+          <Property Name="createdBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="modifiedOn" Type="DateTime" Nullable="false" />
+          <Property Name="modifiedBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="markDown" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Template" FromRole="Content_Template" ToRole="cmsContent_Type_Mapping" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="pkId" />
+          </Key>
+          <Property Name="pkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Info" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Date_Entered" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="Master_Template">
+          <Key>
+            <PropertyRef Name="pkMasterID" />
+          </Key>
+          <Property Name="pkMasterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="themeName" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="html" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="fkBelongsTo" Type="Int32" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" />
+          <Property Name="createdBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="modifiedOn" Type="DateTime" Nullable="false" />
+          <Property Name="modifiedBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="markDown" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="cmsSiteSetups" Relationship="PrairieCMS.Core.data.FK_SiteSetup_Master_Template" FromRole="Master_Template" ToRole="cmsSiteSetup" />
+          <NavigationProperty Name="cmsSiteSetups1" Relationship="PrairieCMS.Core.data.FK_SiteSetup_Master_Template1" FromRole="Master_Template" ToRole="cmsSiteSetup" />
+          <NavigationProperty Name="cms_Page_Map" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_Master_Template" FromRole="Master_Template" ToRole="cms_Page_Map" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="56" Unicode="true" FixedLength="false" />
+          <Property Name="Firstname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Lastname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="company" Type="Int32" />
+          <NavigationProperty Name="webpages_Roles" Relationship="PrairieCMS.Core.data.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" />
+          <Property Name="ConfirmationToken" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+          <Property Name="LastPasswordFailureDate" Type="DateTime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="PasswordChangedDate" Type="DateTime" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_webpages_Roles" FromRole="webpages_Roles" ToRole="cmsContent_Type_Mapping" />
+          <NavigationProperty Name="Users" Relationship="PrairieCMS.Core.data.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="Users" />
+          <NavigationProperty Name="cms_Page_Map" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_webpages_Roles" FromRole="webpages_Roles" ToRole="cms_Page_Map" />
+        </EntityType>
+        <Association Name="FK_Content_Type_Level_Mapping">
+          <End Role="cmsLevel_Mapping" Type="PrairieCMS.Core.data.cmsLevel_Mapping" Multiplicity="0..1" />
+          <End Role="cmsContent_Type" Type="PrairieCMS.Core.data.cmsContent_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmsLevel_Mapping">
+              <PropertyRef Name="pkLevelMappingId" />
+            </Principal>
+            <Dependent Role="cmsContent_Type">
+              <PropertyRef Name="fkLevelMappingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Mapping_Content_Type">
+          <End Role="cmsContent_Type" Type="PrairieCMS.Core.data.cmsContent_Type" Multiplicity="1" />
+          <End Role="cmsContent_Type_Mapping" Type="PrairieCMS.Core.data.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmsContent_Type">
+              <PropertyRef Name="pkContentTypeId" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkContentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Mapping_Content_Template">
+          <End Role="Content_Template" Type="PrairieCMS.Core.data.Content_Template" Multiplicity="0..1" />
+          <End Role="cmsContent_Type_Mapping" Type="PrairieCMS.Core.data.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content_Template">
+              <PropertyRef Name="pkContentID" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkContent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Content_Type_Mapping_webpages_Roles">
+          <End Role="webpages_Roles" Type="PrairieCMS.Core.data.webpages_Roles" Multiplicity="1" />
+          <End Role="cmsContent_Type_Mapping" Type="PrairieCMS.Core.data.cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkEditorsRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSetup_Master_Template">
+          <End Role="Master_Template" Type="PrairieCMS.Core.data.Master_Template" Multiplicity="1" />
+          <End Role="cmsSiteSetup" Type="PrairieCMS.Core.data.cmsSiteSetup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master_Template">
+              <PropertyRef Name="pkMasterID" />
+            </Principal>
+            <Dependent Role="cmsSiteSetup">
+              <PropertyRef Name="fkMaster_Template" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiteSetup_Master_Template1">
+          <End Role="Master_Template" Type="PrairieCMS.Core.data.Master_Template" Multiplicity="1" />
+          <End Role="cmsSiteSetup" Type="PrairieCMS.Core.data.cmsSiteSetup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master_Template">
+              <PropertyRef Name="pkMasterID" />
+            </Principal>
+            <Dependent Role="cmsSiteSetup">
+              <PropertyRef Name="fkMaster_Template" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="webpages_UsersInRoles">
+          <End Role="webpages_Roles" Type="PrairieCMS.Core.data.webpages_Roles" Multiplicity="*" />
+          <End Role="Users" Type="PrairieCMS.Core.data.User" Multiplicity="*" />
+        </Association>
+        <EntityType Name="cms_Page_Map">
+          <Key>
+            <PropertyRef Name="pkMapID" />
+          </Key>
+          <Property Type="Int32" Name="pkMapID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="pageName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="fkMasterThemeID" Nullable="false" />
+          <Property Type="Int32" Name="fkEditorRoleID" Nullable="false" />
+          <Property Type="Int32" Name="fkBelongsTo" Nullable="false" />
+          <Property Type="DateTime" Name="createdOn" Nullable="false" />
+          <Property Type="String" Name="createdBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="modifiedOn" Nullable="false" />
+          <Property Type="String" Name="modifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="pageTitle" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="tags" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="isActive" />
+          <NavigationProperty Name="Master_Template" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_Master_Template" FromRole="cms_Page_Map" ToRole="Master_Template" />
+          <NavigationProperty Name="webpages_Roles" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_webpages_Roles" FromRole="cms_Page_Map" ToRole="webpages_Roles" />
+          <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map" FromRole="cms_Page_Map" ToRole="cmsContent_Type_Mapping" />
+        </EntityType>
+        
+        <Association Name="FK_cms_Page_Map_Master_Template">
+          <End Type="PrairieCMS.Core.data.Master_Template" Role="Master_Template" Multiplicity="1" />
+          <End Type="PrairieCMS.Core.data.cms_Page_Map" Role="cms_Page_Map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Master_Template">
+              <PropertyRef Name="pkMasterID" />
+            </Principal>
+            <Dependent Role="cms_Page_Map">
+              <PropertyRef Name="fkMasterThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cms_Page_Map_webpages_Roles">
+          <End Type="PrairieCMS.Core.data.webpages_Roles" Role="webpages_Roles" Multiplicity="1" />
+          <End Type="PrairieCMS.Core.data.cms_Page_Map" Role="cms_Page_Map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="cms_Page_Map">
+              <PropertyRef Name="fkEditorRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cmsContent_Type_Mapping_cms_Page_Map">
+          <End Type="PrairieCMS.Core.data.cms_Page_Map" Role="cms_Page_Map" Multiplicity="1" />
+          <End Type="PrairieCMS.Core.data.cmsContent_Type_Mapping" Role="cmsContent_Type_Mapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cms_Page_Map">
+              <PropertyRef Name="pkMapID" />
+            </Principal>
+            <Dependent Role="cmsContent_Type_Mapping">
+              <PropertyRef Name="fkParent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="cmsEntitiesStoreContainer" CdmEntityContainer="cmsEntities">
+          <EntitySetMapping Name="cmsContent_Type">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsContent_Type">
+              <MappingFragment StoreEntitySet="cmsContent_Type">
+                <ScalarProperty Name="pkContentTypeId" ColumnName="pkContentTypeId" />
+                <ScalarProperty Name="contentName" ColumnName="contentName" />
+                <ScalarProperty Name="fkLevelMappingId" ColumnName="fkLevelMappingId" />
+                <ScalarProperty Name="contentTemplate" ColumnName="contentTemplate" />
+                <ScalarProperty Name="companyid" ColumnName="companyid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cmsContent_Type_Mapping">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsContent_Type_Mapping">
+              <MappingFragment StoreEntitySet="cmsContent_Type_Mapping">
+                <ScalarProperty Name="pkBcId" ColumnName="pkBcId" />
+                <ScalarProperty Name="fkParent" ColumnName="fkParent" />
+                <ScalarProperty Name="fkEditorsRole" ColumnName="fkEditorsRole" />
+                <ScalarProperty Name="fkContentType" ColumnName="fkContentType" />
+                <ScalarProperty Name="fkContent" ColumnName="fkContent" />
+                <ScalarProperty Name="insertionPoint" ColumnName="insertionPoint" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateModified" ColumnName="dateModified" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="companyid" ColumnName="companyid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cmsLevel_Mapping">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsLevel_Mapping">
+              <MappingFragment StoreEntitySet="cmsLevel_Mapping">
+                <ScalarProperty Name="pkLevelMappingId" ColumnName="pkLevelMappingId" />
+                <ScalarProperty Name="pageLevelDescriptor" ColumnName="pageLevelDescriptor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cmsSiteSetups">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsSiteSetup">
+              <MappingFragment StoreEntitySet="cmsSiteSetup">
+                <ScalarProperty Name="pkSiteSetupId" ColumnName="pkSiteSetupId" />
+                <ScalarProperty Name="fkMaster_Template" ColumnName="fkMaster_Template" />
+                <ScalarProperty Name="fkFooterContentId" ColumnName="fkFooterContentId" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="dateModified" ColumnName="dateModified" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Content_Template">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.Content_Template">
+              <MappingFragment StoreEntitySet="Content_Template">
+                <ScalarProperty Name="pkContentID" ColumnName="pkContentID" />
+                <ScalarProperty Name="contentName" ColumnName="contentName" />
+                <ScalarProperty Name="html" ColumnName="html" />
+                <ScalarProperty Name="belongsTo" ColumnName="belongsTo" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="modifiedOn" ColumnName="modifiedOn" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="markDown" ColumnName="markDown" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="pkId" ColumnName="pkId" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="Date_Entered" ColumnName="Date_Entered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Master_Template">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.Master_Template">
+              <MappingFragment StoreEntitySet="Master_Template">
+                <ScalarProperty Name="pkMasterID" ColumnName="pkMasterID" />
+                <ScalarProperty Name="themeName" ColumnName="themeName" />
+                <ScalarProperty Name="html" ColumnName="html" />
+                <ScalarProperty Name="fkBelongsTo" ColumnName="fkBelongsTo" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="modifiedOn" ColumnName="modifiedOn" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="markDown" ColumnName="markDown" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="company" ColumnName="company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_OAuthMembership">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.webpages_OAuthMembership">
+              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="PrairieCMS.Core.data.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="cms_Page_Map">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.cms_Page_Map">
+              <MappingFragment StoreEntitySet="cms_Page_Map">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="tags" ColumnName="tags" />
+                <ScalarProperty Name="pageTitle" ColumnName="pageTitle" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="modifiedOn" ColumnName="modifiedOn" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="fkBelongsTo" ColumnName="fkBelongsTo" />
+                <ScalarProperty Name="fkEditorRoleID" ColumnName="fkEditorRoleID" />
+                <ScalarProperty Name="fkMasterThemeID" ColumnName="fkMasterThemeID" />
+                <ScalarProperty Name="pageName" ColumnName="pageName" />
+                <ScalarProperty Name="pkMapID" ColumnName="pkMapID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="cms" ZoomLevel="90">
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsContent_Type" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsContent_Type_Mapping" Width="1.5" PointX="3" PointY="2.875" Height="3.7109993489583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsLevel_Mapping" Width="2.625" PointX="3.125" PointY="10.875" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsSiteSetup" Width="1.5" PointX="8" PointY="1.5" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.Content_Template" Width="1.5" PointX="0.75" PointY="6.875" Height="2.9417936197916665" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.Log" Width="1.5" PointX="5.75" PointY="6" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.Master_Template" Width="1.5" PointX="5.75" PointY="1.25" Height="3.1340950520833308" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.User" Width="1.5" PointX="3" PointY="8.125" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.webpages_Membership" Width="1.5" PointX="7.75" PointY="5" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.webpages_OAuthMembership" Width="1.5" PointX="5.75" PointY="9" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.webpages_Roles" Width="1.5" PointX="0.75" PointY="3.875" Height="1.7879850260416674" IsExpanded="true" />
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Level_Mapping" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.125" PointY="10.875" />
+          <ConnectorPoint PointX="5.125" PointY="2.0844202457682277" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="2.0844202457682273" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="2.0844202457682277" />
+          <ConnectorPoint PointX="2.25" PointY="2.0844202457682277" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Type" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.3899912076822916" />
+          <ConnectorPoint PointX="3.75" PointY="1.3899912076822916" />
+          <ConnectorPoint PointX="3.75" PointY="2.875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Template" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="6.875" />
+          <ConnectorPoint PointX="2.625" PointY="6.5" />
+          <ConnectorPoint PointX="2.625" PointY="7.15330078125" />
+          <ConnectorPoint PointX="2.6285744349011204" PointY="7.1497263463488778" />
+          <ConnectorPoint PointX="2.7464255650988791" PointY="7.03187521615112" />
+          <ConnectorPoint PointX="3" PointY="6.77830078125" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_webpages_Roles" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.7513103115389308" />
+          <ConnectorPoint PointX="3" PointY="4.7513103115389308" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_SiteSetup_Master_Template" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.25" PointY="3.2496826171874997" />
+          <ConnectorPoint PointX="8" PointY="3.2496826171874997" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_SiteSetup_Master_Template1" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.25" PointY="2.3123413085937496" />
+          <ConnectorPoint PointX="8" PointY="2.3123413085937496" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.webpages_UsersInRoles" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="5.792977766025639" />
+          <ConnectorPoint PointX="2.6875" PointY="6.230477766025639" />
+          <ConnectorPoint PointX="2.6875" PointY="9.2112939453125" />
+          <ConnectorPoint PointX="3" PointY="9.2112939453125" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cms_Page_Map" Width="1.5" PointX="10" PointY="5.625" Height="4.0956022135416656" />
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_cms_Page_Map_Content_Template" >
+          <ConnectorPoint PointX="1.4687480000000002" PointY="6.875" />
+          <ConnectorPoint PointX="1.4687480000000002" PointY="6.625" />
+          <ConnectorPoint PointX="2.5" PointY="6.625" />
+          <ConnectorPoint PointX="2.5" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="7.6728011067708319" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="5.041666666666667" PointY="7.6728011067708319" />
+          <ConnectorPoint PointX="5.208333333333333" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="5.5" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="5.5" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="9.625" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="9.625" PointY="8.3701560575561231" />
+          <ConnectorPoint PointX="10" PointY="8.3701560575561231" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_cms_Page_Map_Master_Template" >
+          <ConnectorPoint PointX="7.25" PointY="4.4441943359375" />
+          <ConnectorPoint PointX="10.9726553125" PointY="4.4441943359375" />
+          <ConnectorPoint PointX="10.9726553125" PointY="5.625" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_cms_Page_Map_webpages_Roles" >
+          <ConnectorPoint PointX="1.8593735" PointY="5.8552864583333326" />
+          <ConnectorPoint PointX="1.8593735" PointY="6.609375" />
+          <ConnectorPoint PointX="2.5" PointY="6.609375" />
+          <ConnectorPoint PointX="2.5" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="7.4228011067708319" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="5.041666666666667" PointY="7.4228011067708319" />
+          <ConnectorPoint PointX="5.208333333333333" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="5.625" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="5.625" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="9.5" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="9.5" PointY="6.9663260287780684" />
+          <ConnectorPoint PointX="10" PointY="6.9663260287780684" />
+        </AssociationConnector>
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map" >
+          <ConnectorPoint PointX="10.45507515625" PointY="5.625" />
+          <ConnectorPoint PointX="10.45507515625" PointY="4.7881982421875" />
+          <ConnectorPoint PointX="5.208333333333333" PointY="4.7881982421874989" />
+          <ConnectorPoint PointX="5.041666666666667" PointY="4.7881982421875" />
+          <ConnectorPoint PointX="4.5" PointY="4.7881982421875" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

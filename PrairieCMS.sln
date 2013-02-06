@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieCMS", "PrairieCMS\PrairieCMS.csproj", "{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieCMS.Tests", "PrairieCMS.Tests\PrairieCMS.Tests.csproj", "{4938F42A-0988-4377-A7FE-6352748899E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieCMS.Core", "PrairieCMS.Core\PrairieCMS.Core.csproj", "{4AAD7755-7928-4C54-BFED-BABBEDCFD041}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4938F42A-0988-4377-A7FE-6352748899E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4938F42A-0988-4377-A7FE-6352748899E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4938F42A-0988-4377-A7FE-6352748899E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4938F42A-0988-4377-A7FE-6352748899E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AAD7755-7928-4C54-BFED-BABBEDCFD041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AAD7755-7928-4C54-BFED-BABBEDCFD041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AAD7755-7928-4C54-BFED-BABBEDCFD041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AAD7755-7928-4C54-BFED-BABBEDCFD041}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

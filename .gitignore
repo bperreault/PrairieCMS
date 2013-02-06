@@ -1,0 +1,22 @@
+#file types
+_ReSharper.*
+*.DS_Store
+*.tlog
+*.vsp
+*.psess
+*.v11.suo
+*.user
+*.suo
+#*.Framework.XML
+
+#specific files
+
+
+#specific folders
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+Reference
+packages
+TestResults
+emailimages
