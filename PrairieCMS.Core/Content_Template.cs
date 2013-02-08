@@ -22,12 +22,10 @@ namespace PrairieCMS.Core
         public int pkContentID { get; set; }
         public string contentName { get; set; }
         public string html { get; set; }
-        public int belongsTo { get; set; }
         public System.DateTime createdOn { get; set; }
         public string createdBy { get; set; }
         public System.DateTime modifiedOn { get; set; }
         public string modifiedBy { get; set; }
-        public string markDown { get; set; }
     
         public virtual ICollection<cmsContent_Type_Mapping> cmsContent_Type_Mapping { get; set; }
     }

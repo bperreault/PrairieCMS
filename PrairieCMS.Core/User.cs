@@ -23,7 +23,6 @@ namespace PrairieCMS.Core
         public string Username { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public Nullable<int> company { get; set; }
     
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
     }
