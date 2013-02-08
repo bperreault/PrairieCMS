@@ -5,6 +5,7 @@ using System.Threading;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using PrairieCMS.Models;
+using System.Web.Security;
 
 namespace PrairieCMS.Filters
 {
@@ -27,23 +28,38 @@ namespace PrairieCMS.Filters
             {
                 Database.SetInitializer<UsersContext>(null);
 
-                try
-                {
-                    using (var context = new UsersContext())
-                    {
-                        if (!context.Database.Exists())
-                        {
-                            // Create the SimpleMembership database without Entity Framework migration schema
-                            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-                        }
-                    }
+                //try
+                //{
+                //the user on the web server didn't have rights to check if the database exists. so commenting this out.
+                //using (var context = new UsersContext())
+                //{
+                //    if (!context.Database.Exists())
+                //    {
+                //        // Create the SimpleMembership database without Entity Framework migration schema
+                //        ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                //    }
+                //}
 
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                }
-                catch (Exception ex)
+                WebSecurity.InitializeDatabaseConnection("PrairieCMSConnectionString", "Users", "UserId", "Username", autoCreateTables: true);
+
+                var roles = (SimpleRoleProvider)Roles.Provider;
+                var membership = (SimpleMembershipProvider)Membership.Provider;
+
+                if (!roles.RoleExists("Admin"))
                 {
-                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                    roles.CreateRole("Admin");
                 }
+                if (membership.GetUser("bobbi", false) == null)
+                {
+                    membership.CreateUserAndAccount("bobbi", "always1");
+                    roles.AddUsersToRoles(new[] { "bobbi" }, new[] { "admin" });
+                }
+
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                //}
             }
         }
     }

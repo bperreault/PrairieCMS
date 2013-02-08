@@ -116,7 +116,11 @@
       <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\cmsModel.cs" />
+    <Compile Include="Models\ContentModel.cs" />
+    <Compile Include="Models\cmsPageMap.cs" />
+    <Compile Include="Models\MasterTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ContentRepository.cs" />
     <Compile Include="User.cs">
       <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
     </Compile>
