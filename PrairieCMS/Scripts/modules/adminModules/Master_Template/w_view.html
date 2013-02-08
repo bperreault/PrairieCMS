@@ -1,0 +1,26 @@
+
+<div id="wrapper" class="tab-pane">
+<p><strong>Create a new or use an existing Master template</strong>, this is the wrapper
+        for your email content and commonly contains logo, footer details.
+        <br />
+        Select an existing wrapper template or create a new one.<br /></p>
+        <ul id="masterForm1">
+        <li>Existing Wrapper Templates: 
+              <select class="select-input" data-bind="options:wrapperList, selectedOptions:selectedItem, value: 'MasterID', optionsText: 'ThemeName', optionsCaption:'--select--'"></select>                                      
+              &nbsp;<input type="button" id="masterSubmit1Select" value='Use this Wrapper' data-bind="click: getWrapperById, enable: wrapperList().length > 0" />
+              &nbsp;<input type="button" value='Start Over' data-bind="click: startOver" /></li>
+        <li>
+            Enter a name for this Wrapper (theme) (if adding a Mad Mimi template, use the name of the template here)<br />
+            <input type="text" name="master_Name_0_89" id="master_Name_0_89" data-bind="value: themeName" /></li>
+        <li>
+            Enter the Markdown for your wrapper. or Select Html and enter it.  Customize the wrapper by adding {lowercase_tags} - you will
+            need to match the tag name in your SQL.  Example of commonly used tags will be:  {firstname} or {name} -- remember lowercase for tags.<br />
+            <br />
+            <textarea rows="20"  class="input-block-level" id="Markdown_0_00" name="Markdown_0_00" data-bind="text: markDown" ></textarea></li>
+            
+            <li>
+                <input type="button" id="masterSubmit1" value='Create this Wrapper' data-bind="click: saveWrapper, value: buttontext, enable: wrapperSubmit" />
+                <input type="hidden" id="masterId" name="masterId" data-bind="value: pkMasterID" />
+          </li>
+         </ul>
+</div>

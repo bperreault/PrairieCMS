@@ -24,7 +24,6 @@ namespace PrairieCMS.Core
         public int pkMasterID { get; set; }
         public string themeName { get; set; }
         public string html { get; set; }
-        public int fkBelongsTo { get; set; }
         public System.DateTime createdOn { get; set; }
         public string createdBy { get; set; }
         public System.DateTime modifiedOn { get; set; }

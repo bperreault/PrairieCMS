@@ -24,7 +24,6 @@ namespace PrairieCMS.Core
         public string createdBy { get; set; }
         public System.DateTime dateModified { get; set; }
         public string modifiedBy { get; set; }
-        public Nullable<int> companyid { get; set; }
     
         public virtual cmsContent_Type cmsContent_Type { get; set; }
         public virtual Content_Template Content_Template { get; set; }

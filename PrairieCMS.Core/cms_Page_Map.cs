@@ -23,7 +23,6 @@ namespace PrairieCMS.Core
         public string pageName { get; set; }
         public int fkMasterThemeID { get; set; }
         public int fkEditorRoleID { get; set; }
-        public int fkBelongsTo { get; set; }
         public System.DateTime createdOn { get; set; }
         public string createdBy { get; set; }
         public System.DateTime modifiedOn { get; set; }
@@ -31,6 +30,7 @@ namespace PrairieCMS.Core
         public string pageTitle { get; set; }
         public string tags { get; set; }
         public Nullable<bool> isActive { get; set; }
+        public int fkContentID { get; set; }
     
         public virtual Master_Template Master_Template { get; set; }
         public virtual webpages_Roles webpages_Roles { get; set; }
