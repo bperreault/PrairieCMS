@@ -9,16 +9,16 @@ using PrairieCMS.Core.Models;
 namespace PrairieCMS.Controllers
 {
 
-    [Authorize]
+     [Authorize(Roles = "admin")]
     public class cmsController : Controller
-    {       
+    {
 
-        [AllowAnonymous]
-        public ActionResult Home()
-        {
-            cmsModel cm = cmsRepository.HomeContent();
-            return View(cm);
-        }
+         public ActionResult Index()
+         {
+             cmsModel im = new cmsModel();
+             return View(im);
+
+         }
 
        
     }

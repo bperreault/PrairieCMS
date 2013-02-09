@@ -19,7 +19,7 @@ function (Boiler, settings, Content_TemplateComponent, ContentTypeComponent,
             "contentType": new ContentTypeComponent(context),
             "contentTypeMap": new ContentTypeMapComponent(context),
             "siteSetup": new SiteSetupComponent(context),
-            "package": new cms_Page_MapComponent(context),
+            "assignment": new cms_Page_MapComponent(context),
             "wrapper": new Master_TemplateComponent(context)
         });
         controller.start();

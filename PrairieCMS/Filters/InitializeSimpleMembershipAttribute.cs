@@ -40,6 +40,12 @@ namespace PrairieCMS.Filters
                 //    }
                 //}
 
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                //}
+
                 WebSecurity.InitializeDatabaseConnection("PrairieCMSConnectionString", "Users", "UserId", "Username", autoCreateTables: true);
 
                 var roles = (SimpleRoleProvider)Roles.Provider;
@@ -49,17 +55,12 @@ namespace PrairieCMS.Filters
                 {
                     roles.CreateRole("Admin");
                 }
-                if (membership.GetUser("bobbi", false) == null)
-                {
-                    membership.CreateUserAndAccount("bobbi", "always1");
-                    roles.AddUsersToRoles(new[] { "bobbi" }, new[] { "admin" });
-                }
-
-                //}
-                //catch (Exception ex)
+                //if (membership.GetUser("admin", false) == null)
                 //{
-                //    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                //    membership.CreateUserAndAccount("admin", "admin1");
+                //    roles.AddUsersToRoles(new[] { "admin" }, new[] { "admin" });
                 //}
+
             }
         }
     }
