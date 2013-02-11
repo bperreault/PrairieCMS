@@ -22,7 +22,7 @@ namespace PrairieCMS.Core
         public int pkContentTypeId { get; set; }
         public string contentName { get; set; }
         public Nullable<int> fkLevelMappingId { get; set; }
-        public string contentTemplate { get; set; }
+        public string templateHtml { get; set; }
     
         public virtual cmsLevel_Mapping cmsLevel_Mapping { get; set; }
         public virtual ICollection<cmsContent_Type_Mapping> cmsContent_Type_Mapping { get; set; }

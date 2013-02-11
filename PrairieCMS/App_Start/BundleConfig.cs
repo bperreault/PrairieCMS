@@ -21,6 +21,21 @@ namespace PrairieCMS
                         "~/Scripts/libs/jquery/jquery.unobtrusive*",
                         "~/Scripts/libs/jquery/jquery.validate*"));
 
+            //this thing skips all mins if we're not building in release mode!
+            //so putting the links directly into the html for now.
+            ////bundles.Add(new ScriptBundle("~/bundles/thirdparty")
+            ////            .Include("~/Scripts/libs/knockout/knockout-2.1.0.js")
+            ////            .Include("~/Scripts/libs/underscore/underscore-1.3.3.js"));
+            ////bundles.Add(new ScriptBundle("~/bundles/thirdparty2")
+            ////            .Include("~/Scripts/libs/signals/signals.min.js")
+            ////            .Include("~/Scripts/libs/crossroads/crossroads.min.js")
+            ////            .Include("~/Scripts/libs/flot/jquery.flot.min.js"));
+            ////bundles.Add(new ScriptBundle("~/bundles/thirdparty3")
+            ////            .Include("~/Scripts/libs/flot/jquery.flot.resize.js")
+            ////            .Include("~/Scripts/libs/hasher/hasher.min.js")
+            ////            .Include("~/Scripts/libs/pubsub/pubsub-20120708.js")
+            ////            .Include("~/Scripts/libs/boilerplate/groundwork.js")
+            ////            .Include("~/Scripts/libs/kendo/kendo.web.min.js"));
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -47,6 +62,8 @@ namespace PrairieCMS
 
 
         }
+       
+        //this thing skips all mins if optimizations isn't on!
         //BundleTable.EnableOptimizations = true;
     }
 }

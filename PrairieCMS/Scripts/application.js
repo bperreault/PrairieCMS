@@ -9,7 +9,7 @@ define(["Boiler", "./settings", "./modules/modules"], function (Boiler, settings
         appContext.loadChildContexts(moduleContexts);
 
         appContext.listen("NOTIFICATION", function (div) {
-            $(div[0]).html(div[1]);
+            $("#globalMessage").html(div[1]);
             if (div[1] != '')
                 toastr.info(div[1]);
         });

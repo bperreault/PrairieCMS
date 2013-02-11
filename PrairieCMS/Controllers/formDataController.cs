@@ -20,23 +20,30 @@ namespace PrairieCMS.Web.Controllers
     [Authorize(Roles = "admin")]
     public class formDataController : Controller
     {
-        public JsonResult GetContent(int companyid)
+        public JsonResult GetContent()
         {
-            List<ContentModel> ct = ContentRepository.GetExistingContent( companyid );
+            List<ContentModel> ct = ContentRepository.GetExistingContent(  );
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetWrappers( int companyid )
+        public JsonResult GetWrappers(  )
         {
-            List<MasterTemplate> ct =  ContentRepository.GetExistingTemplates( companyid );
+            List<MasterTemplate> ct =  ContentRepository.GetExistingTemplates(  );
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetPackages(int companyid)
+        public JsonResult GetPackages()
         {
-            List<cmsPageMap> ct = ContentRepository.GetExistingMCMs(companyid);
+            List<cmsPageMap> ct = ContentRepository.GetExistingMCMs();
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
-
+        
+        public JsonResult getmenus()
+        {
+            List<cmsSiteMapItemBO> ct = MenuRepository.GetTopLevelMenus();
+            return Json(ct, JsonRequestBehavior.AllowGet);
+        }
+          
+        
     }
 }
