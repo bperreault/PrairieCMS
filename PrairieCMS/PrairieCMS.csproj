@@ -163,6 +163,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\cmsController.cs" />
+    <Compile Include="Controllers\SiteMapController.cs" />
     <Compile Include="Controllers\formDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -303,6 +304,9 @@
     <Content Include="Scripts\modules\adminModules\cms_Level_Mapping\clm_component.js" />
     <Content Include="Scripts\modules\adminModules\cms_Level_Mapping\clm_view.html" />
     <Content Include="Scripts\modules\adminModules\cms_Level_Mapping\clm_viewmodel.js" />
+    <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_component.js" />
+    <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_view.html" />
+    <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_viewmodel.js" />
     <Content Include="Scripts\modules\adminModules\SiteSetup\ss_component.js" />
     <Content Include="Scripts\modules\adminModules\SiteSetup\ss_view.html" />
     <Content Include="Scripts\modules\adminModules\SiteSetup\ss_viewmodel.js" />
@@ -361,8 +365,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -376,7 +378,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\cms\home.cshtml" />
+    <Content Include="Views\cms\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PrairieCMS.Core\PrairieCMS.Core.csproj">

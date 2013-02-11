@@ -5,7 +5,7 @@ define(["Boiler"], function (Boiler) {
         var self = this;
         this.pkContentID = ko.observable(-1);
         this.contentName = ko.observable("");
-        this.markDown = ko.observable("");
+        this.Html = ko.observable("");
         this.contentSubmit = ko.observable(false);
         this.buttontext = ko.observable('Create this Content');
         this.contentList = ko.observableArray([]);
@@ -19,13 +19,13 @@ define(["Boiler"], function (Boiler) {
             
             self.pkContentID(-1);
             self.contentName("");
-            self.markDown("");
+            self.Html("");
             self.contentSubmit(false);
 
-           // $("#Markdown_1_90").kendoEditor();
+            $("#Html_1_90").kendoEditor();
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", '']);
             
-            var url = moduleContext.getSettings().urls.list_of_content.replace('{companyid}', 1); //multi-tenant later
+            var url = moduleContext.getSettings().urls.list_of_content; 
 
             $.ajax({
                 type: "GET",
@@ -75,9 +75,9 @@ define(["Boiler"], function (Boiler) {
                     else {
                        
                         self.contentName(data.ContentName);
-                        self.markDown(data.MarkDown);
-                       // var editor = $("#Markdown_1_90").data("kendoEditor");
-                       //s editor.value(data.MarkDown);
+                        self.Html(data.Html);
+                        var editor = $("#Html_1_90").data("kendoEditor");
+                        editor.value(data.Html);
                         
                         self.setContentId(data.ContentId);
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.contentName()]);
@@ -95,8 +95,8 @@ define(["Boiler"], function (Boiler) {
 
         this.saveContent = function () {
             self.contentSubmit(false);
-            self.markDown($("#Markdown_1_90").val());
-            if (self.markDown() === '' || self.contentName() === '') {
+            self.Html($("#Html_1_90").val());
+            if (self.Html() === '' || self.contentName() === '') {
                 moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Please fill in content items before sending it out']);
                 self.contentSubmit(true);
                 return;
@@ -108,7 +108,7 @@ define(["Boiler"], function (Boiler) {
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
                     contentName: self.contentName(),
-                    markDown: self.markDown(),
+                    Html: self.Html(),
                     contentId: self.pkContentID()
                 }),
                 dataType: 'json',

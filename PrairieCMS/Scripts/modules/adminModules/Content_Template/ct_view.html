@@ -1,8 +1,8 @@
 
     <div id="body" class="tab-pane active"  >
-        <h6>Select an existing content template or create a new one.</h6>  
-        <p>The content template is the body of your email.<br />
-        <small>The wrapper for your email content commonly contains header logo and footer details, 
+        <h6>Select an existing page or create a new one.</h6>  
+        <p>The content template is the body of your web page.<br />
+        <small>The wrapper for your page commonly contains header logo and footer details, 
         it will default to 'Mobile Web Wrapper' but you can select a different one on the WRAPPER tab.
         </small>
         <br /></p>
@@ -14,14 +14,12 @@
         </li>
         <li>or</li>
         <li>
-            Enter a name for this Content (if adding a Mad Mimi template, use the name of the template here)<br />
+            Enter a name for this Page<br />
             <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: contentName" /></li>
         <li>
-            Enter the html for your content.  Customize the content by adding {lowercase_tags} - you will
-            need to <strong>match the tag name in your SQL</strong>.  Example of commonly used tags will be:  
-            {firstname} or {amountspent} -- remember lowercase for tags.<br />
+            Enter the html for your page.  
             <br />
-            <textarea rows="20" class="input-block-level" id="Markdown_1_90" name="Markdown_1_90" data-bind="text: markDown" ></textarea>
+            <textarea rows="20" class="input-block-level" id="Html_1_90" name="Html_1_90" data-bind="text: html" ></textarea>
             </li>
             
             <li>

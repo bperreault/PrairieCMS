@@ -5,7 +5,7 @@ define(["Boiler"], function (Boiler) {
         var self = this;
         this.pkMasterID = ko.observable("");
         this.themeName = ko.observable("");
-        this.markDown = ko.observable("");
+        this.Html = ko.observable("");
         this.wrapperList = ko.observableArray([]);
         this.selectedItem = ko.observable();
         this.buttontext = ko.observable("Create this Wrapper");
@@ -15,9 +15,9 @@ define(["Boiler"], function (Boiler) {
         this.initialize = function () {
             this.pkMasterID("");
             this.themeName("");
-            this.markDown("");
-           // $("#Markdown_0_00").kendoEditor();
-            var url = moduleContext.getSettings().urls.list_of_wrappers.replace('{companyid}', 1); //multi-tenant later
+            this.Html("");
+            $("#Html_0_00").kendoEditor();
+            var url = moduleContext.getSettings().urls.list_of_wrappers; 
 
             $.ajax({
                 type: "GET",
@@ -65,7 +65,9 @@ define(["Boiler"], function (Boiler) {
                     else {
 
                         self.themeName(data.ThemeName);
-                        self.markDown(data.MarkDown);
+                        //self.Html(data.Html);
+                        var editor = $("#Html_0_00").data("kendoEditor");
+                        editor.value(data.Html);
                         
                         self.setWrapperId(data.MasterID);
                         moduleContext.notify("NOTIFICATION", ["#masterMessage1", 'List: ' + self.themeName()]);
@@ -90,14 +92,14 @@ define(["Boiler"], function (Boiler) {
                 return;
             }
 
-            self.markDown($("#Markdown_0_00").val());
+            self.Html($("#Html_0_00").val());
             $.ajax({
                 type: "POST",
                 url: moduleContext.getSettings().urls.edit_wrapper,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
                     templateName: self.themeName(),
-                    markDown: self.markDown(),
+                    Html: self.Html(),
                     templateId: self.pkMasterID()
                 }),
                 dataType: 'json',

@@ -19,11 +19,11 @@ namespace PrairieCMS.Core
         public int fkEditorsRole { get; set; }
         public int fkContentType { get; set; }
         public Nullable<int> fkContent { get; set; }
-        public string insertionPoint { get; set; }
         public System.DateTime dateCreated { get; set; }
         public string createdBy { get; set; }
         public System.DateTime dateModified { get; set; }
         public string modifiedBy { get; set; }
+        public string domInsertionPoint { get; set; }
     
         public virtual cmsContent_Type cmsContent_Type { get; set; }
         public virtual Content_Template Content_Template { get; set; }
