@@ -163,6 +163,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\cmsController.cs" />
+    <Compile Include="Controllers\SiteMapController.cs" />
     <Compile Include="Controllers\formDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -303,6 +304,9 @@
     <Content Include="Scripts\modules\adminModules\cms_Level_Mapping\clm_component.js" />
     <Content Include="Scripts\modules\adminModules\cms_Level_Mapping\clm_view.html" />
     <Content Include="Scripts\modules\adminModules\cms_Level_Mapping\clm_viewmodel.js" />
+    <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_component.js" />
+    <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_view.html" />
+    <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_viewmodel.js" />
     <Content Include="Scripts\modules\adminModules\SiteSetup\ss_component.js" />
     <Content Include="Scripts\modules\adminModules\SiteSetup\ss_view.html" />
     <Content Include="Scripts\modules\adminModules\SiteSetup\ss_viewmodel.js" />

@@ -37,7 +37,7 @@ namespace PrairieCMS.Core
         /// </summary>
         /// <param name="companyid"></param>
         /// <returns></returns>
-        public static List<cmsPageMap> GetExistingMCMs( int companyid)
+        public static List<cmsPageMap> GetExistingMCMs( )
         {
             cmsEntities cr = new cmsEntities();
             var obj = cr.cms_Page_Map.Where(r => (bool)r.isActive ).ToList();
@@ -53,7 +53,7 @@ namespace PrairieCMS.Core
             return cm;
         }
 
-        public static List<MasterTemplate> GetExistingTemplates( int companyid)
+        public static List<MasterTemplate> GetExistingTemplates( )
         {
             cmsEntities cr = new cmsEntities();
             var obj = cr.Master_Template.Where(r => !string.IsNullOrEmpty(r.themeName) ).ToList();
@@ -69,7 +69,7 @@ namespace PrairieCMS.Core
             return cm;
         }
 
-        public static List< ContentModel> GetExistingContent(int companyid)
+        public static List< ContentModel> GetExistingContent()
         {
             cmsEntities cr = new cmsEntities();
             var obj = cr.Content_Template.Where(r => !string.IsNullOrEmpty(r.contentName) ).ToList();
@@ -86,7 +86,7 @@ namespace PrairieCMS.Core
         }
 
 
-        public static cmsPageMap GetMcMById(int mcmId, int companyid)
+        public static cmsPageMap GetMcMById(int mcmId )
         {
             cmsEntities cr = new cmsEntities();
             var obj = cr.cms_Page_Map.Where(r => r.pkMapID == mcmId  ).FirstOrDefault();

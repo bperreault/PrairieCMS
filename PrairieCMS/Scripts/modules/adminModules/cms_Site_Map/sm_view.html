@@ -1,0 +1,29 @@
+<h6>Site Map Items</h6>
+<p>This is your site, the menu structure</p>
+
+<p>Start by entering the top level menu items, those that show on every page, Then add sub-menu items which will be listed under the top level items</p>
+<ul id="contentForm1">
+        <li>Select from existing site menu items: <select class="select-input" 
+                                         data-bind="options:menuItemList, selectedOptions:selectedItem, value: 'pkSiteMapItemID', optionsText: 'SiteMapItemName', optionsCaption:'--select--'"></select>
+           &nbsp;<input type="button" class="btn" value='Change this menu item' data-bind="click: geMenuItem, enable: menuItemList().length > 0" />
+           &nbsp;<input type="button" class="btn" value='Start Over' data-bind="click: startOver" />
+        </li>
+        <li>or</li>
+        <li>
+            Enter the text visitors to your site will see on the menu<br />
+            <input type="text" name="Menu_Item_Name" id="Menu_Item_Name" data-bind="value: SiteMapItemName" /></li>
+        <li>
+            Enter the page address which will be shown in the browser (you can leave this blank, the system will generate one from this item's display text).  
+            <br />
+            <input type="text" name="Menu_Item_Url" id="Menu_Item_Url" data-bind="value: relativeUrl" />
+            </li>
+            <li>
+            If this menu item is displayed in association with another, select that menu item here.
+            <select class="select-input"  data-bind="options:menuItemList, selectedOptions:fkSiteMapParentIdelectedItem, value: 'pkSiteMapItemID', optionsText: 'SiteMapItemName', optionsCaption:'--select--'"></select>
+           &nbsp;<input type="button" class="btn" value='Place the new item below this one' data-bind="enable: menuItemList().length > 0" />
+            </li>
+            <li>
+                <input type="button" class="btn" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
+                <input type="hidden" id="contentId" name="contentId" data-bind="value: pkSiteMapItemID" />
+          </li>
+         </ul>

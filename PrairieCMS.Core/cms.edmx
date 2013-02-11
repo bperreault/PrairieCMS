@@ -10,6 +10,7 @@
           <EntitySet Name="cmsContent_Type" EntityType="cmsEntities.Store.cmsContent_Type" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="cmsContent_Type_Mapping" EntityType="cmsEntities.Store.cmsContent_Type_Mapping" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="cmsLevel_Mapping" EntityType="cmsEntities.Store.cmsLevel_Mapping" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="cmsSiteMapItems" EntityType="cmsEntities.Store.cmsSiteMapItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="cmsSiteSetup" EntityType="cmsEntities.Store.cmsSiteSetup" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Content_Template" EntityType="cmsEntities.Store.Content_Template" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Log" EntityType="cmsEntities.Store.Log" store:Type="Tables" Schema="dbo" />
@@ -111,6 +112,15 @@
           </Key>
           <Property Name="pkLevelMappingId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="pageLevelDescriptor" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="cmsSiteMapItems">
+          <Key>
+            <PropertyRef Name="pkSiteMapItemID" />
+          </Key>
+          <Property Name="pkSiteMapItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteMapItemName" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="fkSiteMapParentId" Type="int" Nullable="false" />
+          <Property Name="relativeUrl" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="cmsSiteSetup">
           <Key>
@@ -397,6 +407,7 @@
             <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
             <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
           </AssociationSet>
+          <EntitySet Name="cmsSiteMapItems" EntityType="PrairieCMS.Core.data.cmsSiteMapItem" />
         </EntityContainer>
         <EntityType Name="cmsContent_Type">
           <Key>
@@ -666,6 +677,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="cmsSiteMapItem">
+          <Key>
+            <PropertyRef Name="pkSiteMapItemID" />
+          </Key>
+          <Property Type="Int32" Name="pkSiteMapItemID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="SiteMapItemName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="fkSiteMapParentId" Nullable="false" />
+          <Property Type="String" Name="relativeUrl" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -826,6 +846,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="cmsSiteMapItems">
+            <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsSiteMapItem">
+              <MappingFragment StoreEntitySet="cmsSiteMapItems">
+                <ScalarProperty Name="relativeUrl" ColumnName="relativeUrl" />
+                <ScalarProperty Name="fkSiteMapParentId" ColumnName="fkSiteMapParentId" />
+                <ScalarProperty Name="SiteMapItemName" ColumnName="SiteMapItemName" />
+                <ScalarProperty Name="pkSiteMapItemID" ColumnName="pkSiteMapItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -914,9 +944,9 @@
           <ConnectorPoint PointX="10" PointY="8.3701560575561231" />
         </AssociationConnector>
         <AssociationConnector Association="PrairieCMS.Core.data.FK_cms_Page_Map_Master_Template" >
-          <ConnectorPoint PointX="7.25" PointY="1.34375" />
-          <ConnectorPoint PointX="10.92187375" PointY="1.34375" />
-          <ConnectorPoint PointX="10.92187375" PointY="5.625" />
+          <ConnectorPoint PointX="7.25" PointY="4.3480436197916656" />
+          <ConnectorPoint PointX="10.15625" PointY="4.3480436197916656" />
+          <ConnectorPoint PointX="10.15625" PointY="5.625" />
         </AssociationConnector>
         <AssociationConnector Association="PrairieCMS.Core.data.FK_cms_Page_Map_webpages_Roles" >
           <ConnectorPoint PointX="1.5" PointY="5.8552864583333326" />
@@ -934,12 +964,15 @@
           <ConnectorPoint PointX="10" PointY="7.576650390625" />
         </AssociationConnector>
         <AssociationConnector Association="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map" >
-          <ConnectorPoint PointX="10.476072460937502" PointY="5.625" />
-          <ConnectorPoint PointX="10.476072460937502" PointY="4.6920475260416659" />
+          <ConnectorPoint PointX="10.478391865234375" PointY="5.625" />
+          <ConnectorPoint PointX="10.478391865234375" PointY="4.6920475260416659" />
+          <ConnectorPoint PointX="10.239583333333334" PointY="4.692047526041665" />
+          <ConnectorPoint PointX="10.072916666666666" PointY="4.6920475260416659" />
           <ConnectorPoint PointX="5.114583333333333" PointY="4.692047526041665" />
           <ConnectorPoint PointX="4.947916666666667" PointY="4.6920475260416659" />
           <ConnectorPoint PointX="4.5" PointY="4.6920475260416659" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsSiteMapItem" Width="1.5" PointX="10.375" PointY="0.75" Height="1.7879850260416674" />
       </Diagram>
     </Diagrams>
   </Designer>

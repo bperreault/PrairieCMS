@@ -37,5 +37,6 @@ namespace PrairieCMS.Core
         public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
         public DbSet<webpages_Roles> webpages_Roles { get; set; }
         public DbSet<cms_Page_Map> cms_Page_Map { get; set; }
+        public DbSet<cmsSiteMapItem> cmsSiteMapItems { get; set; }
     }
 }
