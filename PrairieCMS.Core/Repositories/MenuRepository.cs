@@ -15,13 +15,52 @@ namespace PrairieCMS.Core
         public MenuRepository()
         {
         }
-        
-        public static List<cmsSiteMapItem> GetMenuById( int menuId)
+
+        public static string removeMenuItem(int menuid)
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = cr.cmsSiteMapItems.Where(r => r.pkSiteMapItemID == menuid).FirstOrDefault();
+
+           cr.Entry(obj).State = System.Data.EntityState.Deleted;
+            try
+            {
+                cr.SaveChanges();
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException DbEx)
+            {
+                return DbEx.ToString();
+            }
+            finally
+            {               
+                cr = null;
+            }
+            return "successfully deleted: " + menuid.ToString();
+        }
+
+        public static cmsSiteMapItemBO getMenuItem(int menuid)
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = (from mnu in cr.cmsSiteMapItems
+                       where mnu.fkSiteMapParentId == menuid
+                       select new cmsSiteMapItemBO()
+                       {
+                           pkSiteMapItemID = mnu.pkSiteMapItemID,
+                           SiteMapItemName = mnu.SiteMapItemName,
+                           fkSiteMapParentId = mnu.fkSiteMapParentId,
+                           relativeUrl = mnu.relativeUrl
+                       }).FirstOrDefault();
+
+
+            return obj;
+        }
+
+        public static List<cmsSiteMapItemBO> GetMenuById(int menuId)
         {
             cmsEntities cr = new cmsEntities();
             var obj = (from mnu in cr.cmsSiteMapItems 
                         where mnu.fkSiteMapParentId == menuId
-                            select new cmsSiteMapItem() {                            
+                       select new cmsSiteMapItemBO()
+                       {                            
                                 pkSiteMapItemID = mnu.pkSiteMapItemID,
                                 SiteMapItemName = mnu.SiteMapItemName,
                                 fkSiteMapParentId = mnu.fkSiteMapParentId,
@@ -62,8 +101,7 @@ namespace PrairieCMS.Core
 
             if (mcm == null)
             {
-                mcm = new cmsSiteMapItem();
-               
+                mcm = new cmsSiteMapItem();               
                 cr.Entry(mcm).State = System.Data.EntityState.Added;
             }
             

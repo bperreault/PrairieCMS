@@ -1,8 +1,11 @@
 define([], function() {
 	return {
 	    urls: {
+            menu_item_delete: "/sitemap/removeMenuItem",
+	        menu_item_data: "/sitemap/getMenuItem",
+	        menu_data: "/sitemap/GetMenuById",
 	        menu_options: "/formData/getmenus",
-            save_menu_option: "/formData/saveMenuItem",
+	        save_menu_option: "/sitemap/save_menu_option",
 		    content_template: "/jobs/setcontent" ,
             list_of_content: "/formData/GetContent" ,
             edit_content: "/jobs/editcontent",           

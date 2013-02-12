@@ -20,7 +20,25 @@ namespace PrairieCMS.Web.Controllers
     [Authorize(Roles = "admin")]
     public class SiteMapController : Controller
     {
-        
+
+        public JsonResult removeMenuItem(int menuid)
+        {
+            string returnstr = MenuRepository.removeMenuItem(menuid);
+            return Json(returnstr, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getMenuItem(int menuid)
+        {
+            cmsSiteMapItemBO ct = MenuRepository.getMenuItem(menuid);
+            return Json(ct, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetMenuById(int menuid)
+        {
+            List<cmsSiteMapItemBO> ct = MenuRepository.GetMenuById(menuid);
+            return Json(ct, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult save_menu_option(cmsSiteMapItemBO mod)
         {
             cmsSiteMapItemBO ct = MenuRepository.editOrCreatecmsMenuItem(mod, User.Identity.Name);

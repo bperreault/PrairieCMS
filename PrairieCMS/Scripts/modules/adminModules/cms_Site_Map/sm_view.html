@@ -5,8 +5,8 @@
 <ul id="contentForm1">
         <li>Select from existing site menu items: <select class="select-input" 
                                          data-bind="options:menuItemList, selectedOptions:selectedItem, value: 'pkSiteMapItemID', optionsText: 'SiteMapItemName', optionsCaption:'--select--'"></select>
-           &nbsp;<input type="button" class="btn" value='Change this menu item' data-bind="click: geMenuItem, enable: menuItemList().length > 0" />
-           &nbsp;<input type="button" class="btn" value='Start Over' data-bind="click: startOver" />
+           &nbsp;<input type="button" class="btn" value='Change this menu item' data-bind="click: getMenuItemById, enable: menuItemList().length > 0" />
+          
         </li>
         <li>or</li>
         <li>
@@ -18,12 +18,13 @@
             <input type="text" name="Menu_Item_Url" id="Menu_Item_Url" data-bind="value: relativeUrl" />
             </li>
             <li>
-            If this menu item is displayed in association with another, select that menu item here.
-            <select class="select-input"  data-bind="options:menuItemList, selectedOptions:fkSiteMapParentIdelectedItem, value: 'pkSiteMapItemID', optionsText: 'SiteMapItemName', optionsCaption:'--select--'"></select>
-           &nbsp;<input type="button" class="btn" value='Place the new item below this one' data-bind="enable: menuItemList().length > 0" />
+            If this menu item is displayed in association with another, select that menu item here.<br />
+            <select class="select-input"  data-bind="options:menuItemList, selectedOptions:fkSiteMapParentId, value: 'pkSiteMapItemID', optionsText: 'SiteMapItemName', optionsCaption:'--select--'"></select>
+            &nbsp;<input type="button" class="btn" value='Place the new item below this one' data-bind="enable: menuItemList().length > 0" />
             </li>
             <li>
-                <input type="button" class="btn" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
-                <input type="hidden" id="contentId" name="contentId" data-bind="value: pkSiteMapItemID" />
+                <input type="button" class="btn" id="MenuSubmit1" data-bind="click: saveMenu, value: buttontext, enable: MenuSubmit" /> &nbsp;<input type="button" class="btn" value='Start Over' data-bind="click: startOver" />
+                &nbsp;<input type="button" class="btn" value='Delete' data-bind="visible: deleteVisible, click: removeMenuItem" />
+                <input type="hidden" id="menuId" name="menuId" data-bind="value: pkSiteMapItemID" />
           </li>
          </ul>
