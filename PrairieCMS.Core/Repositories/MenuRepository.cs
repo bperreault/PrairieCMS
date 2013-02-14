@@ -41,13 +41,14 @@ namespace PrairieCMS.Core
         {
             cmsEntities cr = new cmsEntities();
             var obj = (from mnu in cr.cmsSiteMapItems
-                       where mnu.fkSiteMapParentId == menuid
+                       where mnu.pkSiteMapItemID == menuid
                        select new cmsSiteMapItemBO()
                        {
                            pkSiteMapItemID = mnu.pkSiteMapItemID,
                            SiteMapItemName = mnu.SiteMapItemName,
                            fkSiteMapParentId = mnu.fkSiteMapParentId,
-                           relativeUrl = mnu.relativeUrl
+                           relativeUrl = mnu.relativeUrl,
+                           itemOrder = (int)mnu.itemOrder
                        }).FirstOrDefault();
 
 
@@ -64,7 +65,8 @@ namespace PrairieCMS.Core
                                 pkSiteMapItemID = mnu.pkSiteMapItemID,
                                 SiteMapItemName = mnu.SiteMapItemName,
                                 fkSiteMapParentId = mnu.fkSiteMapParentId,
-                                relativeUrl = mnu.relativeUrl                     
+                                relativeUrl = mnu.relativeUrl,
+                                itemOrder = (int)mnu.itemOrder                    
                             }).ToList();
 
           
@@ -86,7 +88,8 @@ namespace PrairieCMS.Core
                            pkSiteMapItemID = mnu.pkSiteMapItemID,
                            SiteMapItemName = mnu.SiteMapItemName,
                            fkSiteMapParentId = mnu.fkSiteMapParentId,
-                           relativeUrl = mnu.relativeUrl
+                           relativeUrl = mnu.relativeUrl,
+                           itemOrder = (int)mnu.itemOrder
                        }).ToList();
 
 
@@ -108,6 +111,7 @@ namespace PrairieCMS.Core
 	        mcm.SiteMapItemName = mod.SiteMapItemName;
 	        mcm.fkSiteMapParentId = mod.fkSiteMapParentId;
 	        mcm.relativeUrl = mod.relativeUrl;
+            mcm.itemOrder = mod.itemOrder;
             try
             {
                 cr.SaveChanges();

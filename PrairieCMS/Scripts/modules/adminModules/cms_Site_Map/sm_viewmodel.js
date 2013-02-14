@@ -14,15 +14,19 @@ define(["Boiler"], function (Boiler) {
         this.SiteMapItemName = ko.observable("");
         this.fkSiteMapParentId = ko.observable(-1);
         this.relativeUrl = ko.observable("");
+        this.itemOrder = ko.observable(1);
         this.menuItemList = ko.observableArray([]);
+        this.menuItemsInSubMenu = ko.observableArray([]);
 
         this.initialize = function () {
             self.pkSiteMapItemID(-1);
             self.SiteMapItemName("");
             self.relativeUrl("");
             self.fkSiteMapParentId(-1);
+            self.itemOrder(1);
             self.MenuSubmit(false);
             self.deleteVisible(false);
+            self.menuItemsInSubMenu([]);
 
             moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", '']);
 
@@ -31,6 +35,7 @@ define(["Boiler"], function (Boiler) {
             $.ajax({
                 type: "GET",
                 url: url,
+                cache: false,
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: 'json',
                 success: function (data, status) {
@@ -57,7 +62,7 @@ define(["Boiler"], function (Boiler) {
         }
 
         this.removeMenuItem = function () {
-            if (this.selectedItem()[0] === undefined) {
+            if (self.pkSiteMapItemID === undefined || self.pkSiteMapItemID == -1) {
                 moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'nothing selected']);
                 return;
             }
@@ -67,7 +72,7 @@ define(["Boiler"], function (Boiler) {
                 url: moduleContext.getSettings().urls.menu_item_delete,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    menuid: this.selectedItem()[0].pkSiteMapItemID
+                    menuid: self.pkSiteMapItemID
                 }),
                 dataType: 'json',
                 success: function (data, status) {
@@ -76,25 +81,39 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Error: ' + self.errorMessage()]);
                         return;
                     }
+
+                    self.startOver();
                     self.errorMessage(data);
 
                 }
             });
         };
 
-
         this.getMenuItemById = function () {
             if (this.selectedItem()[0] === undefined) {
                 moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'select something before trying to set menu']);
                 return;
             }
+            self.runServerRequestForMenuItem(this.selectedItem()[0].pkSiteMapItemID);
+        };
+
+        this.getMenuItemsFromList = function (dataitem) {
+            if (!dataitem)
+                return;
+
+            self.runServerRequestForMenuItem(dataitem.pkSiteMapItemID);
+        }
+
+        this.runServerRequestForMenuItem = function (menuid) {
+            if (menuid == -1)
+                return;
             self.MenuSubmit(false);
             $.ajax({
                 type: "POST",
                 url: moduleContext.getSettings().urls.menu_item_data,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    menuid: this.selectedItem()[0].pkSiteMapItemID
+                    menuid: menuid
                 }),
                 dataType: 'json',
                 success: function (data, status) {
@@ -102,6 +121,7 @@ define(["Boiler"], function (Boiler) {
                     if (!data) {
                         self.errorMessage("No Data, an error occurred.");
                         moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Error: ' + self.errorMessage()]);
+                        return;
                     }
                     if (data.errorMessage) {
                         self.errorMessage(data.errorMessage);
@@ -113,11 +133,36 @@ define(["Boiler"], function (Boiler) {
                         self.SiteMapItemName(data.SiteMapItemName);
                         self.relativeUrl(data.relativeUrl);
                         self.fkSiteMapParentId(data.fkSiteMapParentId);
+                        self.itemOrder(data.itemOrder);
 
                         self.setMenuId(data.pkSiteMapItemID);
                         moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu: ' + self.SiteMapItemName()]);
                         self.buttontext("Save changes");
 
+                        self.getSubMenuItems();
+
+                    }
+                }
+            });
+        };
+
+        this.getSubMenuItems = function () {
+            var url = moduleContext.getSettings().urls.menu_data;
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                cache: false,
+                contentType: 'application/x-www-form-urlencoded',
+                data: { "menuid": this.selectedItem()[0].pkSiteMapItemID },
+                success: function (data, status) {
+                    self.MenuSubmit(true);
+                    if (data.errorMessage) {
+                        self.errorMessage(data.errorMessage);
+                        moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Item(s) Error: ' + data.errorMessage]);
+                    }
+                    else {
+                        self.menuItemsInSubMenu(data);
                     }
                 }
             });
@@ -150,8 +195,8 @@ define(["Boiler"], function (Boiler) {
                     pkSiteMapItemID: self.pkSiteMapItemID(),
                     SiteMapItemName: self.SiteMapItemName(),
                     fkSiteMapParentId: parent,
-                    relativeUrl: self.relativeUrl()
-
+                    relativeUrl: self.relativeUrl(),
+                    itemOrder: self.itemOrder()
                 }),
                 dataType: 'json',
                 success: function (data, status) {

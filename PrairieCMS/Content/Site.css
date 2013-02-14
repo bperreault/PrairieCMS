@@ -772,7 +772,7 @@ tr.pager td {
 .grouped{border:solid 1px #E8C9A9;}  
 small {line-height:.9em;}
 .breadcrumb li {padding-left:5px;}
-.settingsDisplay, .imageuploader {float:right;
+.settingsDisplay, .imageuploader, #menuItemsDisplay {float:right;
                   width:200px;
                   background-color: #E3D2BE;}
 .imageloader{text-align:center; margin:auto;padding: 10px;

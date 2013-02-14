@@ -13,6 +13,6 @@ namespace PrairieCMS.Core.Models
 	    public string SiteMapItemName { get; set; }
 	    public int fkSiteMapParentId { get; set; }
 	    public string relativeUrl { get; set; }
-       
+        public int itemOrder { get; set; }
     }
 }
