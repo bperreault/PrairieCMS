@@ -16,7 +16,7 @@ define(["Boiler"], function (Boiler) {
             this.pkMasterID("");
             this.themeName("");
             this.Html("");
-            $("#Html_0_00").kendoEditor();
+            //$("#Html_0_00").kendoEditor();
             var url = moduleContext.getSettings().urls.list_of_wrappers; 
 
             $.ajax({
@@ -65,9 +65,9 @@ define(["Boiler"], function (Boiler) {
                     else {
 
                         self.themeName(data.ThemeName);
-                        //self.Html(data.Html);
-                        var editor = $("#Html_0_00").data("kendoEditor");
-                        editor.value(data.Html);
+                       self.Html(data.Html);
+                       // var editor = $("#Html_0_00").data("kendoEditor");
+                        //editor.value(data.Html);
                         
                         self.setWrapperId(data.MasterID);
                         moduleContext.notify("NOTIFICATION", ["#masterMessage1", 'List: ' + self.themeName()]);
@@ -98,9 +98,9 @@ define(["Boiler"], function (Boiler) {
                 url: moduleContext.getSettings().urls.edit_wrapper,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    templateName: self.themeName(),
+                    ThemeName: self.themeName(),
                     Html: self.Html(),
-                    templateId: self.pkMasterID()
+                    MasterID: self.pkMasterID()
                 }),
                 dataType: 'json',
                 success: function (data, status) {
@@ -111,6 +111,7 @@ define(["Boiler"], function (Boiler) {
                     else {
                         self.setWrapperId(data.MasterID);
                         moduleContext.notify("NOTIFICATION", ["#masterMessage1", 'List: ' + self.themeName()]);
+                        self.wrapperList.push(data);
                     }
 
                 },

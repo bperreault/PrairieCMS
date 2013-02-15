@@ -121,6 +121,7 @@
           <Property Name="SiteMapItemName" Type="nvarchar" Nullable="false" MaxLength="64" />
           <Property Name="fkSiteMapParentId" Type="int" Nullable="false" />
           <Property Name="relativeUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="itemOrder" Type="int" />
         </EntityType>
         <EntityType Name="cmsSiteSetup">
           <Key>
@@ -685,6 +686,7 @@
           <Property Type="String" Name="SiteMapItemName" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="fkSiteMapParentId" Nullable="false" />
           <Property Type="String" Name="relativeUrl" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="itemOrder" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -849,6 +851,7 @@
           <EntitySetMapping Name="cmsSiteMapItems">
             <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsSiteMapItem">
               <MappingFragment StoreEntitySet="cmsSiteMapItems">
+                <ScalarProperty Name="itemOrder" ColumnName="itemOrder" />
                 <ScalarProperty Name="relativeUrl" ColumnName="relativeUrl" />
                 <ScalarProperty Name="fkSiteMapParentId" ColumnName="fkSiteMapParentId" />
                 <ScalarProperty Name="SiteMapItemName" ColumnName="SiteMapItemName" />
