@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using PrairieCMS.Core.Models;
+using System.Web.Mvc;
 
 
 namespace PrairieCMS.Core
@@ -147,6 +148,7 @@ namespace PrairieCMS.Core
             return mod;
         }
 
+        [HttpPost]
         public static ContentModel CreateNewOrUpdateExistingContent(ContentModel mod)
         {
 
@@ -181,58 +183,5 @@ namespace PrairieCMS.Core
             return mod;
         }
 
-        #region Master Template
-        public static MasterTemplate CreateNewOrUpdateExistingTemplate(MasterTemplate mod)
-        {
-
-            cmsEntities cr = new cmsEntities();
-            Master_Template tmp = cr.Master_Template.Where(r => r.pkMasterID == mod.MasterID).FirstOrDefault();
-            
-            if (tmp == null)
-            {
-                tmp = new Master_Template();
-                tmp.createdBy = "cms";
-                tmp.createdOn = DateTime.Now;
-                cr.Entry(tmp).State = System.Data.EntityState.Added;
-            }
-            tmp.themeName = mod.ThemeName;
-            tmp.html = mod.Html;
-            tmp.modifiedBy = "cms";
-            tmp.modifiedOn = DateTime.Now;
-            try
-            {
-                cr.SaveChanges();
-            }
-            catch (System.Data.Entity.Infrastructure.DbUpdateException DbEx)
-            {
-                mod.errorMessage = DbEx.ToString();
-            }
-            finally
-            {
-                mod.MasterID = tmp.pkMasterID;
-                ((IObjectContextAdapter)cr).ObjectContext.Detach(tmp);
-                cr = null;
-            }
-
-            return mod;
-        }
-
-        public static MasterTemplate GetTemplateById(int templateId)
-        {
-            cmsEntities cr = new cmsEntities();
-            var obj = cr.Master_Template.Where(r => r.pkMasterID == templateId).FirstOrDefault();
-            MasterTemplate one = new MasterTemplate();
-            if (obj == null)
-            {
-                one.errorMessage = "template was not found.";
-                return one;
-            }
-            one.MasterID = obj.pkMasterID;
-            one.Html = obj.html;
-            one.ThemeName = obj.themeName;
-            return one;
-        }
-        
-        #endregion
     }
 }

@@ -21,10 +21,19 @@ namespace PrairieCMS.Core
                 one.tags = obj.tags;
                 one.title = obj.pageTitle;
             }
+            else
+            {
+                one.html = GetStarterHtml();
+                one.title = "Let's get started";
+            }
             return one;
         
         }
-       
+        public static string GetStarterHtml()
+        {
+
+            return "<html><title></title><body><a href='cms'>Admin</a></body></html>";
+        }
 
 
         public static string ObtainHtmlFromMap(cms_Page_Map mp, cmsEntities cr)

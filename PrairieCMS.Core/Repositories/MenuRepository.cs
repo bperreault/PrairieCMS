@@ -59,15 +59,16 @@ namespace PrairieCMS.Core
         {
             cmsEntities cr = new cmsEntities();
             var obj = (from mnu in cr.cmsSiteMapItems 
+                       orderby mnu.itemOrder
                         where mnu.fkSiteMapParentId == menuId
                        select new cmsSiteMapItemBO()
                        {                            
-                                pkSiteMapItemID = mnu.pkSiteMapItemID,
-                                SiteMapItemName = mnu.SiteMapItemName,
-                                fkSiteMapParentId = mnu.fkSiteMapParentId,
-                                relativeUrl = mnu.relativeUrl,
-                                itemOrder = (int)mnu.itemOrder                    
-                            }).ToList();
+                            pkSiteMapItemID = mnu.pkSiteMapItemID,
+                            SiteMapItemName = mnu.SiteMapItemName,
+                            fkSiteMapParentId = mnu.fkSiteMapParentId,
+                            relativeUrl = mnu.relativeUrl,
+                            itemOrder = (int)mnu.itemOrder                    
+                        } ).ToList();
 
           
             return obj;
@@ -82,6 +83,7 @@ namespace PrairieCMS.Core
         {
             cmsEntities cr = new cmsEntities();
             var obj = (from mnu in cr.cmsSiteMapItems
+                       orderby mnu.itemOrder
                        where mnu.fkSiteMapParentId == -1
                        select new cmsSiteMapItemBO()
                        {
