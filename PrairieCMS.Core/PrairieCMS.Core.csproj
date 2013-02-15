@@ -129,6 +129,7 @@
     <Compile Include="Models\MasterTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ContentRepository.cs" />
+    <Compile Include="Repositories\WrapperRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />
     <Compile Include="User.cs">

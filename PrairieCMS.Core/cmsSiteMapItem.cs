@@ -18,6 +18,7 @@ namespace PrairieCMS.Core
         public string SiteMapItemName { get; set; }
         public int fkSiteMapParentId { get; set; }
         public string relativeUrl { get; set; }
+        public Nullable<int> itemOrder { get; set; }
     }
     
 }

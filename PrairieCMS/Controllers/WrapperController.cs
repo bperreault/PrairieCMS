@@ -18,30 +18,24 @@ namespace PrairieCMS.Web.Controllers
 {
 
     [Authorize(Roles = "admin")]
-    public class SiteMapController : Controller
+    public class WrapperController : Controller
     {
 
-        public JsonResult removeMenuItem(int menuid)
+        public JsonResult removeWrapper(int wrapperid)
         {
-            string returnstr = MenuRepository.removeMenuItem(menuid);
+            string returnstr = WrapperRepository.removeWrapper(wrapperid);
             return Json(returnstr, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getMenuItem(int menuid)
+        public JsonResult GetwrapperById(int wrapperid)
         {
-            cmsSiteMapItemBO ct = MenuRepository.getMenuItem(menuid);
+            MasterTemplate ct= WrapperRepository.GetWrapperById(wrapperid);
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetMenuById(int menuid)
+        public JsonResult save_wrapper_option(MasterTemplate mod)
         {
-            List<cmsSiteMapItemBO> ct = MenuRepository.GetMenuById(menuid);
-            return Json(ct, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult save_menu_option(cmsSiteMapItemBO mod)
-        {
-            cmsSiteMapItemBO ct = MenuRepository.editOrCreatecmsMenuItem(mod, User.Identity.Name);
+            MasterTemplate ct = WrapperRepository.CreateNewOrUpdateExistingWrapper(mod, User.Identity.Name);
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
     }
