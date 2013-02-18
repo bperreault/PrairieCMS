@@ -116,12 +116,16 @@
     <Compile Include="Content_Template.cs">
       <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetMainMenu_Result.cs">
+      <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Log.cs">
       <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Master_Template.cs">
       <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\cmsContentTypeModel.cs" />
     <Compile Include="Models\cmsModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\cmsPageMap.cs" />
@@ -129,6 +133,7 @@
     <Compile Include="Models\MasterTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ContentRepository.cs" />
+    <Compile Include="Repositories\ContentTypeRepository.cs" />
     <Compile Include="Repositories\WrapperRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />

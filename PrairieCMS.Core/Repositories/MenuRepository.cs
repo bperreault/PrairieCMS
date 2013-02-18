@@ -98,6 +98,52 @@ namespace PrairieCMS.Core
             return obj;
         }
 
+        public static string GetTopLevelMenusHtml()
+        {
+            //"menu_component"
+            cmsEntities cr = new cmsEntities();
+            List<GetMainMenu_Result> gmmr = cr.GetMainMenu().ToList();
+            //build the html
+            StringBuilder sb = new StringBuilder();
+
+            //the container html
+            string menu_component = gmmr.Where(m => m.fkSiteMapParentId == -2).FirstOrDefault().templateHtml;
+
+            var toplevelitems = gmmr.Where(m => m.fkSiteMapParentId == -1);
+            foreach (var mnu in toplevelitems)
+            {
+                var submnuItems = gmmr.Where(m => m.fkSiteMapParentId == mnu.pkSiteMapItemID).ToList();
+                if (submnuItems == null)
+                    continue;
+                if (submnuItems.Count == 1)
+                    sb.Append(getMenuItem( mnu));
+                else
+                    sb.Append(getMenuHeader( mnu));
+
+                sb.Append("<ul  class=\"dropdown-menu\">");
+                foreach (var submnu in submnuItems)
+                {
+                    sb.Append(getMenuItem( submnu));
+                }
+                sb.Append("</ul>");
+            }
+
+            menu_component = menu_component.Replace("{menu_component}", sb.ToString());
+            return menu_component;
+        }
+
+        public static string getMenuItem(GetMainMenu_Result menuObj)
+        {
+            string html = string.Format( "<li><a tabindex=\"-1\" href=\"{0}\">{1}</a></li>", menuObj.relativeUrl , menuObj.SiteMapItemName);
+            return html;
+        }
+
+        public static string getMenuHeader(GetMainMenu_Result menuObj)
+        {
+            string html = string.Format("<li  class=\"dropdown-submenu\"><a tabindex=\"-1\" href=\"{0}\">{1}</a></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+            return html;
+        }
+
         public static cmsSiteMapItemBO editOrCreatecmsMenuItem(cmsSiteMapItemBO mod, string user)
         {
 

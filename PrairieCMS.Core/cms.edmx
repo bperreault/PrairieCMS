@@ -350,6 +350,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetMainMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -409,6 +410,7 @@
             <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
           </AssociationSet>
           <EntitySet Name="cmsSiteMapItems" EntityType="PrairieCMS.Core.data.cmsSiteMapItem" />
+          <FunctionImport Name="GetMainMenu" ReturnType="Collection(PrairieCMS.Core.data.GetMainMenu_Result)" />
         </EntityContainer>
         <EntityType Name="cmsContent_Type">
           <Key>
@@ -688,6 +690,14 @@
           <Property Type="String" Name="relativeUrl" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="itemOrder" />
         </EntityType>
+        <ComplexType Name="GetMainMenu_Result">
+          <Property Type="String" Name="SiteMapItemName" Nullable="false" MaxLength="64" />
+          <Property Type="Int32" Name="fkSiteMapParentId" Nullable="false" />
+          <Property Type="String" Name="relativeUrl" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="itemOrder" Nullable="true" />
+          <Property Type="String" Name="templateHtml" Nullable="true" />
+          <Property Type="Int32" Name="pkSiteMapItemID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -859,6 +869,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetMainMenu" FunctionName="cmsEntities.Store.GetMainMenu" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PrairieCMS.Core.data.GetMainMenu_Result">
+                <ScalarProperty Name="SiteMapItemName" ColumnName="SiteMapItemName" />
+                <ScalarProperty Name="fkSiteMapParentId" ColumnName="fkSiteMapParentId" />
+                <ScalarProperty Name="relativeUrl" ColumnName="relativeUrl" />
+                <ScalarProperty Name="itemOrder" ColumnName="itemOrder" />
+                <ScalarProperty Name="templateHtml" ColumnName="templateHtml" />
+                <ScalarProperty Name="pkSiteMapItemID" ColumnName="pkSiteMapItemID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

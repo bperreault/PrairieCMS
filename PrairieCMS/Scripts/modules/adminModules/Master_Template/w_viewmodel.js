@@ -53,7 +53,7 @@ define(["Boiler"], function (Boiler) {
                 url: moduleContext.getSettings().urls.wrapper_data,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    TemplateId: this.selectedItem()[0].MasterID
+                    wrapperid: this.selectedItem()[0].MasterID
                 }),
                 dataType: 'json',
                 success: function (data, status) {

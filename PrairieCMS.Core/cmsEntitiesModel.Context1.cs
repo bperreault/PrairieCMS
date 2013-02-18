@@ -10,6 +10,7 @@
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Objects;
 
 namespace PrairieCMS.Core
 {
@@ -38,5 +39,12 @@ namespace PrairieCMS.Core
         public DbSet<webpages_Roles> webpages_Roles { get; set; }
         public DbSet<cms_Page_Map> cms_Page_Map { get; set; }
         public DbSet<cmsSiteMapItem> cmsSiteMapItems { get; set; }
+    
+        public virtual ObjectResult<GetMainMenu_Result> GetMainMenu()
+        {
+            ((IObjectContextAdapter)this).ObjectContext.MetadataWorkspace.LoadFromAssembly(typeof(GetMainMenu_Result).Assembly);
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMainMenu_Result>("GetMainMenu");
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace PrairieCMS.Web.Controllers
 
         public JsonResult GetWrappers(  )
         {
-            List<MasterTemplate> ct =  ContentRepository.GetExistingTemplates(  );
+            List<MasterTemplate> ct =  WrapperRepository.GetExistingTemplates(  );
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 

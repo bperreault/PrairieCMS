@@ -8,9 +8,10 @@ define([], function() {
 	        save_menu_option: "/sitemap/save_menu_option",
 		    content_template: "/jobs/setcontent" ,
             list_of_content: "/formData/GetContent" ,
-            edit_content: "/jobs/editcontent",           
+            edit_content: "/content/editcontent",
+            content_item_delete: "/content/removeContentItem",
             list_of_wrappers: "/formData/GetWrappers",
-            wrapper_data: "/wrapper/SetTemplate",
+            wrapper_data: "/wrapper/GetwrapperById",
             edit_wrapper: "/wrapper/save_wrapper_option"
 		}
 	}

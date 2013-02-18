@@ -14,5 +14,6 @@ namespace PrairieCMS.Core.Models
         public string ContentName { get; set; }
         public string ContentHtml { get; set; }
         public string errorMessage { get; set; }
+        public cmsPageMap pagemap { get; set; }
     }
 }

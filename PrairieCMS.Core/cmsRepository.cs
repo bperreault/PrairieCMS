@@ -13,7 +13,7 @@ namespace PrairieCMS.Core
         public static cmsModel HomeContent()
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals("home")).FirstOrDefault();
+            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals("/")).FirstOrDefault();
             cmsModel one = new cmsModel();
             one.html = ObtainHtmlFromMap(obj, cr);
             if (obj != null)
@@ -55,6 +55,7 @@ namespace PrairieCMS.Core
                 // and place the content into the master template in the proper referenced DOM items
                 string body = sb.ToString();
                 body = mt.html.Replace("{content_template}", body);
+                body = body.Replace("{menu_component}", MenuRepository.GetTopLevelMenusHtml());
                 return body;
             }
             catch (Exception exp)
