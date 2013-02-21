@@ -91,7 +91,6 @@ namespace PrairieCMS.Core
 
         public static cmsPageMap editOrCreatecmsPageMap(cmsPageMap mod, string user)
         {
-
             cmsEntities cr = new cmsEntities();
             cms_Page_Map mcm = cr.cms_Page_Map.Where(r => r.pkMapID == mod.cmsPageMapId).FirstOrDefault();
 
@@ -150,6 +149,15 @@ namespace PrairieCMS.Core
             try
             {
                 cr.SaveChanges();
+                foreach ( cmsContentTypeMapping ctm in mod.contentTypeMappings)
+                {
+                    ctm.fkContent = tmp.pkContentID;
+                    ctm.dateCreated = DateTime.Now;
+                    ctm.createdBy = user;
+                    ctm.dateModified = DateTime.Now;
+                    ctm.modifiedBy = user;
+                    ContentTypeMappingRepository.CreateNewOrUpdateExistingContentTypeMapping(ctm, user);
+                }
                 mod.pagemap.ContentId = tmp.pkContentID;
                 editOrCreatecmsPageMap(mod.pagemap, user);
             }

@@ -1,0 +1,27 @@
+
+<div id="wrapper" class="tab-pane">
+<p><strong>Create a new or use an existing Master page</strong>, this is the wrapper
+        for your content and commonly contains logo, footer details.
+        <br />
+        Select an existing wrapper page or create a new one.<br /></p>
+        <ul id="masterForm1">
+        <li>Existing Wrapper pages: 
+              <select class="select-input" data-bind="options:wrapperList, selectedOptions:selectedItem, value: 'MasterID', optionsText: 'ThemeName', optionsCaption:'--select--'"></select>                                      
+              &nbsp;<input type="button" id="masterSubmit1Select" value='Use this Wrapper' data-bind="click: getWrapperById, enable: wrapperList().length > 0" />
+              &nbsp;<input type="button" value='Start Over' data-bind="click: startOver" /></li>
+        <li>
+            Enter a name for this Wrapper (theme) <br />
+            <input type="text" name="master_Name_0_89" id="master_Name_0_89" data-bind="value: themeName" /></li>
+        <li>
+            Enter the Html for your wrapper. <br /> 
+            <small>Reserve an area for the page content by marking your wrapper at the area where page content goes with "{content_template}".</small><br />
+            <small>Reserve an area for the menu content (entered using the MENU tab) by marking your wrapper at the area where menu content goes with "{menu_component}".</small><br />
+            <br />
+            <textarea rows="20"  class="input-block-level" id="Html_0_00" name="Html_0_00" data-bind="text: Html" ></textarea></li>
+            
+            <li>
+                <input type="button" id="masterSubmit1" value='Create this Wrapper' data-bind="click: saveWrapper, value: buttontext, enable: wrapperSubmit" />
+                <input type="hidden" id="masterId" name="masterId" data-bind="value: pkMasterID" />
+          </li>
+         </ul>
+</div>

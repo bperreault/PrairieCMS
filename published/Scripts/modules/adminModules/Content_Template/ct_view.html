@@ -1,0 +1,56 @@
+
+    <div id="body" class="tab-pane active"  >
+        <h6>Select an existing page or create a new one.</h6>  
+        <p>The content template is the body of your web page.<br />
+        <small>The wrapper for your page commonly contains header logo and footer details, 
+        it will default to 'Mobile Web Wrapper' but you can select a different one on the WRAPPER tab.
+        </small>
+        <br /></p>
+        <ul id="contentForm1">
+        <li>Select from existing Content Templates: <select class="select-input" 
+                                         data-bind="options:contentList, selectedOptions:selectedItem, value: 'ContentId', optionsText: 'ContentName', optionsCaption:'--select--'"></select>
+           &nbsp;<input type="button" value='Use this Content' data-bind="click: getContentTemplate, enable: contentList().length > 0" />
+           &nbsp;<input type="button" value='Start Over' data-bind="click: startOver" />
+        </li>
+        <li>or</li>
+        <li>
+            Enter a name for this Page<br />
+            <small>the page name is also the url path for this page  ( /   ,  ContactUs , AboutUs )</small>
+            <br />
+            <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: contentName" /></li>
+            <li>
+            Select the Wrapper for your page.<br /> <select class="select-input" data-bind="options:wrapperList, selectedOptions:selectedWrapper, value: 'MasterID', optionsText: 'ThemeName', optionsCaption:'--select--'"></select>                                                   
+            </li>
+            <li>
+            Enter a title for this Page<br />
+            <small>the title is displayed in the browser top bar and should be descriptive of your page's functionality.  (do you also want to add your web site titel following a dash?)</small>
+            <br />
+            <input type="text" name="Page_Title" id="Page_Title" data-bind="value: pageTitle" />
+            </li>
+             <li>
+            Select the role of people who can edit this page<br />
+            <small>super admin's always have access</small>
+            <br />
+            <input type="text" name="EditorRole" id="EditorRole" data-bind="value: editorRole" />
+            </li>
+            <li>
+            Enter tags for this page<br />
+            <small>tags should be comma separated and are used to describe functionality to search engines</small>
+            <br />
+            <input type="text" name="tags" id="tags" data-bind="value: tags" />
+            </li>
+            <li>        
+            Enter the html for your page.<br />
+            <small>This html will be inserted into the chosen wrapper at the location specified by {content_template}</small>  
+            <br />
+            <textarea rows="20" class="input-block-level" id="Html_1_90" name="Html_1_90" data-bind="text: html" ></textarea>
+            </li>
+            
+            <li>
+                <input type="button" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
+                &nbsp;<input type="button" class="btn" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
+                <input type="hidden" id="contentId" name="contentId" data-bind="value: pkContentID" />
+          </li>
+         </ul>
+       
+    </div>   
