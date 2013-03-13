@@ -16,20 +16,29 @@ namespace PrairieCMS.Core
         public ContentRepository()
         {
         }
-        
-        public static  ContentModel GetContentById( int contentId)
+
+        public static ContentModel GetContentById(int pkMapID)
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.Content_Template.Where(r => r.pkContentID == contentId).FirstOrDefault();
+            var obj = cr.cms_Page_Map.Where(r => r.pkMapID == pkMapID).FirstOrDefault();
             ContentModel one = new ContentModel();
             if (obj == null)
             {
                 one.errorMessage = "content was not found.";
                 return one;
             }
-            one.ContentId = obj.pkContentID;
-            one.ContentName = obj.contentName;
-            one.ContentHtml = obj.html;
+            one.pkMapID = obj.pkMapID;
+            one.pageName = obj.pageName;
+            one.fkMasterThemeID = obj.fkMasterThemeID;
+            one.fkContentID = obj.fkContentID;
+            one.fkEditorRoleID = obj.fkEditorRoleID;
+            one.pageTitle = obj.pageTitle;
+            one.tags = obj.tags;
+            one.isActive = obj.isActive.HasValue? (bool)obj.isActive : false;
+
+            one.ContentId = obj.fkContentID;
+            one.ContentName = obj.Content_Template.contentName;
+            one.ContentHtml = obj.Content_Template.html;
             return one;
         }
 
@@ -57,13 +66,19 @@ namespace PrairieCMS.Core
         public static List< ContentModel> GetExistingContent()
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.Content_Template.Where(r => !string.IsNullOrEmpty(r.contentName) ).ToList();
+            var obj = cr.cms_Page_Map.Where(r => !string.IsNullOrEmpty(r.pageName) ).ToList();
             List<ContentModel> cm = new List<ContentModel>();
             for (int ii = 0; ii < obj.Count(); ii++)
             {
                 ContentModel one = new ContentModel();
-                one.ContentId = obj[ii].pkContentID;
-                one.ContentName = obj[ii].contentName;
+                one.ContentId = obj[ii].fkContentID;
+               //// one.ContentName = obj[ii].Content_Template.contentName;
+                one.pageName = obj[ii].pageName;
+                one.fkEditorRoleID = obj[ii].fkEditorRoleID;
+                one.tags = obj[ii].tags;
+                one.pageTitle = obj[ii].pageTitle;
+                one.fkMasterThemeID = obj[ii].fkMasterThemeID;
+                one.pkMapID = obj[ii].pkMapID;
                 cm.Add(one);
             }
             cr = null;
@@ -143,7 +158,7 @@ namespace PrairieCMS.Core
                 cr.Entry(tmp).State = System.Data.EntityState.Added;
             }
             tmp.contentName = mod.ContentName;
-            tmp.html = mod.ContentHtml;
+            tmp.html = Uri.UnescapeDataString(mod.ContentHtml);
             tmp.modifiedBy = user;
             tmp.modifiedOn = DateTime.Now;
             try

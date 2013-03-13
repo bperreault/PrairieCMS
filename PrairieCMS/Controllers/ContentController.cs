@@ -31,6 +31,12 @@ namespace PrairieCMS.Controllers
             string returnstr = ContentRepository.removeContentItem(menuid);
             return Json(returnstr, JsonRequestBehavior.AllowGet);
         }
-        
+
+        public JsonResult setContent(int pkMapID)
+        {
+            //content and page map
+            ContentModel ct = ContentRepository.GetContentById(pkMapID);
+            return Json(ct, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -9,7 +9,34 @@ using System.Xml.Linq;
 namespace PrairieCMS.Core.Models
 {
     public class ContentModel
-    {
+    {/*      * 
+Enter a name for this Page<br />
+contentName
+
+Select the Wrapper for your page
+selectedWrapper
+
+Enter a title for this Page
+pageTitle
+
+Select the role of people who can edit this page<br />
+editorRole
+
+Enter tags for this page
+tags
+
+Enter the html for your page.
+html"
+             */
+        //combines both cms_Page_Map and ContentTemplate
+      public int pkMapID {get;set;}
+      public string pageName {get;set;}
+      public int fkMasterThemeID {get;set;}
+      public int fkContentID {get;set;}
+      public int fkEditorRoleID {get;set;}
+      public string pageTitle {get;set;}
+      public string tags {get;set;}
+      public bool isActive {get;set;}
         public int ContentId { get; set; }
         public string ContentName { get; set; }
         public string ContentHtml { get; set; }

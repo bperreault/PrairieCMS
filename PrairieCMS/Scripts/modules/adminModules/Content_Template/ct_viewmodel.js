@@ -3,35 +3,46 @@ define(["Boiler"], function (Boiler) {
     var ViewModel = function (moduleContext) {
 
         var self = this;
-        this.pkContentID = ko.observable(-1);
-        this.contentName = ko.observable("");
-        this.html = ko.observable("");
-        this.contentSubmit = ko.observable(false);
-        this.buttontext = ko.observable('Create this Content');
-        this.contentList = ko.observableArray([]);
-        this.selectedItem = ko.observable();
-        this.wrapperList = ko.observableArray([]);
-        this.selectedWrapper = ko.observable("");
-        this.pageTitle = ko.observable("");
-        this.editorRole = ko.observable("1");
-        this.tags = ko.observable("");
+        self.fkContentID = ko.observable(-1);
+        self.ContentName = ko.observable("");
+        self.html = ko.observable("");
+        self.contentSubmit = ko.observable(false);
+        self.buttontext = ko.observable('Create self Content');
+        self.contentList = ko.observableArray([]);
+        self.selectedItem = ko.observable();
+        self.wrapperList = ko.observableArray([]);
+        self.fkMasterThemeID = ko.observable("");
+        self.pageTitle = ko.observable("");
+        self.fkEditorRoleID = ko.observable("1");
+        self.tags = ko.observable("");
+        self.deleteVisible = ko.observable(false);
+        self.pkMapID = ko.observable("1");
+        self.pageName = ko.observable("");
+        self.isActive = ko.observable(false);
 
-        this.backToHome = function () {
+        self.backToHome = function () {
             Boiler.UrlController.goTo("/");
         }
 
-        this.initialize = function () {
 
-            self.pkContentID(-1);
-            self.contentName("");
+        self.initialize = function () {
+
+            self.fkContentID(-1);
+            self.ContentName("");
             self.html("");
             self.contentSubmit(false);
 
             //for the content map
-            this.selectedWrapper = ko.observable();
-            this.pageTitle = ko.observable("");
+            self.fkMasterThemeID(-1);
+            self.pageTitle("");
+            self.fkEditorRoleID("");
+            self.tags("");
+            self.pkMapID("1");
+            self.pageName("");
+            self.isActive(false);
 
-            // $("#Html_1_90").kendoEditor();
+            self.SetupKendoEditor();
+
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", '']);
 
             var url = moduleContext.getSettings().urls.list_of_content;
@@ -47,7 +58,10 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content List Error: ' + data.errorMessage]);
                     }
                     else {
-                        $("#adminTabs li:contains('Content')").addClass("active");
+                        $("#adminTabs li").removeClass("active");
+                        $('#adminTabs li').filter(function () {
+                            return $(this).children().html() == 'Content';
+                        }).addClass("active");
 
                         self.contentList(data);
 
@@ -59,7 +73,6 @@ define(["Boiler"], function (Boiler) {
                             contentType: 'application/x-www-form-urlencoded',
                             dataType: 'json',
                             success: function (data, status) {
-                                $("#adminTabs li:contains('Wrapper')").addClass("active");
 
                                 self.contentSubmit(true);
                                 if (data.errorMessage) {
@@ -75,14 +88,14 @@ define(["Boiler"], function (Boiler) {
             });
         };
 
-        this.startOver = function () {
+        self.startOver = function () {
             self.initialize();
 
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Start Over']);
-        }
+        };
 
-        this.getContentTemplate = function () {
-            if (this.selectedItem()[0] === undefined) {
+        self.getContentTemplate = function () {
+            if (self.selectedItem()[0] === undefined) {
                 moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'select something before trying to set content']);
                 return;
             }
@@ -92,7 +105,7 @@ define(["Boiler"], function (Boiler) {
                 url: moduleContext.getSettings().urls.content_template,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    contentId: this.selectedItem()[0].ContentId
+                    pkMapID: self.selectedItem()[0].pkMapID
                 }),
                 dataType: 'json',
                 success: function (data, status) {
@@ -103,29 +116,41 @@ define(["Boiler"], function (Boiler) {
                     }
                     else {
 
-                        self.contentName(data.ContentName);
-                        self.html(data.Html);
-                        //var editor = $("#Html_1_90").data("kendoEditor");
-                        // editor.value(data.Html);
+                        self.ContentName(data.ContentName);
+                        self.html(data.ContentHtml);
+                        var editor = $("#Html_1_90").data("kendoEditor");
+                        editor.value(data.ContentHtml);
+                        self.fkContentID(data.fkContentID);
+
+                        self.fkMasterThemeID(data.fkMasterThemeID);
+                        self.pageTitle(data.pageTitle);
+                        self.fkEditorRoleID(data.fkEditorRoleID);
+                        self.tags(data.tags);
+                        self.pkMapID(data.pkMapID);
+                        self.pageName(data.pageName);
+                        self.isActive(data.isActive);
+
 
                         self.setContentId(data.ContentId);
-                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.contentName()]);
+                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
                         self.buttontext("Save changes");
+                        self.deleteVisible(true)
                     }
                 }
             });
         };
 
-        this.setContentId = function (contentid) {
-            self.pkContentID(contentid);
+        self.setContentId = function (contentid) {
+            self.fkContentID(contentid);
             moduleContext.notify("CONTENT", contentid);
 
-        }
+        };
 
-        this.saveContent = function () {
+        self.saveContent = function () {
             self.contentSubmit(false);
-            self.html($("#Html_1_90").val());
-            if (self.html() === '' || self.contentName() === '') {
+            var editor = $("#Html_1_90").data("kendoEditor");
+            self.html(editor.value());
+            if (self.html() === '' || self.ContentName() === '') {
                 moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Please fill in content items before sending it out']);
                 self.contentSubmit(true);
                 return;
@@ -136,19 +161,19 @@ define(["Boiler"], function (Boiler) {
                 url: moduleContext.getSettings().urls.edit_content,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    contentName: self.contentName(),
+                    ContentName: self.ContentName(),
                     ContentHtml: self.html(),
-                    ContentId: self.pkContentID(),
+                    ContentId: self.fkContentID(),
                     contentTypeMappings: [{
-                        fkParent : -1,
+                        fkParent: -1,
                         fkEditorsRole: 1,
                         fkContentType: 1,
                         domInsertionPoint: 'content_template'
                     }],
                     pagemap: {
-                        pageName: self.contentName(),
-                        MasterId: self.selectedWrapper()[0].MasterID,
-                        fkEditorRoleID: self.editorRole(),
+                        pageName: self.ContentName(),
+                        fkMasterThemeID: self.fkMasterThemeID()[0].fkMasterThemeID,
+                        fkfkEditorRoleIDID: self.fkEditorRoleID(),
                         tags: self.tags(),
                         pageTitle: self.pageTitle()
                     }
@@ -161,7 +186,7 @@ define(["Boiler"], function (Boiler) {
                     }
                     else {
                         self.setContentId(data.ContentId);
-                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.contentName()]);
+                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
                     }
 
                 },
@@ -174,42 +199,103 @@ define(["Boiler"], function (Boiler) {
 
         };
 
-        this.getWrapperById = function () {
-            if (this.selectedWrapper()[0] === undefined) {
+        self.getWrapperById = function () {
+            if (self.fkMasterThemeID()[0] === undefined) {
                 moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'select something before trying to set content']);
                 return;
             }
         };
 
-        this.removeContentItem = function () {
-                if (self.pkContentID === undefined || self.pkContentID == -1) {
-                    moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'nothing selected']);
-                    return;
-                }
-                self.MenuSubmit(false);
-                $.ajax({
-                    type: "POST",
-                    url: moduleContext.getSettings().urls.content_item_delete,
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify({
-                        menuid: self.pkContentID
-                    }),
-                    dataType: 'json',
-                    success: function (data, status) {
-                        if (!data) {
-                            self.errorMessage("No Data, an error occurred.");
-                            moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Error: ' + self.errorMessage()]);
-                            return;
-                        }
-
-                        self.startOver();
-                        self.errorMessage(data);
-
+        self.removeContentItem = function () {
+            if (self.fkContentID === undefined || self.fkContentID == -1) {
+                moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'nothing selected']);
+                return;
+            }
+            self.MenuSubmit(false);
+            $.ajax({
+                type: "POST",
+                url: moduleContext.getSettings().urls.content_item_delete,
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    menuid: self.fkContentID
+                }),
+                dataType: 'json',
+                success: function (data, status) {
+                    if (!data) {
+                        self.errorMessage("No Data, an error occurred.");
+                        moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Error: ' + self.errorMessage()]);
+                        return;
                     }
-                });
-           
+
+                    self.startOver();
+                    self.errorMessage(data);
+
+                }
+            });
+
         };
 
+        self.SetupKendoEditor = function () {
+            $("#Html_1_90").kendoEditor({
+                tools: [
+                {
+                    name: "fontName",
+                    items: [].concat(kendo.ui.Editor.prototype.options.fontName[8], [{ text: "Garamond", value: "Garamond, serif"}])
+                },
+                {
+                    name: "fontSize",
+                    items: [].concat(kendo.ui.Editor.prototype.options.fontSize[0], [{ text: "16px", value: "16px"}])
+                },
+                {
+                    name: "formatBlock",
+                    items: [].concat(kendo.ui.Editor.prototype.options.formatBlock[0], [{ text: "Fieldset", value: "fieldset"}])
+                },
+                {
+                    name: "customTemplate",
+                    template: $("#backgroundColor-template").html()
+                },
+                {
+                    name: "viewHtml",
+                    tooltip: "View HTML",
+                    exec: function (e) {
+                        var editor = $(this).data("kendoEditor");
+
+                        var dialog = $($("#viewHtml-template").html())
+                            .find("textarea").val(editor.value()).end()
+                            .find(".viewHtml-update")
+                                .click(function () {
+                                    editor.value(dialog.element.find("textarea").val());
+                                    dialog.close();
+                                })
+                            .end()
+                            .find(".viewHtml-cancel")
+                                .click(function () {
+                                    dialog.close();
+                                })
+                            .end()
+                            .kendoWindow({
+                                modal: true,
+                                title: "View HTML",
+                                deactivate: function () {
+                                    dialog.destroy();
+                                }
+                            }).data("kendoWindow");
+
+                        dialog.center().open();
+                    }
+                },
+                {
+                    name: "custom",
+                    tooltip: "Insert a horizontal rule",
+                    exec: function (e) {
+                        var editor = $(this).data("kendoEditor");
+                        editor.exec("inserthtml", { value: "<hr />" });
+                    }
+                }
+            ]
+            });
+
+        };
     };
 
     return ViewModel;

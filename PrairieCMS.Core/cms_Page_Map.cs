@@ -35,6 +35,7 @@ namespace PrairieCMS.Core
         public virtual Master_Template Master_Template { get; set; }
         public virtual webpages_Roles webpages_Roles { get; set; }
         public virtual ICollection<cmsContent_Type_Mapping> cmsContent_Type_Mapping { get; set; }
+        public virtual Content_Template Content_Template { get; set; }
     }
     
 }

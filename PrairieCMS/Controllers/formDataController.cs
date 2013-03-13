@@ -20,6 +20,7 @@ namespace PrairieCMS.Web.Controllers
     [Authorize(Roles = "admin")]
     public class formDataController : Controller
     {
+        //cms_page_map
         public JsonResult GetContent()
         {
             List<ContentModel> ct = ContentRepository.GetExistingContent(  );
