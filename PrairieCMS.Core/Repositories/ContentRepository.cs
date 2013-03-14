@@ -30,7 +30,6 @@ namespace PrairieCMS.Core
             one.pkMapID = obj.pkMapID;
             one.pageName = obj.pageName;
             one.fkMasterThemeID = obj.fkMasterThemeID;
-            one.fkContentID = obj.fkContentID;
             one.fkEditorRoleID = obj.fkEditorRoleID;
             one.pageTitle = obj.pageTitle;
             one.tags = obj.tags;

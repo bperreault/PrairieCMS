@@ -32,7 +32,6 @@ html"
       public int pkMapID {get;set;}
       public string pageName {get;set;}
       public int fkMasterThemeID {get;set;}
-      public int fkContentID {get;set;}
       public int fkEditorRoleID {get;set;}
       public string pageTitle {get;set;}
       public string tags {get;set;}

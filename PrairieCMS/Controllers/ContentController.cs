@@ -19,7 +19,8 @@ namespace PrairieCMS.Controllers
     [Authorize(Roles = "admin")]
     public class ContentController : Controller
     {
-       
+
+        [HttpPost]
         public ActionResult editcontent(ContentModel mod)
         {
             ContentModel ct = ContentRepository.CreateNewOrUpdateExistingContent(mod, User.Identity.Name);

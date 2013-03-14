@@ -11,12 +11,13 @@ define(["Boiler"], function (Boiler) {
         self.contentList = ko.observableArray([]);
         self.selectedItem = ko.observable();
         self.wrapperList = ko.observableArray([]);
-        self.fkMasterThemeID = ko.observable("");
+        self.selectedWrapper = ko.observable();
+        self.fkMasterThemeID = ko.observable();
         self.pageTitle = ko.observable("");
-        self.fkEditorRoleID = ko.observable("1");
+        self.fkEditorRoleID = ko.observable(-1);
         self.tags = ko.observable("");
         self.deleteVisible = ko.observable(false);
-        self.pkMapID = ko.observable("1");
+        self.pkMapID = ko.observable("-1");
         self.pageName = ko.observable("");
         self.isActive = ko.observable(false);
 
@@ -35,7 +36,7 @@ define(["Boiler"], function (Boiler) {
             //for the content map
             self.fkMasterThemeID(-1);
             self.pageTitle("");
-            self.fkEditorRoleID("");
+            self.fkEditorRoleID(-1);
             self.tags("");
             self.pkMapID("1");
             self.pageName("");
@@ -120,9 +121,10 @@ define(["Boiler"], function (Boiler) {
                         self.html(data.ContentHtml);
                         var editor = $("#Html_1_90").data("kendoEditor");
                         editor.value(data.ContentHtml);
-                        self.fkContentID(data.fkContentID);
 
                         self.fkMasterThemeID(data.fkMasterThemeID);
+                        self.selectedWrapper({ MasterID: data.fkMasterThemeID });
+
                         self.pageTitle(data.pageTitle);
                         self.fkEditorRoleID(data.fkEditorRoleID);
                         self.tags(data.tags);
@@ -131,7 +133,7 @@ define(["Boiler"], function (Boiler) {
                         self.isActive(data.isActive);
 
 
-                        self.setContentId(data.ContentId);
+                        self.setContentId(data.fkContentID);
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
                         self.buttontext("Save changes");
                         self.deleteVisible(true)
@@ -155,7 +157,7 @@ define(["Boiler"], function (Boiler) {
                 self.contentSubmit(true);
                 return;
             }
-
+            
             $.ajax({
                 type: "POST",
                 url: moduleContext.getSettings().urls.edit_content,
@@ -164,6 +166,8 @@ define(["Boiler"], function (Boiler) {
                     ContentName: self.ContentName(),
                     ContentHtml: self.html(),
                     ContentId: self.fkContentID(),
+                    fkEditorRoleID: self.fkEditorRoleID,
+                    fkMasterThemeID: self.selectedWrapper()[0].MasterID,
                     contentTypeMappings: [{
                         fkParent: -1,
                         fkEditorsRole: 1,
@@ -172,7 +176,7 @@ define(["Boiler"], function (Boiler) {
                     }],
                     pagemap: {
                         pageName: self.ContentName(),
-                        fkMasterThemeID: self.fkMasterThemeID()[0].fkMasterThemeID,
+                        MasterID: self.selectedWrapper()[0].MasterID,
                         fkfkEditorRoleIDID: self.fkEditorRoleID(),
                         tags: self.tags(),
                         pageTitle: self.pageTitle()
@@ -185,7 +189,7 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Error Saving: ' + data.errorMessage]);
                     }
                     else {
-                        self.setContentId(data.ContentId);
+                        self.setContentId(data.fkContentID);
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
                     }
 
@@ -197,13 +201,6 @@ define(["Boiler"], function (Boiler) {
                 }
             });
 
-        };
-
-        self.getWrapperById = function () {
-            if (self.fkMasterThemeID()[0] === undefined) {
-                moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'select something before trying to set content']);
-                return;
-            }
         };
 
         self.removeContentItem = function () {
