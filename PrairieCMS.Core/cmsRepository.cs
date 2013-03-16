@@ -9,6 +9,36 @@ namespace PrairieCMS.Core
 {
     public class cmsRepository
     {
+
+            public static cmsModel PageContent( string path)
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals(path)).FirstOrDefault();
+            cmsModel one = new cmsModel();
+            one.html = ObtainHtmlFromMap(obj, cr);
+            if (obj != null)
+            {
+                one.tags = obj.tags;
+                one.title = obj.pageTitle;
+                one.controller = "home";
+                one.action = "index";
+            }
+            else
+            {
+                one.html = GetStarterHtml();
+                one.title = "Let's get started";
+                one.controller = string.Empty;
+                one.action = string.Empty;
+            }
+
+            one.friendlyUrl = path;
+
+            return one;
+        
+        }
+
+
+
         //view cms
         public static cmsModel HomeContent()
         {
@@ -29,6 +59,7 @@ namespace PrairieCMS.Core
             return one;
         
         }
+        
         public static string GetStarterHtml()
         {
 
@@ -55,6 +86,7 @@ namespace PrairieCMS.Core
                 // and place the content into the master template in the proper referenced DOM items
                 string body = sb.ToString();
                 body = mt.html.Replace("{content_template}", body);
+                body = body.Replace("{menu_component}", MenuRepository.GetTopLevelMenusHtml());
                 return body;
             }
             catch (Exception exp)

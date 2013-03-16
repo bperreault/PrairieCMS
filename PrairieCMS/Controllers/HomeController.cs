@@ -18,16 +18,43 @@ namespace PrairieCMS.Controllers
     public class HomeController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(string id="")
         {
-            cmsModel cm = cmsRepository.HomeContent();
+            cmsModel cm = null;
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                cm = cmsRepository.PageContent(id);
+            }
+            else
+            {
+                cm = cmsRepository.HomeContent();
+            }
+
+            return View(cm);
+        }
+
+        [AllowAnonymous]
+        public ActionResult pages()
+        {
+            var allPaths = Request.Path;
+            cmsModel cm = cmsRepository.PageContent(allPaths);
             if (cm.html == string.Empty)
             {
-             
+
             }
             return View(cm);
         }
 
-        
+        [AllowAnonymous]
+        public ActionResult Handle()
+        {
+            var allPaths = Request.Path;
+            cmsModel cm = cmsRepository.PageContent(allPaths);
+            if (cm.html == string.Empty)
+            {
+
+            }
+            return View(cm);
+        }
     }
 }

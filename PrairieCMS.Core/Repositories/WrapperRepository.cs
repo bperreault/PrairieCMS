@@ -15,7 +15,7 @@ namespace PrairieCMS.Core
         public WrapperRepository()
         {
         }
-        
+
         public static  MasterTemplate GetWrapperById( int MasterID)
         {
             cmsEntities cr = new cmsEntities();

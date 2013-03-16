@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using PrairieCMS.Core.Models;
 using System.Web.Mvc;
+using System.Web;
 
 
 namespace PrairieCMS.Core
@@ -16,21 +17,65 @@ namespace PrairieCMS.Core
         public ContentRepository()
         {
         }
-        
-        public static  ContentModel GetContentById( int contentId)
+
+        public static ContentModel GetContentByFriendlyUrl(string friendlyUrl)
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.Content_Template.Where(r => r.pkContentID == contentId).FirstOrDefault();
+
+            var obj = cr.cmsContent_Type_Mapping.Where(r => r.cms_Page_Map.pageName.Equals(friendlyUrl)).FirstOrDefault();
+            
             ContentModel one = new ContentModel();
             if (obj == null)
             {
                 one.errorMessage = "content was not found.";
                 return one;
             }
-            one.ContentId = obj.pkContentID;
-            one.ContentName = obj.contentName;
-            one.ContentHtml = obj.html;
+            fillContent(obj, one);
             return one;
+        }
+
+        public static ContentModel GetContentById(int pkMapID)
+        {
+            cmsEntities cr = new cmsEntities();
+
+            var obj = cr.cmsContent_Type_Mapping.Where(r => r.fkParent == pkMapID).FirstOrDefault();
+
+            ContentModel one = new ContentModel();
+            if (obj == null)
+            {
+                //no content type mapping record, but see if there is a page map
+                var pm = cr.cms_Page_Map.Where(r => r.pkMapID == pkMapID).FirstOrDefault();
+                if (pm == null)
+                {
+                    one.errorMessage = "content was not found.";
+                    return one;
+                }
+
+                ContentTypeMappingRepository.CreateNewContentTypeMapping(pm);
+                //reload to get the object setup right.
+                cr.cmsContent_Type_Mapping.Where(r => r.fkParent == pkMapID).FirstOrDefault();
+            }
+            fillContent(obj, one);
+            return one;
+        }
+
+        protected static void fillContent(cmsContent_Type_Mapping obj, ContentModel one)
+        {
+            one.pkMapID = obj.fkParent;
+            one.pageName = obj.cms_Page_Map.pageName;
+            one.fkMasterThemeID = obj.cms_Page_Map.fkMasterThemeID;
+            one.fkEditorRoleID = obj.cms_Page_Map.fkEditorRoleID;
+            one.pageTitle = obj.cms_Page_Map.pageTitle;
+            one.tags = obj.cms_Page_Map.tags;
+            one.isActive = obj.cms_Page_Map.isActive.HasValue ? (bool)obj.cms_Page_Map.isActive : false;
+
+            one.fkLevelMappingId = (int)obj.cmsContent_Type.fkLevelMappingId;
+            one.pkBcId = obj.pkBcId;
+
+
+            one.ContentId = obj.cms_Page_Map.fkContentID;
+            one.ContentName = obj.Content_Template.contentName;
+            one.ContentHtml = obj.Content_Template.html;
         }
 
         /// <summary>
@@ -54,38 +99,27 @@ namespace PrairieCMS.Core
             return cm;
         }
 
-        public static List<MasterTemplate> GetExistingTemplates( )
-        {
-            cmsEntities cr = new cmsEntities();
-            var obj = cr.Master_Template.Where(r => !string.IsNullOrEmpty(r.themeName) ).ToList();
-            List<MasterTemplate> cm = new List<MasterTemplate>();
-            for (int ii = 0; ii < obj.Count(); ii++)
-            {
-                MasterTemplate one = new MasterTemplate();
-                one.MasterID = obj[ii].pkMasterID;
-                one.ThemeName = obj[ii].themeName;
-                cm.Add(one);
-            }
-            cr = null;
-            return cm;
-        }
-
         public static List< ContentModel> GetExistingContent()
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.Content_Template.Where(r => !string.IsNullOrEmpty(r.contentName) ).ToList();
+            var obj = cr.cms_Page_Map.Where(r => !string.IsNullOrEmpty(r.pageName) ).ToList();
             List<ContentModel> cm = new List<ContentModel>();
             for (int ii = 0; ii < obj.Count(); ii++)
             {
                 ContentModel one = new ContentModel();
-                one.ContentId = obj[ii].pkContentID;
-                one.ContentName = obj[ii].contentName;
+                one.ContentId = obj[ii].fkContentID;
+               //// one.ContentName = obj[ii].Content_Template.contentName;
+                one.pageName = obj[ii].pageName;
+                one.fkEditorRoleID = obj[ii].fkEditorRoleID;
+                one.tags = obj[ii].tags;
+                one.pageTitle = obj[ii].pageTitle;
+                one.fkMasterThemeID = obj[ii].fkMasterThemeID;
+                one.pkMapID = obj[ii].pkMapID;
                 cm.Add(one);
             }
             cr = null;
             return cm;
         }
-
 
         public static cmsPageMap GetMcMById(int mcmId )
         {
@@ -108,7 +142,6 @@ namespace PrairieCMS.Core
 
         public static cmsPageMap editOrCreatecmsPageMap(cmsPageMap mod, string user)
         {
-
             cmsEntities cr = new cmsEntities();
             cms_Page_Map mcm = cr.cms_Page_Map.Where(r => r.pkMapID == mod.cmsPageMapId).FirstOrDefault();
 
@@ -149,25 +182,45 @@ namespace PrairieCMS.Core
         }
 
         [HttpPost]
-        public static ContentModel CreateNewOrUpdateExistingContent(ContentModel mod)
+        public static ContentModel CreateNewOrUpdateExistingContent(ContentModel mod, string user)
         {
+            if (mod.fkEditorRoleID == 0)
+                mod.fkEditorRoleID = 1;  //default to admin only
+            if (mod.fkLevelMappingId == 0)
+                mod.fkLevelMappingId = 1; //default to page level
 
             cmsEntities cr = new cmsEntities();
             Content_Template tmp = cr.Content_Template.Where(r => r.pkContentID == mod.ContentId).FirstOrDefault();
             if (tmp == null)
             {
                 tmp = new Content_Template();
-                tmp.createdBy = "cms";
+                tmp.createdBy = user;
                 tmp.createdOn = DateTime.Now;
                 cr.Entry(tmp).State = System.Data.EntityState.Added;
             }
             tmp.contentName = mod.ContentName;
-            tmp.html = mod.ContentHtml;
-            tmp.modifiedBy = "cms";
+            tmp.html = HttpUtility.UrlDecode(mod.ContentHtml);
+            tmp.modifiedBy = user;
             tmp.modifiedOn = DateTime.Now;
             try
             {
                 cr.SaveChanges();
+                
+                mod.pagemap.ContentId = tmp.pkContentID;
+                cmsPageMap pagemap = editOrCreatecmsPageMap(mod.pagemap, user);
+
+                foreach ( cmsContentTypeMapping ctm in mod.contentTypeMappings)
+                {
+                    ctm.fkParent = pagemap.cmsPageMapId;
+                    ctm.fkContent = tmp.pkContentID;
+                    ctm.dateCreated = DateTime.Now;
+                    ctm.createdBy = user;
+                    ctm.dateModified = DateTime.Now;
+                    ctm.modifiedBy = user;
+                    ctm.pkBcId = mod.pkBcId;
+                    ContentTypeMappingRepository.CreateNewOrUpdateExistingContentTypeMapping(ctm, user);
+                }
+                
             }
             catch (System.Data.Entity.Infrastructure.DbUpdateException DbEx)
             {
@@ -181,6 +234,27 @@ namespace PrairieCMS.Core
             }
 
             return mod;
+        }
+
+        public static string removeContentItem(int contentid)
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = cr.Content_Template.Where(r => r.pkContentID == contentid).FirstOrDefault();
+
+            cr.Entry(obj).State = System.Data.EntityState.Deleted;
+            try
+            {
+                cr.SaveChanges();
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException DbEx)
+            {
+                return DbEx.ToString();
+            }
+            finally
+            {
+                cr = null;
+            }
+            return "successfully deleted: " + contentid.ToString();
         }
 
     }

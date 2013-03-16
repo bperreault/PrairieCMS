@@ -17,6 +17,7 @@ namespace PrairieCMS.Core
         public Content_Template()
         {
             this.cmsContent_Type_Mapping = new HashSet<cmsContent_Type_Mapping>();
+            this.cms_Page_Map = new HashSet<cms_Page_Map>();
         }
     
         public int pkContentID { get; set; }
@@ -28,6 +29,7 @@ namespace PrairieCMS.Core
         public string modifiedBy { get; set; }
     
         public virtual ICollection<cmsContent_Type_Mapping> cmsContent_Type_Mapping { get; set; }
+        public virtual ICollection<cms_Page_Map> cms_Page_Map { get; set; }
     }
     
 }
