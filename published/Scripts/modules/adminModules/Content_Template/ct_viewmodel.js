@@ -1,9 +1,10 @@
 define(["Boiler"], function (Boiler) {
 
-    var ViewModel = function (moduleContext) {
+    var ViewModel = function (moduleContext, contentToEdit) {
 
         var self = this;
         self.fkContentID = ko.observable(-1);
+        self.fkLevelMappingId = ko.observable(1); //page level is default
         self.ContentName = ko.observable("");
         self.html = ko.observable("");
         self.contentSubmit = ko.observable(false);
@@ -11,15 +12,20 @@ define(["Boiler"], function (Boiler) {
         self.contentList = ko.observableArray([]);
         self.selectedItem = ko.observable();
         self.wrapperList = ko.observableArray([]);
+        self.rolesList = ko.observableArray([]);
         self.selectedWrapper = ko.observable();
+        self.selectedRole = ko.observable();
         self.fkMasterThemeID = ko.observable();
         self.pageTitle = ko.observable("");
-        self.fkEditorRoleID = ko.observable(-1);
+
         self.tags = ko.observable("");
         self.deleteVisible = ko.observable(false);
         self.pkMapID = ko.observable("-1");
+        self.pkBcId = ko.observable("-1");
         self.pageName = ko.observable("");
         self.isActive = ko.observable(false);
+
+        self.editor = null;
 
         self.backToHome = function () {
             Boiler.UrlController.goTo("/");
@@ -36,11 +42,15 @@ define(["Boiler"], function (Boiler) {
             //for the content map
             self.fkMasterThemeID(-1);
             self.pageTitle("");
-            self.fkEditorRoleID(-1);
+            self.selectedRole("1");
+            self.fkLevelMappingId(1);
             self.tags("");
-            self.pkMapID("1");
+            self.pkMapID(-1);
+            self.pkBcId(-1);
             self.pageName("");
             self.isActive(false);
+
+            self.setupRoles();
 
             self.SetupKendoEditor();
 
@@ -81,6 +91,10 @@ define(["Boiler"], function (Boiler) {
                                 }
                                 else {
                                     self.wrapperList(data);
+
+                                    if (contentToEdit) {
+                                        self.getContentByFriendlUrl(contentToEdit);
+                                    }
                                 }
                             }
                         });
@@ -89,10 +103,38 @@ define(["Boiler"], function (Boiler) {
             });
         };
 
+        self.setupRoles = function () {
+            self.rolesList.push({ RoleId: 1, RoleName: 'Admin' });
+        };
+
         self.startOver = function () {
             self.initialize();
 
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Start Over']);
+        };
+
+        self.getContentByFriendlUrl = function (friendlyUrl) {
+
+            self.contentSubmit(false);
+            $.ajax({
+                type: "POST",
+                url: moduleContext.getSettings().urls.content_byFriendlyUrl,
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    friendlyUrl: friendlyUrl
+                }),
+                dataType: 'json',
+                success: function (data, status) {
+                    self.contentSubmit(true);
+
+                    if (data.errorMessage) {
+                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content Item Error: ' + data.errorMessage]);
+                    }
+                    else {
+                        self.setUp(data)
+                    }
+                }
+            });
         };
 
         self.getContentTemplate = function () {
@@ -116,30 +158,38 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content Item Error: ' + data.errorMessage]);
                     }
                     else {
-
-                        self.ContentName(data.ContentName);
-                        self.html(data.ContentHtml);
-                        var editor = $("#Html_1_90").data("kendoEditor");
-                        editor.value(data.ContentHtml);
-
-                        self.fkMasterThemeID(data.fkMasterThemeID);
-                        self.selectedWrapper({ MasterID: data.fkMasterThemeID });
-
-                        self.pageTitle(data.pageTitle);
-                        self.fkEditorRoleID(data.fkEditorRoleID);
-                        self.tags(data.tags);
-                        self.pkMapID(data.pkMapID);
-                        self.pageName(data.pageName);
-                        self.isActive(data.isActive);
-
-
-                        self.setContentId(data.fkContentID);
-                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
-                        self.buttontext("Save changes");
-                        self.deleteVisible(true)
+                        self.setUp(data)
                     }
                 }
             });
+        };
+
+        self.setUp = function (data) {
+
+            self.ContentName(data.ContentName);
+            self.fkLevelMappingId(data.fkLevelMappingId);
+            self.html(data.ContentHtml);
+
+            self.SetupKendoEditor();
+
+            var editor = $("#Html_1_90").data("kendoEditor");
+            editor.value(data.ContentHtml);
+
+            self.fkMasterThemeID(data.fkMasterThemeID);
+            self.selectedWrapper(data.fkMasterThemeID);
+            self.pageTitle(data.pageTitle);
+            self.selectedRole(data.fkEditorRoleID);
+            self.tags(data.tags);
+            self.pkMapID(data.pkMapID);
+            self.pkBcId(data.pkBcId);
+            self.pageName(data.pageName);
+            self.isActive(data.isActive);
+
+
+            self.setContentId(data.ContentId);
+            moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
+            self.buttontext("Save changes");
+            self.deleteVisible(true)
         };
 
         self.setContentId = function (contentid) {
@@ -157,7 +207,7 @@ define(["Boiler"], function (Boiler) {
                 self.contentSubmit(true);
                 return;
             }
-            
+
             $.ajax({
                 type: "POST",
                 url: moduleContext.getSettings().urls.edit_content,
@@ -166,18 +216,23 @@ define(["Boiler"], function (Boiler) {
                     ContentName: self.ContentName(),
                     ContentHtml: self.html(),
                     ContentId: self.fkContentID(),
-                    fkEditorRoleID: self.fkEditorRoleID,
-                    fkMasterThemeID: self.selectedWrapper()[0].MasterID,
+                    fkEditorRoleID: self.selectedRole(),
+                    fkMasterThemeID: self.selectedWrapper(),
+                    isActive: true,
+                    pkBcId: self.pkBcId(),
+                    pkMapID: self.pkMapID(),
                     contentTypeMappings: [{
-                        fkParent: -1,
-                        fkEditorsRole: 1,
+                        pkBcId: self.pkBcId(),
+                        fkContent: self.fkContentID(),
+                        fkParent: self.fkContentID(),  //pages parents equal their content
+                        fkEditorsRole: self.selectedRole(),
                         fkContentType: 1,
                         domInsertionPoint: 'content_template'
                     }],
                     pagemap: {
                         pageName: self.ContentName(),
-                        MasterID: self.selectedWrapper()[0].MasterID,
-                        fkfkEditorRoleIDID: self.fkEditorRoleID(),
+                        MasterID: self.selectedWrapper(),
+                        fkEditorRoleID: self.selectedRole(),
                         tags: self.tags(),
                         pageTitle: self.pageTitle()
                     }
@@ -189,7 +244,9 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Error Saving: ' + data.errorMessage]);
                     }
                     else {
-                        self.setContentId(data.fkContentID);
+                        self.setContentId(data.ContentId);
+                        self.pkMapID(data.pkMapID);
+
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content: ' + self.ContentName()]);
                     }
 
@@ -232,65 +289,99 @@ define(["Boiler"], function (Boiler) {
 
         };
 
+        this.getPageForEdit = function (pageInfo) {
+
+            Boiler.UrlController.goTo("body/" + pageInfo.pageName);
+        }
+
         self.SetupKendoEditor = function () {
-            $("#Html_1_90").kendoEditor({
-                tools: [
-                {
-                    name: "fontName",
-                    items: [].concat(kendo.ui.Editor.prototype.options.fontName[8], [{ text: "Garamond", value: "Garamond, serif"}])
-                },
-                {
-                    name: "fontSize",
-                    items: [].concat(kendo.ui.Editor.prototype.options.fontSize[0], [{ text: "16px", value: "16px"}])
-                },
-                {
-                    name: "formatBlock",
-                    items: [].concat(kendo.ui.Editor.prototype.options.formatBlock[0], [{ text: "Fieldset", value: "fieldset"}])
-                },
-                {
-                    name: "customTemplate",
-                    template: $("#backgroundColor-template").html()
-                },
-                {
-                    name: "viewHtml",
-                    tooltip: "View HTML",
-                    exec: function (e) {
-                        var editor = $(this).data("kendoEditor");
+            if (self.editor)
+                return;
 
-                        var dialog = $($("#viewHtml-template").html())
-                            .find("textarea").val(editor.value()).end()
-                            .find(".viewHtml-update")
-                                .click(function () {
-                                    editor.value(dialog.element.find("textarea").val());
-                                    dialog.close();
-                                })
-                            .end()
-                            .find(".viewHtml-cancel")
-                                .click(function () {
-                                    dialog.close();
-                                })
-                            .end()
-                            .kendoWindow({
-                                modal: true,
-                                title: "View HTML",
-                                deactivate: function () {
-                                    dialog.destroy();
-                                }
-                            }).data("kendoWindow");
-
-                        dialog.center().open();
-                    }
-                },
-                {
-                    name: "custom",
-                    tooltip: "Insert a horizontal rule",
-                    exec: function (e) {
-                        var editor = $(this).data("kendoEditor");
-                        editor.exec("inserthtml", { value: "<hr />" });
-                    }
-                }
+            self.editor = $("#Html_1_90").kendoEditor({
+            tools: [
+                "bold",
+                "italic",
+                "underline",
+                "strikethrough",
+                "fontName",
+                "fontSize",
+                "foreColor",
+                "backColor",
+                "justifyLeft",
+                "justifyCenter",
+                "justifyRight",
+                "justifyFull",
+                "insertUnorderedList",
+                "insertOrderedList",
+                "indent",
+                "outdent",
+                "formatBlock",
+                "createLink",
+                "unlink",
+                "insertImage",
+                "subscript",
+                "superscript",
+                "viewHtml"
             ]
-            });
+        });
+//                tools: [
+//                {
+//                    name: "fontName",
+//                    items: [].concat(kendo.ui.Editor.prototype.options.fontName[8], [{ text: "Garamond", value: "Garamond, serif"}])
+//                },
+//                {
+//                    name: "fontSize",
+//                    items: [].concat(kendo.ui.Editor.prototype.options.fontSize[0], [{ text: "16px", value: "16px"}])
+//                },
+//                {
+//                    name: "formatBlock",
+//                    items: [].concat(kendo.ui.Editor.prototype.options.formatBlock[0], [{ text: "Fieldset", value: "fieldset"}])
+//                },
+//                {
+//                    name: "customTemplate",
+//                    template: $("#backgroundColor-template").html()
+//                },
+//                {
+//                    name: "viewHtml",
+//                    tooltip: "View HTML",
+//                    exec: function (e) {
+//                        var editor = $(this).data("kendoEditor");
+
+//                        var dialog = $($("#viewHtml-template").html())
+//                            .find("textarea").val(editor.value()).end()
+//                            .find(".viewHtml-update")
+//                                .click(function () {
+//                                    editor.value(dialog.element.find("textarea").val());
+//                                    dialog.close();
+//                                })
+//                            .end()
+//                            .find(".viewHtml-cancel")
+//                                .click(function () {
+//                                    dialog.close();
+//                                })
+//                            .end()
+//                            .kendoWindow({
+//                                modal: true,
+//                                title: "View HTML",
+//                                deactivate: function () {
+//                                    dialog.destroy();
+//                                }
+//                            }).data("kendoWindow");
+
+//                        dialog.center().open();
+//                    }
+//                },
+//                {
+//                    name: "custom",
+//                    tooltip: "Insert a horizontal rule",
+//                    exec: function (e) {
+//                        var editor = $(this).data("kendoEditor");
+//                        editor.exec("inserthtml", { value: "<hr />" });
+//                    }
+//                }
+//            ]
+//            });
 
         };
     };

@@ -39,5 +39,12 @@ namespace PrairieCMS.Controllers
             ContentModel ct = ContentRepository.GetContentById(pkMapID);
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult getContentByFriendlyUrl(string friendlyUrl)
+        {
+            //content and page map
+            ContentModel ct = ContentRepository.GetContentByFriendlyUrl(friendlyUrl);
+            return Json(ct, JsonRequestBehavior.AllowGet);
+        }
     }
 }

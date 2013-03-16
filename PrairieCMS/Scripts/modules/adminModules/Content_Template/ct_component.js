@@ -6,8 +6,8 @@ function (Boiler, template, ViewModel) {
 
 		this.activate = function(parent, params) {
 			if(!panel) {
+                vm = new ViewModel(moduleContext, params.id);
 				panel = new Boiler.ViewTemplate(parent, template);
-                vm = new ViewModel(moduleContext);
                 ko.applyBindings(vm, panel.getDomElement());
             }
             vm.initialize(params.name);
@@ -19,7 +19,7 @@ function (Boiler, template, ViewModel) {
 				panel.hide();
 			}
 		}
-	};
+};
 
 	return Component;
 

@@ -58,7 +58,7 @@ define(["Boiler"], function (Boiler) {
         }
 
         this.backToHome = function () {
-            Boiler.UrlController.goTo("/");
+            Boiler.UrlController.goTo("cms");
         }
 
         this.removeMenuItem = function () {
@@ -102,6 +102,11 @@ define(["Boiler"], function (Boiler) {
                 return;
 
             self.runServerRequestForMenuItem(dataitem.pkSiteMapItemID);
+        }
+   
+        this.getPageForEdit = function () {
+
+            Boiler.UrlController.goTo("body/" + self.relativeUrl());
         }
 
         this.runServerRequestForMenuItem = function (menuid) {

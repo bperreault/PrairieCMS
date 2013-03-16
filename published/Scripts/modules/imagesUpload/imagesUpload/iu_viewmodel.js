@@ -3,25 +3,34 @@ define(["Boiler", "sbsBusyIndicator"], function (Boiler, sbsBusyIndicator) {
     var ViewModel = function (moduleContext) {
 
         var self = this;
-        this.responsetext = ko.observable();
-        this.hiddenField = ko.observable();
-        this.src = ko.observable();
-        this.imgVisible = ko.observable(false);
-        this.files = ko.observable();
+        self.responsetext = ko.observable();
+        self.hiddenField = ko.observable();
+        self.src = ko.observable();
+        self.imgVisible = ko.observable(false);
+        self.files = ko.observable();
+        self.copyHref = ko.observable('javascript:copyToClipboard');
+        self.urlVisibility = ko.observable("notBusy");
 
-        this.initialize = function () {
-           
+        self.initialize = function () {
+
         };
 
-        this.removeImage = function () {
-            hiddenField("0");
-            src("");
-            imgVisible(false);
+        self.copyToClipboard = function () {
+
+            var text = $('#picurl').text();
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+
+        self.removeImage = function () {
+            self.hiddenField("0");
+            self.src("");
+            self.urlVisibility("notBusy");
+            self.imgVisible(false);
         };
 
-//        //note:at this time (2/2/13) ConfigureImageUploaders will not work unless the dom element is in the page on page load.
-//        //
-        this.ConfigureImageUploaders = function (sender, args) {
+        //        //note:at this time (2/2/13) ConfigureImageUploaders will not work unless the dom element is in the page on page load.
+        //        //
+        self.ConfigureImageUploaders = function (sender, args) {
             $('#files').kendoUpload({
                 multiple: true,
                 showFileList: false,
@@ -31,26 +40,28 @@ define(["Boiler", "sbsBusyIndicator"], function (Boiler, sbsBusyIndicator) {
                 error: function (e) { //it's returning error when there is none.
                     sbsBusyIndicator.hideBusy();
                     if (e.operation == 'upload' && e.response != '0') {
-                        self.responsetext(e.response); 
+                        self.responsetext(e.response);
                         self.src('')
+                        self.urlVisibility("notBusy");
                         self.imgVisible(false);
                         self.src(e.XMLHttpRequest.responseText);
                         self.imgVisible(true);
+                        self.urlVisibility("busy");
                         if ($('#modal-scroll-container').length) {
                             $('#modal-scroll-container').tinyscrollbar_update('relative');
                         }
 
                     }
-                 },
+                },
                 complete: function (e) {
-                    
+
 
                 }
             });
 
         }
-    
+
     };
-    
+
     return ViewModel;
 });

@@ -16,6 +16,38 @@ namespace PrairieCMS.Core
         public ContentTypeMappingRepository()
         {
         }
+
+        public static cmsContent_Type_Mapping CreateNewContentTypeMapping(cms_Page_Map pagemap)
+        {
+            cmsEntities cr = new cmsEntities();
+            cmsContent_Type_Mapping tmp = new cmsContent_Type_Mapping();
+            cr.Entry(tmp).State = System.Data.EntityState.Added;
+            tmp.dateCreated = DateTime.Now;
+            tmp.createdBy = "system";
+            tmp.fkParent = pagemap.pkMapID;
+            tmp.fkEditorsRole = pagemap.fkEditorRoleID;
+            tmp.fkContentType = 1;
+            tmp.fkContent = pagemap.fkContentID;
+            tmp.domInsertionPoint = "body";
+            tmp.dateModified = DateTime.Now;
+            tmp.modifiedBy = "system";
+
+            try
+            {
+                cr.SaveChanges();
+
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException DbEx)
+            {
+                throw DbEx;
+            }
+            finally
+            {
+                ((IObjectContextAdapter)cr).ObjectContext.Detach(tmp);
+                cr = null;
+            }
+            return tmp;
+        }
         
         public static  cmsContentTypeMapping GetContentTypeMappingById( int ContentTypeMappingId)
         {
@@ -60,10 +92,10 @@ namespace PrairieCMS.Core
         }
 
         [HttpPost]
-        public static cmsContentTypeMapping CreateNewOrUpdateExistingContentTypeMapping(cmsContentTypeMapping mod, string user)
+        public static cmsContentTypeMapping CreateNewOrUpdateExistingContentTypeMapping(cmsContentTypeMapping ctm, string user)
         {
             cmsEntities cr = new cmsEntities();
-            cmsContent_Type_Mapping tmp = cr.cmsContent_Type_Mapping.Where(r => r.pkBcId == mod.pkBcId).FirstOrDefault();
+            cmsContent_Type_Mapping tmp = cr.cmsContent_Type_Mapping.Where(r => r.pkBcId == ctm.pkBcId).FirstOrDefault();
             if (tmp == null)
             {
                 tmp = new cmsContent_Type_Mapping();
@@ -71,13 +103,13 @@ namespace PrairieCMS.Core
                 tmp.dateCreated = DateTime.Now;
                 tmp.createdBy = user;
             }
-            tmp.fkParent = mod.fkParent;
-            tmp.fkEditorsRole = mod.fkEditorsRole;
-            tmp.fkContentType = mod.fkContentType;
-            tmp.fkContent = mod.fkContent;
-            tmp.domInsertionPoint = mod.domInsertionPoint;
-            tmp.dateModified = mod.dateModified;
-            tmp.modifiedBy = mod.modifiedBy;
+            tmp.fkParent = ctm.fkParent;
+            tmp.fkEditorsRole = ctm.fkEditorsRole;
+            tmp.fkContentType = ctm.fkContentType;
+            tmp.fkContent = ctm.fkContent;
+            tmp.domInsertionPoint = ctm.domInsertionPoint;
+            tmp.dateModified = ctm.dateModified;
+            tmp.modifiedBy = ctm.modifiedBy;
 
             try
             {
@@ -86,16 +118,16 @@ namespace PrairieCMS.Core
             }
             catch (System.Data.Entity.Infrastructure.DbUpdateException DbEx)
             {
-                mod.errorMessage = DbEx.ToString();
+                ctm.errorMessage = DbEx.ToString();
             }
             finally
             {
-                mod.pkBcId = tmp.pkBcId;
+                ctm.pkBcId = tmp.pkBcId;
                 ((IObjectContextAdapter)cr).ObjectContext.Detach(tmp);
                 cr = null;
             }
 
-            return mod;
+            return ctm;
         }
 
         public static string removeContentTypeMappingItem(int ContentTypeMappingid)

@@ -17,6 +17,7 @@ function (Boiler, settings, Content_TemplateComponent, SiteMapComponent, Content
             "/": new LandingPageComponent(),
             "menu": new SiteMapComponent(context),
             "body": new Content_TemplateComponent(context),
+            "body/{id}": new Content_TemplateComponent(context),
             "contentType": new ContentTypeComponent(context),
             "contentTypeMap": new ContentTypeMapComponent(context),
             "siteSetup": new SiteSetupComponent(context),

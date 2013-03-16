@@ -9,11 +9,41 @@ namespace PrairieCMS.Core
 {
     public class cmsRepository
     {
+
+            public static cmsModel PageContent( string path)
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals(path)).FirstOrDefault();
+            cmsModel one = new cmsModel();
+            one.html = ObtainHtmlFromMap(obj, cr);
+            if (obj != null)
+            {
+                one.tags = obj.tags;
+                one.title = obj.pageTitle;
+                one.controller = "home";
+                one.action = "index";
+            }
+            else
+            {
+                one.html = GetStarterHtml();
+                one.title = "Let's get started";
+                one.controller = string.Empty;
+                one.action = string.Empty;
+            }
+
+            one.friendlyUrl = path;
+
+            return one;
+        
+        }
+
+
+
         //view cms
         public static cmsModel HomeContent()
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals("/")).FirstOrDefault();
+            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals("home")).FirstOrDefault();
             cmsModel one = new cmsModel();
             one.html = ObtainHtmlFromMap(obj, cr);
             if (obj != null)
@@ -29,6 +59,7 @@ namespace PrairieCMS.Core
             return one;
         
         }
+        
         public static string GetStarterHtml()
         {
 

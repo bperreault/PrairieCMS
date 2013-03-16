@@ -802,3 +802,20 @@ small {line-height:.9em;}
 .busy{
     display:block;
 }
+
+.pagelist
+{
+    line-height: 2em;    
+}
+.pagelist ul
+{
+    margin:0;
+}
+.pagelist ul li 
+{
+    background-color: #f5f5f5;
+      border: 1px solid #CCCCCC;
+    margin-bottom: 5px;
+    padding:3px;
+}
+
