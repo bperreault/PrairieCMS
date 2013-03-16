@@ -46,7 +46,8 @@ namespace PrairieCMS.Filters
                 //    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
                 //}
 
-                WebSecurity.InitializeDatabaseConnection("PrairieCMSConnectionString", "Users", "UserId", "Username", autoCreateTables: true);
+                if (!WebSecurity.Initialized)
+                    WebSecurity.InitializeDatabaseConnection("PrairieCMSConnectionString", "Users", "UserId", "Username", autoCreateTables: true);
 
                 var roles = (SimpleRoleProvider)Roles.Provider;
                 var membership = (SimpleMembershipProvider)Membership.Provider;
@@ -55,11 +56,11 @@ namespace PrairieCMS.Filters
                 {
                     roles.CreateRole("Admin");
                 }
-                //if (membership.GetUser("admin", false) == null)
-                //{
-                //    membership.CreateUserAndAccount("admin", "admin1");
-                //    roles.AddUsersToRoles(new[] { "admin" }, new[] { "admin" });
-                //}
+                if (membership.GetUser("admin", false) == null)
+                {
+                    membership.CreateUserAndAccount("admin", "admin1");
+                    roles.AddUsersToRoles(new[] { "admin" }, new[] { "admin" });
+                }
 
             }
         }

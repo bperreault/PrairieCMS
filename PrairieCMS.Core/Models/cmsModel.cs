@@ -13,5 +13,8 @@ namespace PrairieCMS.Core.Models
         public string tags { get; set; }
         [AllowHtml]
         public string html { get; set; }
+        public string friendlyUrl { get; set; }
+        public string controller { get; set; }
+        public string action { get; set; }
     }
 }

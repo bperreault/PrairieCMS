@@ -20,6 +20,7 @@ namespace PrairieCMS.Web.Controllers
     [Authorize(Roles = "admin")]
     public class formDataController : Controller
     {
+        //cms_page_map
         public JsonResult GetContent()
         {
             List<ContentModel> ct = ContentRepository.GetExistingContent(  );
@@ -28,7 +29,7 @@ namespace PrairieCMS.Web.Controllers
 
         public JsonResult GetWrappers(  )
         {
-            List<MasterTemplate> ct =  ContentRepository.GetExistingTemplates(  );
+            List<MasterTemplate> ct =  WrapperRepository.GetExistingTemplates(  );
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 

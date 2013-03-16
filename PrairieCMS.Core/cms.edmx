@@ -20,6 +20,10 @@
           <EntitySet Name="webpages_OAuthMembership" EntityType="cmsEntities.Store.webpages_OAuthMembership" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="webpages_Roles" EntityType="cmsEntities.Store.webpages_Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="cmsEntities.Store.webpages_UsersInRoles" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_cms_Page_Map_Content_Template" Association="cmsEntities.Store.FK_cms_Page_Map_Content_Template">
+            <End Role="Content_Template" EntitySet="Content_Template" />
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+          </AssociationSet>
           <AssociationSet Name="FK_cms_Page_Map_Master_Template" Association="cmsEntities.Store.FK_cms_Page_Map_Master_Template">
             <End Role="Master_Template" EntitySet="Master_Template" />
             <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
@@ -218,6 +222,18 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_cms_Page_Map_Content_Template">
+          <End Role="Content_Template" Type="cmsEntities.Store.Content_Template" Multiplicity="1" />
+          <End Role="cms_Page_Map" Type="cmsEntities.Store.cms_Page_Map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content_Template">
+              <PropertyRef Name="pkContentID" />
+            </Principal>
+            <Dependent Role="cms_Page_Map">
+              <PropertyRef Name="fkContentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_cms_Page_Map_Master_Template">
           <End Role="Master_Template" Type="cmsEntities.Store.Master_Template" Multiplicity="1" />
           <End Role="cms_Page_Map" Type="cmsEntities.Store.cms_Page_Map" Multiplicity="*" />
@@ -350,6 +366,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetMainMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -409,6 +426,11 @@
             <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
           </AssociationSet>
           <EntitySet Name="cmsSiteMapItems" EntityType="PrairieCMS.Core.data.cmsSiteMapItem" />
+          <FunctionImport Name="GetMainMenu" ReturnType="Collection(PrairieCMS.Core.data.GetMainMenu_Result)" />
+          <AssociationSet Name="FK_cms_Page_Map_Content_Template" Association="PrairieCMS.Core.data.FK_cms_Page_Map_Content_Template">
+            <End Role="Content_Template" EntitySet="Content_Template" />
+            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="cmsContent_Type">
           <Key>
@@ -474,6 +496,7 @@
           <Property Name="modifiedOn" Type="DateTime" Nullable="false" />
           <Property Name="modifiedBy" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Template" FromRole="Content_Template" ToRole="cmsContent_Type_Mapping" />
+          <NavigationProperty Name="cms_Page_Map" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_Content_Template" FromRole="Content_Template" ToRole="cms_Page_Map" />
         </EntityType>
         <EntityType Name="Log">
           <Key>
@@ -640,6 +663,7 @@
           <NavigationProperty Name="webpages_Roles" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_webpages_Roles" FromRole="cms_Page_Map" ToRole="webpages_Roles" />
           <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map" FromRole="cms_Page_Map" ToRole="cmsContent_Type_Mapping" />
           <Property Type="Int32" Name="fkContentID" Nullable="false" />
+          <NavigationProperty Name="Content_Template" Relationship="PrairieCMS.Core.data.FK_cms_Page_Map_Content_Template" FromRole="cms_Page_Map" ToRole="Content_Template" />
         </EntityType>
         
         <Association Name="FK_cms_Page_Map_Master_Template">
@@ -688,6 +712,26 @@
           <Property Type="String" Name="relativeUrl" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="itemOrder" />
         </EntityType>
+        <ComplexType Name="GetMainMenu_Result">
+          <Property Type="String" Name="SiteMapItemName" Nullable="false" MaxLength="64" />
+          <Property Type="Int32" Name="fkSiteMapParentId" Nullable="false" />
+          <Property Type="String" Name="relativeUrl" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="itemOrder" Nullable="true" />
+          <Property Type="String" Name="templateHtml" Nullable="true" />
+          <Property Type="Int32" Name="pkSiteMapItemID" Nullable="false" />
+        </ComplexType>
+        <Association Name="FK_cms_Page_Map_Content_Template">
+          <End Type="PrairieCMS.Core.data.Content_Template" Role="Content_Template" Multiplicity="1" />
+          <End Type="PrairieCMS.Core.data.cms_Page_Map" Role="cms_Page_Map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content_Template">
+              <PropertyRef Name="pkContentID" />
+            </Principal>
+            <Dependent Role="cms_Page_Map">
+              <PropertyRef Name="fkContentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -859,6 +903,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetMainMenu" FunctionName="cmsEntities.Store.GetMainMenu" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PrairieCMS.Core.data.GetMainMenu_Result">
+                <ScalarProperty Name="SiteMapItemName" ColumnName="SiteMapItemName" />
+                <ScalarProperty Name="fkSiteMapParentId" ColumnName="fkSiteMapParentId" />
+                <ScalarProperty Name="relativeUrl" ColumnName="relativeUrl" />
+                <ScalarProperty Name="itemOrder" ColumnName="itemOrder" />
+                <ScalarProperty Name="templateHtml" ColumnName="templateHtml" />
+                <ScalarProperty Name="pkSiteMapItemID" ColumnName="pkSiteMapItemID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -881,7 +937,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="cms" ZoomLevel="90">
-        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsContent_Type" Width="1.5" PointX="0.75" PointY="0.75" Height="2.172587890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsContent_Type" Width="1.5" PointX="0.75" PointY="0.75" Height="0.4" IsExpanded="false" />
         <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsContent_Type_Mapping" Width="1.5" PointX="3" PointY="2.875" Height="3.7109993489583317" IsExpanded="true" />
         <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsLevel_Mapping" Width="2.625" PointX="3.125" PointY="10.875" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsSiteSetup" Width="1.5" PointX="8" PointY="1.5" Height="2.7494921874999996" IsExpanded="true" />
@@ -894,14 +950,12 @@
         <EntityTypeShape EntityType="PrairieCMS.Core.data.webpages_Roles" Width="1.5" PointX="0.75" PointY="3.875" Height="1.7879850260416674" IsExpanded="true" />
         <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Level_Mapping" ManuallyRouted="false">
           <ConnectorPoint PointX="5.03125" PointY="10.875" />
-          <ConnectorPoint PointX="5.03125" PointY="2.1640694729644423" />
-          <ConnectorPoint PointX="3.8333333333333335" PointY="2.1640694729644419" />
-          <ConnectorPoint PointX="3.6666666666666665" PointY="2.1640694729644423" />
-          <ConnectorPoint PointX="2.25" PointY="2.1640694729644423" />
+          <ConnectorPoint PointX="5.03125" PointY="0.95" />
+          <ConnectorPoint PointX="2.25" PointY="0.95" />
         </AssociationConnector>
         <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Type" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="1.4257822364822212" />
-          <ConnectorPoint PointX="3.75" PointY="1.4257822364822212" />
+          <ConnectorPoint PointX="2.25" PointY="1.0812524999999997" />
+          <ConnectorPoint PointX="3.75" PointY="1.0812524999999997" />
           <ConnectorPoint PointX="3.75" PointY="2.875" />
         </AssociationConnector>
         <AssociationConnector Association="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Template" ManuallyRouted="false">
@@ -955,20 +1009,24 @@
           <ConnectorPoint PointX="1.5" PointY="5.8552864583333326" />
           <ConnectorPoint PointX="1.5" PointY="6.625" />
           <ConnectorPoint PointX="2.5" PointY="6.625" />
-          <ConnectorPoint PointX="2.5" PointY="7.576650390625" />
-          <ConnectorPoint PointX="2.6041666666666665" PointY="7.5766503906249989" />
-          <ConnectorPoint PointX="2.7708333333333335" PointY="7.576650390625" />
-          <ConnectorPoint PointX="4.947916666666667" PointY="7.5766503906249989" />
-          <ConnectorPoint PointX="5.114583333333333" PointY="7.576650390625" />
-          <ConnectorPoint PointX="5.5" PointY="7.576650390625" />
+          <ConnectorPoint PointX="2.5" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="7.6728011067708319" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="4.947916666666667" PointY="7.6728011067708319" />
+          <ConnectorPoint PointX="5.114583333333333" PointY="7.6728011067708328" />
+          <ConnectorPoint PointX="5.5" PointY="7.6728011067708328" />
           <ConnectorPoint PointX="5.5" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="5.541666666666667" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="5.708333333333333" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="9.4166666666666661" PointY="8.3840950520833317" />
+          <ConnectorPoint PointX="9.5833333333333339" PointY="8.3840950520833317" />
           <ConnectorPoint PointX="9.625" PointY="8.3840950520833317" />
-          <ConnectorPoint PointX="9.625" PointY="7.576650390625" />
-          <ConnectorPoint PointX="10" PointY="7.576650390625" />
+          <ConnectorPoint PointX="9.625" PointY="7.6728011067708337" />
+          <ConnectorPoint PointX="10" PointY="7.6728011067708337" />
         </AssociationConnector>
         <AssociationConnector Association="PrairieCMS.Core.data.FK_cmsContent_Type_Mapping_cms_Page_Map" >
-          <ConnectorPoint PointX="10.478391865234375" PointY="5.625" />
-          <ConnectorPoint PointX="10.478391865234375" PointY="4.6920475260416659" />
+          <ConnectorPoint PointX="10.8593775" PointY="5.625" />
+          <ConnectorPoint PointX="10.8593775" PointY="4.6920475260416659" />
           <ConnectorPoint PointX="10.239583333333334" PointY="4.692047526041665" />
           <ConnectorPoint PointX="10.072916666666666" PointY="4.6920475260416659" />
           <ConnectorPoint PointX="5.114583333333333" PointY="4.692047526041665" />
@@ -976,6 +1034,21 @@
           <ConnectorPoint PointX="4.5" PointY="4.6920475260416659" />
         </AssociationConnector>
         <EntityTypeShape EntityType="PrairieCMS.Core.data.cmsSiteMapItem" Width="1.5" PointX="10.375" PointY="0.75" Height="1.7879850260416674" />
+        <AssociationConnector Association="PrairieCMS.Core.data.FK_cms_Page_Map_Content_Template" >
+          <ConnectorPoint PointX="1.1250005" PointY="6.875" />
+          <ConnectorPoint PointX="1.1250005" PointY="6.609375" />
+          <ConnectorPoint PointX="2.5" PointY="6.609375" />
+          <ConnectorPoint PointX="2.5" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="7.4228011067708319" />
+          <ConnectorPoint PointX="2.7708333333333335" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="4.947916666666667" PointY="7.4228011067708319" />
+          <ConnectorPoint PointX="5.114583333333333" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="5.625" PointY="7.4228011067708328" />
+          <ConnectorPoint PointX="5.625" PointY="8.6340950520833317" />
+          <ConnectorPoint PointX="9.5" PointY="8.6340950520833317" />
+          <ConnectorPoint PointX="9.5" PointY="6.6176485533854237" />
+          <ConnectorPoint PointX="10" PointY="6.6176485533854237" />
+        </AssociationConnector>
       </Diagram>
     </Diagrams>
   </Designer>
