@@ -4,7 +4,7 @@
 <h5>Pages</h5>
 <ul id="" data-bind="foreach: contentList">
     <li>
-   <a href="#" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }" > <span data-bind="text: pageName"></span></a>
+   <a href="#" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }" > <span data-bind="text: ContentName"></span></a>
     </li>
 </ul>
 </div>
@@ -18,15 +18,17 @@
         </small>
         <br /></p>
         <ul id="contentForm1">
-        <li>Select from existing Content Templates: <select class="select-input" 
+       <!--  <li>
+        Select from existing Content Templates: <select class="select-input" 
               data-bind="options:contentList, selectedOptions:selectedItem, value: 'pkMapID', optionsText: 'pageName', optionsCaption:'--select--'"></select>
            &nbsp;<input type="button" value='Use this Content' data-bind="click: getContentTemplate, enable: contentList().length > 0" />
-           &nbsp;<input type="button" value='Start Over' data-bind="click: startOver" />
+           &nbsp;
+           
         </li>
-        <li>or</li>
-        <li>
+        <li>or</li>-->
+        <li> 
             Enter a name for this Page<br />
-            <small>the page name is also the url path for this page  ( /   ,  ContactUs , AboutUs )</small>
+            <small>the page name is also the url path for this page  ( home   ,  contact , about )</small>
             <br />
             <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: ContentName" /></li>
             <li>
@@ -58,12 +60,13 @@
             Enter the html for your page.<br />
             <small>This html will be inserted into the chosen wrapper at the location specified by {content_template}</small>  
             <br />
-            <textarea rows="20" class="input-block-level" id="Html_1_90" name="Html_1_90" data-bind="text: html" ></textarea>
+            <textarea rows="40" cols="80" class="input-block-level" id="Html_1_90" name="Html_1_90" data-bind="text: html" ></textarea>
             </li>
             
             <li>
-                <input type="button" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
-                &nbsp;<input type="button" class="btn" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
+                <input type="button" class="btn-primary" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
+                &nbsp; <input type="button" value='Start Over' class="btn" data-bind="click: startOver" />
+                <input type="button" class="btn-small float-right" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
                 <input type="hidden" id="contentId" name="contentId" data-bind="value: fkContentID" />
           </li>
          </ul>

@@ -26,6 +26,7 @@ define(["Boiler"], function (Boiler) {
         self.isActive = ko.observable(false);
 
         self.editor = null;
+        self.dostartover = false;
 
         self.backToHome = function () {
             Boiler.UrlController.goTo("/");
@@ -37,6 +38,10 @@ define(["Boiler"], function (Boiler) {
             self.fkContentID(-1);
             self.ContentName("");
             self.html("");
+            var editor = $("#Html_1_90").data("kendoEditor");
+            if (editor)
+                editor.value(self.html());
+
             self.contentSubmit(false);
 
             //for the content map
@@ -92,9 +97,10 @@ define(["Boiler"], function (Boiler) {
                                 else {
                                     self.wrapperList(data);
 
-                                    if (contentToEdit) {
+                                    if (contentToEdit && !self.dostartover) {
                                         self.getContentByFriendlUrl(contentToEdit);
                                     }
+                                    self.dostartover = false;
                                 }
                             }
                         });
@@ -108,6 +114,7 @@ define(["Boiler"], function (Boiler) {
         };
 
         self.startOver = function () {
+            self.dostartover = true;
             self.initialize();
 
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Start Over']);
@@ -280,7 +287,7 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Error: ' + self.errorMessage()]);
                         return;
                     }
-
+                    self.dostartover = true;
                     self.startOver();
                     self.errorMessage(data);
 
@@ -299,7 +306,7 @@ define(["Boiler"], function (Boiler) {
                 return;
 
             self.editor = $("#Html_1_90").kendoEditor({
-            tools: [
+                tools: [
                 "bold",
                 "italic",
                 "underline",
@@ -324,64 +331,64 @@ define(["Boiler"], function (Boiler) {
                 "superscript",
                 "viewHtml"
             ]
-        });
-//                tools: [
-//                {
-//                    name: "fontName",
-//                    items: [].concat(kendo.ui.Editor.prototype.options.fontName[8], [{ text: "Garamond", value: "Garamond, serif"}])
-//                },
-//                {
-//                    name: "fontSize",
-//                    items: [].concat(kendo.ui.Editor.prototype.options.fontSize[0], [{ text: "16px", value: "16px"}])
-//                },
-//                {
-//                    name: "formatBlock",
-//                    items: [].concat(kendo.ui.Editor.prototype.options.formatBlock[0], [{ text: "Fieldset", value: "fieldset"}])
-//                },
-//                {
-//                    name: "customTemplate",
-//                    template: $("#backgroundColor-template").html()
-//                },
-//                {
-//                    name: "viewHtml",
-//                    tooltip: "View HTML",
-//                    exec: function (e) {
-//                        var editor = $(this).data("kendoEditor");
+            });
+            //                tools: [
+            //                {
+            //                    name: "fontName",
+            //                    items: [].concat(kendo.ui.Editor.prototype.options.fontName[8], [{ text: "Garamond", value: "Garamond, serif"}])
+            //                },
+            //                {
+            //                    name: "fontSize",
+            //                    items: [].concat(kendo.ui.Editor.prototype.options.fontSize[0], [{ text: "16px", value: "16px"}])
+            //                },
+            //                {
+            //                    name: "formatBlock",
+            //                    items: [].concat(kendo.ui.Editor.prototype.options.formatBlock[0], [{ text: "Fieldset", value: "fieldset"}])
+            //                },
+            //                {
+            //                    name: "customTemplate",
+            //                    template: $("#backgroundColor-template").html()
+            //                },
+            //                {
+            //                    name: "viewHtml",
+            //                    tooltip: "View HTML",
+            //                    exec: function (e) {
+            //                        var editor = $(this).data("kendoEditor");
 
-//                        var dialog = $($("#viewHtml-template").html())
-//                            .find("textarea").val(editor.value()).end()
-//                            .find(".viewHtml-update")
-//                                .click(function () {
-//                                    editor.value(dialog.element.find("textarea").val());
-//                                    dialog.close();
-//                                })
-//                            .end()
-//                            .find(".viewHtml-cancel")
-//                                .click(function () {
-//                                    dialog.close();
-//                                })
-//                            .end()
-//                            .kendoWindow({
-//                                modal: true,
-//                                title: "View HTML",
-//                                deactivate: function () {
-//                                    dialog.destroy();
-//                                }
-//                            }).data("kendoWindow");
+            //                        var dialog = $($("#viewHtml-template").html())
+            //                            .find("textarea").val(editor.value()).end()
+            //                            .find(".viewHtml-update")
+            //                                .click(function () {
+            //                                    editor.value(dialog.element.find("textarea").val());
+            //                                    dialog.close();
+            //                                })
+            //                            .end()
+            //                            .find(".viewHtml-cancel")
+            //                                .click(function () {
+            //                                    dialog.close();
+            //                                })
+            //                            .end()
+            //                            .kendoWindow({
+            //                                modal: true,
+            //                                title: "View HTML",
+            //                                deactivate: function () {
+            //                                    dialog.destroy();
+            //                                }
+            //                            }).data("kendoWindow");
 
-//                        dialog.center().open();
-//                    }
-//                },
-//                {
-//                    name: "custom",
-//                    tooltip: "Insert a horizontal rule",
-//                    exec: function (e) {
-//                        var editor = $(this).data("kendoEditor");
-//                        editor.exec("inserthtml", { value: "<hr />" });
-//                    }
-//                }
-//            ]
-//            });
+            //                        dialog.center().open();
+            //                    }
+            //                },
+            //                {
+            //                    name: "custom",
+            //                    tooltip: "Insert a horizontal rule",
+            //                    exec: function (e) {
+            //                        var editor = $(this).data("kendoEditor");
+            //                        editor.exec("inserthtml", { value: "<hr />" });
+            //                    }
+            //                }
+            //            ]
+            //            });
 
         };
     };

@@ -99,26 +99,30 @@ namespace PrairieCMS.Core
             return cm;
         }
 
-        public static List< ContentModel> GetExistingContent()
+        public static FormDataItems GetExistingContent()
         {
+            FormDataItems fdi = new FormDataItems();
             cmsEntities cr = new cmsEntities();
-            var obj = cr.cms_Page_Map.Where(r => !string.IsNullOrEmpty(r.pageName) ).ToList();
-            List<ContentModel> cm = new List<ContentModel>();
-            for (int ii = 0; ii < obj.Count(); ii++)
-            {
-                ContentModel one = new ContentModel();
-                one.ContentId = obj[ii].fkContentID;
-               //// one.ContentName = obj[ii].Content_Template.contentName;
-                one.pageName = obj[ii].pageName;
-                one.fkEditorRoleID = obj[ii].fkEditorRoleID;
-                one.tags = obj[ii].tags;
-                one.pageTitle = obj[ii].pageTitle;
-                one.fkMasterThemeID = obj[ii].fkMasterThemeID;
-                one.pkMapID = obj[ii].pkMapID;
-                cm.Add(one);
-            }
+            List<ContentSelectionItems> contentList = (from con in cr.cms_Page_Map
+                                                       where !string.IsNullOrEmpty(con.pageName)
+                                                       select new ContentSelectionItems()
+                                                       {
+                                                           ContentId = con.pkMapID,
+                                                           ContentName = con.pageName
+                                                       }).ToList();
+            fdi.contentList = contentList;
+
+            List<FormSelectionItems> contentPieces = (from con in cr.cmsContent_Type
+                                                       where con.fkLevelMappingId > 1
+                                                      select new FormSelectionItems()
+                                                       {
+                                                           text = con.contentName,
+                                                           value = con.templateHtml
+                                                       }).ToList();
+            fdi.contentPieces = contentPieces;
+
             cr = null;
-            return cm;
+            return fdi;
         }
 
         public static cmsPageMap GetMcMById(int mcmId )
