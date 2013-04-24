@@ -1,22 +1,25 @@
-define(["Boiler"], function (Boiler) {
+define(["Boiler", './forms/fd_viewmodel', 'text!./forms/fd_view.html', "./modules", '../settings'],
+function (Boiler, ItemsModel, template, childModule, settings) {
 
     var ViewModel = function (moduleContext, contentToEdit) {
 
         var self = this;
+        self.childContext = null; //for baby form items editor
+
         self.fkContentID = ko.observable(-1);
         self.fkLevelMappingId = ko.observable(1); //page level is default
         self.ContentName = ko.observable("");
         self.html = ko.observable("");
         self.contentSubmit = ko.observable(false);
         self.buttontext = ko.observable('Create self Content');
-        self.contentList = ko.observableArray([]);
         self.selectedItem = ko.observable();
         self.wrapperList = ko.observableArray([]);
         self.rolesList = ko.observableArray([]);
-        self.selectedWrapper = ko.observable();
-        self.selectedRole = ko.observable();
-        self.fkMasterThemeID = ko.observable();
+        self.selectedRole = ko.observable(1);
+        self.fkMasterThemeID = ko.observable(1);
         self.pageTitle = ko.observable("");
+        self.contentList = ko.observableArray([]);
+        self.contentPieces = ko.observableArray([{ text: "loading", value: ""}]); //user insertable content 
 
         self.tags = ko.observable("");
         self.deleteVisible = ko.observable(false);
@@ -38,16 +41,13 @@ define(["Boiler"], function (Boiler) {
             self.fkContentID(-1);
             self.ContentName("");
             self.html("");
-            var editor = $("#Html_1_90").data("kendoEditor");
-            if (editor)
-                editor.value(self.html());
 
             self.contentSubmit(false);
 
             //for the content map
-            self.fkMasterThemeID(-1);
+            self.fkMasterThemeID(1);
             self.pageTitle("");
-            self.selectedRole("1");
+            self.selectedRole(1);
             self.fkLevelMappingId(1);
             self.tags("");
             self.pkMapID(-1);
@@ -55,9 +55,10 @@ define(["Boiler"], function (Boiler) {
             self.pageName("");
             self.isActive(false);
 
-            self.setupRoles();
+            self.childContext = new Boiler.Context();
+            self.childContext.addSettings(settings);
 
-            self.SetupKendoEditor();
+            self.setupRoles();
 
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", '']);
 
@@ -74,12 +75,12 @@ define(["Boiler"], function (Boiler) {
                         moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content List Error: ' + data.errorMessage]);
                     }
                     else {
-                        $("#adminTabs li").removeClass("active");
                         $('#adminTabs li').filter(function () {
-                            return $(this).children().html() == 'Content';
+                            return $(this).children().text() == 'Content';
                         }).addClass("active");
 
-                        self.contentList(data);
+                        self.contentList(data.contentList);
+                        self.contentPieces = data.contentPieces;
 
                         var url = moduleContext.getSettings().urls.list_of_wrappers;
 
@@ -177,13 +178,9 @@ define(["Boiler"], function (Boiler) {
             self.fkLevelMappingId(data.fkLevelMappingId);
             self.html(data.ContentHtml);
 
-            self.SetupKendoEditor();
-
-            var editor = $("#Html_1_90").data("kendoEditor");
-            editor.value(data.ContentHtml);
+            //self.SetupKendoEditor();
 
             self.fkMasterThemeID(data.fkMasterThemeID);
-            self.selectedWrapper(data.fkMasterThemeID);
             self.pageTitle(data.pageTitle);
             self.selectedRole(data.fkEditorRoleID);
             self.tags(data.tags);
@@ -207,8 +204,7 @@ define(["Boiler"], function (Boiler) {
 
         self.saveContent = function () {
             self.contentSubmit(false);
-            var editor = $("#Html_1_90").data("kendoEditor");
-            self.html(editor.value());
+
             if (self.html() === '' || self.ContentName() === '') {
                 moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Please fill in content items before sending it out']);
                 self.contentSubmit(true);
@@ -224,7 +220,7 @@ define(["Boiler"], function (Boiler) {
                     ContentHtml: self.html(),
                     ContentId: self.fkContentID(),
                     fkEditorRoleID: self.selectedRole(),
-                    fkMasterThemeID: self.selectedWrapper(),
+                    fkMasterThemeID: self.fkMasterThemeID(),
                     isActive: true,
                     pkBcId: self.pkBcId(),
                     pkMapID: self.pkMapID(),
@@ -238,7 +234,7 @@ define(["Boiler"], function (Boiler) {
                     }],
                     pagemap: {
                         pageName: self.ContentName(),
-                        MasterID: self.selectedWrapper(),
+                        MasterID: self.fkMasterThemeID(),
                         fkEditorRoleID: self.selectedRole(),
                         tags: self.tags(),
                         pageTitle: self.pageTitle()
@@ -298,99 +294,27 @@ define(["Boiler"], function (Boiler) {
 
         this.getPageForEdit = function (pageInfo) {
 
-            Boiler.UrlController.goTo("body/" + pageInfo.pageName);
+            Boiler.UrlController.goTo("body/" + pageInfo.ContentName);
         }
 
-        self.SetupKendoEditor = function () {
-            if (self.editor)
-                return;
+        // handle event to allow showing a form that will get inputs.
 
-            self.editor = $("#Html_1_90").kendoEditor({
-                tools: [
-                "bold",
-                "italic",
-                "underline",
-                "strikethrough",
-                "fontName",
-                "fontSize",
-                "foreColor",
-                "backColor",
-                "justifyLeft",
-                "justifyCenter",
-                "justifyRight",
-                "justifyFull",
-                "insertUnorderedList",
-                "insertOrderedList",
-                "indent",
-                "outdent",
-                "formatBlock",
-                "createLink",
-                "unlink",
-                "insertImage",
-                "subscript",
-                "superscript",
-                "viewHtml"
-            ]
-            });
-            //                tools: [
-            //                {
-            //                    name: "fontName",
-            //                    items: [].concat(kendo.ui.Editor.prototype.options.fontName[8], [{ text: "Garamond", value: "Garamond, serif"}])
-            //                },
-            //                {
-            //                    name: "fontSize",
-            //                    items: [].concat(kendo.ui.Editor.prototype.options.fontSize[0], [{ text: "16px", value: "16px"}])
-            //                },
-            //                {
-            //                    name: "formatBlock",
-            //                    items: [].concat(kendo.ui.Editor.prototype.options.formatBlock[0], [{ text: "Fieldset", value: "fieldset"}])
-            //                },
-            //                {
-            //                    name: "customTemplate",
-            //                    template: $("#backgroundColor-template").html()
-            //                },
-            //                {
-            //                    name: "viewHtml",
-            //                    tooltip: "View HTML",
-            //                    exec: function (e) {
-            //                        var editor = $(this).data("kendoEditor");
+        self.gatherFormInputs = function (e) {
+            //
+            // alert(e.sender.value());
 
-            //                        var dialog = $($("#viewHtml-template").html())
-            //                            .find("textarea").val(editor.value()).end()
-            //                            .find(".viewHtml-update")
-            //                                .click(function () {
-            //                                    editor.value(dialog.element.find("textarea").val());
-            //                                    dialog.close();
-            //                                })
-            //                            .end()
-            //                            .find(".viewHtml-cancel")
-            //                                .click(function () {
-            //                                    dialog.close();
-            //                                })
-            //                            .end()
-            //                            .kendoWindow({
-            //                                modal: true,
-            //                                title: "View HTML",
-            //                                deactivate: function () {
-            //                                    dialog.destroy();
-            //                                }
-            //                            }).data("kendoWindow");
+            var panel = new Boiler.ViewTemplate($('#forminputseditor'), template);
+            panel.getDomElement().innerHtml = ''; //clear out old stuff
 
-            //                        dialog.center().open();
-            //                    }
-            //                },
-            //                {
-            //                    name: "custom",
-            //                    tooltip: "Insert a horizontal rule",
-            //                    exec: function (e) {
-            //                        var editor = $(this).data("kendoEditor");
-            //                        editor.exec("inserthtml", { value: "<hr />" });
-            //                    }
-            //                }
-            //            ]
-            //            });
+            var itmvm = new ItemsModel(self.childContext);
+            ko.applyBindings(itmvm, panel.getDomElement());
+            itmvm.initialize('formitem');
+            if (e.sender.value() != null)
+                itmvm.setItem(e.sender.value());
 
-        };
+            panel.show();
+            $("#forminputseditor").modal();
+        }
     };
 
     return ViewModel;

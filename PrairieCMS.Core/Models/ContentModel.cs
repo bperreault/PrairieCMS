@@ -15,6 +15,8 @@ namespace PrairieCMS.Core.Models
     public class FormSelectionItems { //text: "label 2", value:
         public string text { get; set; }
         public string value { get; set; }
+        public string html { get; set; }
+        public string inputForm { get; set; }
     }
     public class FormDataItems {
         public List<ContentSelectionItems> contentList { set; get; }

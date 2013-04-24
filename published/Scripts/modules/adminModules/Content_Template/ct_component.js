@@ -7,7 +7,10 @@ function (Boiler, template, ViewModel) {
 		this.activate = function(parent, params) {
 			if(!panel) {
                 vm = new ViewModel(moduleContext, params.id);
-				panel = new Boiler.ViewTemplate(parent, template);
+                panel = new Boiler.ViewTemplate(parent, template);
+
+               // vm.SetupKendoEditor();
+
                 ko.applyBindings(vm, panel.getDomElement());
             }
             vm.initialize(params.name);

@@ -1,4 +1,4 @@
-define(['Boiler', 'text!./clm_view.html', "./clm_viewmodel"], 
+define(['Boiler', 'text!./fd_view.html', "./fd_viewmodel"], 
 function(Boiler, template, ViewModel) {
 
 	var Component = function(moduleContext) {

@@ -1,77 +1,89 @@
 <div class="row">
-<div class="span12">
-<div class="span2 pagelist">
-<h5>Pages</h5>
-<ul id="" data-bind="foreach: contentList">
-    <li>
-   <a href="#" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }" > <span data-bind="text: ContentName"></span></a>
-    </li>
-</ul>
-</div>
-<div class="span9">
-
-    <div id="body" class="tab-pane active"  >
-        <h6>Select an existing page or create a new one.</h6>  
-        <p>The content template is the body of your web page.<br />
-        <small>The wrapper for your page commonly contains header logo and footer details, 
-        it will default to 'Mobile Web Wrapper' but you can select a different one on the WRAPPER tab.
-        </small>
-        <br /></p>
-        <ul id="contentForm1">
-       <!--  <li>
-        Select from existing Content Templates: <select class="select-input" 
-              data-bind="options:contentList, selectedOptions:selectedItem, value: 'pkMapID', optionsText: 'pageName', optionsCaption:'--select--'"></select>
-           &nbsp;<input type="button" value='Use this Content' data-bind="click: getContentTemplate, enable: contentList().length > 0" />
-           &nbsp;
-           
-        </li>
-        <li>or</li>-->
-        <li> 
-            Enter a name for this Page<br />
-            <small>the page name is also the url path for this page  ( home   ,  contact , about )</small>
-            <br />
-            <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: ContentName" /></li>
-            <li>
-            Select the Wrapper for your page.<br /> <select class="select-input"
-              data-bind="options: wrapperList, value: selectedWrapper,optionsValue: 'MasterID', optionsText: 'ThemeName',optionsCaption: '--select--'"
-              ></select>                                                   
-            </li>
-            <li>
-            Enter a title for this Page<br />
-            <small>the title is displayed in the browser top bar and should be descriptive of your page's functionality.  (do you also want to add your web site titel following a dash?)</small>
-            <br />
-            <input type="text" name="Page_Title" id="Page_Title" data-bind="value: pageTitle" />
-            </li>
-             <li>
-            Select the role of people who can edit this page<br />
-            <small>super admin's always have access</small>
-            <br />
-            <select class="select-input" name="fkEditorRoleID" id="fkEditorRoleID" 
-            data-bind="options: rolesList, value: selectedRole,optionsValue: 'RoleId', optionsText: 'RoleName',optionsCaption: '--select--'"
-                 />
-            </li>
-            <li>
-            Enter tags for this page<br />
-            <small>tags should be comma separated and are used to describe functionality to search engines</small>
-            <br />
-            <input type="text" name="tags" id="tags" data-bind="value: tags" />
-            </li>
-            <li>        
-            Enter the html for your page.<br />
-            <small>This html will be inserted into the chosen wrapper at the location specified by {content_template}</small>  
-            <br />
-            <textarea rows="40" cols="80" class="input-block-level" id="Html_1_90" name="Html_1_90" data-bind="text: html" ></textarea>
-            </li>
-            
-            <li>
-                <input type="button" class="btn-primary" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
-                &nbsp; <input type="button" value='Start Over' class="btn" data-bind="click: startOver" />
-                <input type="button" class="btn-small float-right" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
-                <input type="hidden" id="contentId" name="contentId" data-bind="value: fkContentID" />
-          </li>
-         </ul>
-       
-    </div>   
+    <div class="span12">
+        <div class="span2 pagelist">
+            <h5>
+                Pages</h5>
+            <ul id="" data-bind="foreach: contentList">
+                <li>
+                    <a href="#" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }">
+                        <span data-bind="text: ContentName"></span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="span9">
+            <div id="body" class="tab-pane active">
+                <div class="row">
+                    <h6>
+                        Select an existing page or create a new one.</h6>
+                    <p>
+                        The content template is the body of your web page.<br />
+                        <small>The wrapper for your page commonly contains header logo and footer details, it
+                            will default to 'Mobile Web Wrapper' but you can select a different one on the WRAPPER
+                            tab. </small>
+                        <br />
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="span4">
+                        <ul>
+                            <li>
+                                Enter a name for this Page<br />
+                                <small>the page name is also the url path for this page ( home , contact , about )</small>
+                                <br />
+                                <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: ContentName" />
+                            </li>
+                            <li>
+                                Select the Wrapper for your page.<br />
+                                <select class="select-input" data-bind="options: wrapperList, value: fkMasterThemeID(),optionsValue: 'MasterID', optionsText: 'ThemeName',optionsCaption: '--select--'">
+                                </select>
+                            </li>
+                            <li>
+                                Enter a title for this Page<br />
+                                <small>the title is displayed in the browser top bar and should be descriptive of your
+                                    page's functionality. (do you also want to add your web site titel following a dash?)</small>
+                                <br />
+                                <input type="text" name="Page_Title" id="Page_Title" data-bind="value: pageTitle" />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="span4">
+                        <ul>
+                            <li>
+                                Select the role of people who can edit this page<br />
+                                <small>super admin's always have access</small>
+                                <br />
+                                <select class="select-input" name="fkEditorRoleID" id="fkEditorRoleID" data-bind="options: rolesList, value: selectedRole(),optionsValue: 'RoleId', optionsText: 'RoleName',optionsCaption: '--select--'" />
+                            </li>
+                            <li>
+                                Enter tags for this page<br />
+                                <small>tags should be comma separated and are used to describe functionality to search
+                                    engines</small>
+                                <br />
+                                <input type="text" name="tags" id="tags" data-bind="value: tags" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span9">
+                        Enter the html for your page.<br />
+                        <small>This html will be inserted into the chosen wrapper at the location specified
+                            by {content_template}</small>
+                        <br />
+                        <textarea rows="40" cols="80" class="input-block-level" id="Html_1_90" name="Html_1_90"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span9">
+                        <input type="button" class="btn-primary" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
+                        &nbsp;
+                        <input type="button" value='Start Over' class="btn" data-bind="click: startOver" />
+                        <input type="button" class="btn-small float-right" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
+                        <input type="hidden" id="contentId" name="contentId" data-bind="value: fkContentID" />
+                    </div>
+                </div>
+                <div id="forminputseditor"></div>
+            </div>
+        </div>
     </div>
-</div>
 </div>

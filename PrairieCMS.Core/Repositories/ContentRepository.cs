@@ -117,7 +117,9 @@ namespace PrairieCMS.Core
                                                       select new FormSelectionItems()
                                                        {
                                                            text = con.contentName,
-                                                           value = con.templateHtml
+                                                           value = con.contentName,
+                                                           html = con.templateHtml,
+                                                           inputForm = con.inputForm
                                                        }).ToList();
             fdi.contentPieces = contentPieces;
 

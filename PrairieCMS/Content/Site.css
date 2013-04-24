@@ -5,11 +5,11 @@
 }
 
 body {
-    background-color: #fff;
+    background-color: #F0F7FC;
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-family: 'Noto Sans', "Segoe UI", Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
 }
@@ -26,8 +26,9 @@ a {
     a:link, a:visited,
     a:active, a:hover {
         color: #333;
+        
     }
-
+    
     a:hover {
         background-color: #c7d1d6;
     }
@@ -57,8 +58,10 @@ mark {
     height: 0;
     visibility: hidden;
 }
-
-h1, h2, h3,
+h3, h1 {
+	color:#C5E4F9;
+}
+ h2, 
 h4, h5, h6 {
     color: #000;
     margin-bottom: 0;
@@ -101,7 +104,6 @@ h5, h6 {
 }
 
 #bodyofwrapper {
-    background-color: #ffffff;
     clear: both;
     padding-bottom: 35px;
     padding-left:0;
@@ -212,15 +214,17 @@ ul#menu {
 ----------------------------------------------------------*/
 /* featured */
 .featured {
-    background-color: #fff;
+   
 }
 
     .featured .content-wrapper {
         color: #3e5667;
     }
 
-        .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #fff;
+        .featured hgroup.title h1 {
+            line-height:1em;
+        } .featured hgroup.title h3 {
+            line-height:1em;
         }
 
         .featured p {
@@ -760,16 +764,32 @@ tr.pager td {
 .lessProminent a {color:#333333; }
 .moreProminent a {color:#000000; }
 
-.nav-tabs a, .grouped {background-color:#deefff;
+.nav {
+    background-color: #F0F7FC;
+}
+.nav-tabs a, .grouped {background-color:#F0F7FC;
                        text-decoration:none;
-                       }  
-.nav-tabs .active a, .grouped {background-color:#deefff;}  
+                       } 
+.nav-tabs > li {
+    margin-bottom: 1px;
+} 
+.nav-tabs > li.active{    border-bottom: 0 none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    position: relative;
+    top: 3px;
+    z-index: 1000;}
+.nav-tabs .active a {background-color:#fff;}  
+                   
+.grouped {background-color:#F0F7FC;}  
 .grouped{border:solid 1px #E8C9A9;}  
 small {line-height:.9em;}
 .breadcrumb li {padding-left:5px;}
+
+.breadcrumb {background-color:#F0F7FC;}
 .settingsDisplay, .imageuploader, #menuItemsDisplay {float:right;
                   width:200px;
-                  background-color: #deefff;}
+                  background-color: #F0F7FC;}
 .imageloader{text-align:center; margin:auto;padding: 10px;
     width: 100px;}                  
 .notBusy{
@@ -832,14 +852,16 @@ azimuth:     -webkit-border-radius: 8px;
     border-radius: 8px;
  
 }
-.gradback{   background: #deefff; /* Old browsers */
-background: -moz-linear-gradient(top,  #deefff 0%, #98bede 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#deefff), color-stop(100%,#98bede)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #deefff 0%,#98bede 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #deefff 0%,#98bede 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #deefff 0%,#98bede 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #deefff 0%,#98bede 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+#body div.row {margin:15px;}
+#body div.row p , #body div.row small{display:none;}
+.gradback{   background: #F0F7FC; /* Old browsers */
+background: -moz-linear-gradient(top,  #F0F7FC 0%, #FFFFFF 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F0F7FC), color-stop(100%,#FFFFFF)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #F0F7FC 0%,#FFFFFF 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #F0F7FC 0%,#FFFFFF 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #F0F7FC 0%,#FFFFFF 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #F0F7FC 0%,#FFFFFF 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F0F7FC', endColorstr='#FFFFFF',GradientType=0 ); /* IE6-9 */
 }
 #itemsPanel, #listForm2
 {
@@ -856,4 +878,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', end
 .btn-primary{background-color: rgb(0,109,204) !important; }
 .tabbable {
     min-height: 500px;
+     background-color: #FFFFFF;
 }

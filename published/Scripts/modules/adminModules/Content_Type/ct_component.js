@@ -9,8 +9,8 @@ function (Boiler, template, ViewModel) {
                 panel = new Boiler.ViewTemplate(parent, template);
                 vm = new ViewModel(moduleContext);
                 ko.applyBindings(vm, panel.getDomElement());
-            }
             vm.initialize(params.name);
+            }
             panel.show();
         };
 

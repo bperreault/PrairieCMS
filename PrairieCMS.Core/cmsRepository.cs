@@ -62,17 +62,20 @@ namespace PrairieCMS.Core
         
         public static string GetStarterHtml()
         {
-
             return "<html><title></title><body><a href='cms'>Admin</a></body></html>";
         }
-
-
+       
+        //!!!!was!!!!!!getting duplicates in [cms_Page_Map] which means below ctm was first or default - 
+        //mt is needing last or default. that's why I pull the list then get the last one.
         public static string ObtainHtmlFromMap(cms_Page_Map mp, cmsEntities cr)
         {
             try
             {
                 List<cmsContent_Type_Mapping> ctm = cr.cmsContent_Type_Mapping.Where(b => b.fkParent == mp.pkMapID).ToList();
-                Master_Template mt = cr.Master_Template.Where(c => c.pkMasterID == mp.fkMasterThemeID).FirstOrDefault();
+               List<Master_Template> allmatches = cr.Master_Template.Where(c => c.pkMasterID == mp.fkMasterThemeID).ToList();
+                 if (allmatches.Count == 0)
+                     return null;
+                Master_Template mt = allmatches[ allmatches.Count-1];
                 if (mt == null)
                     return null;
                 StringBuilder sb = new StringBuilder();
