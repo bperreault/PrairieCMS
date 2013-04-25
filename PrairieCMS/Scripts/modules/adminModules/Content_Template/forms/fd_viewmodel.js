@@ -29,6 +29,8 @@ define(["Boiler"], function (Boiler) {
         };
 
         self.setItem = function (itemobject) {
+            if (!itemobject)
+                return;
             self.itemObject(itemobject);
             self.templateText(itemobject.inputForm);
             self.itemObjectHtml(itemobject.html);

@@ -21,6 +21,7 @@ function (Boiler, ItemsModel, template, childModule, settings) {
         self.pageTitle = ko.observable("");
         self.contentList = ko.observableArray([]);
         self.contentPieces = ko.observableArray([{ text: "loading", value: ""}]); //user insertable content 
+        self.selectedContent = ko.observable();
 
         self.tags = ko.observable("");
         self.deleteVisible = ko.observable(false);
@@ -81,7 +82,10 @@ function (Boiler, ItemsModel, template, childModule, settings) {
                         }).addClass("active");
 
                         self.contentList(data.contentList);
+
                         self.contentPieces(data.contentPieces);
+                        self.fillFormBuilderItems(); //knockout bindings aren't working for me in the template
+
                         var url = moduleContext.getSettings().urls.list_of_wrappers;
 
                         $.ajax({
@@ -329,34 +333,40 @@ function (Boiler, ItemsModel, template, childModule, settings) {
             var dialog = $($('#forminputseditor').html())
                     .find('.preview').html(contentObject.html).end()
                     .find('#insertItemButton')
-                        .click(function () {
-                            //#textvalue
-                            // #controlvalue
-                            var inserted = dialog.element.find('.preview')[0].innerHTML;//.val();
-
+                        .click(function (e) {
+                            e.preventDefault();
+                            var inserted = dialog.element.find('.preview')[0].innerHTML; //.val();
                             var editor = self.editor;
-                            //var range = editor.getRange();
-                            //var startRestorePoint = new RestorePoint(range);
                             editor.clipboard.paste(inserted || "");
-                           // editor.undoRedoStack.push(new GenericCommand(startRestorePoint, new RestorePoint(editor.getRange())));
-                           // editor.focus();
 
+                            dialog.close();
+                            $('#forminputseditor').html('');
+                            editor.focus();
 
-//                            dialog.close();
                         })
                     .end()
-                    
+
                     .kendoWindow({
-                        actions: ["Minimize", "Maximize", "Close"],
-                         modal: true,
+                        actions: ["Close"],
+                        modal: true,
                         title: 'Format',
                         deactivate: function () {
-                           // dialog.destroy();
+                            dialog.destroy();
                         }
                     }).data('kendoWindow');
 
             dialog.center().open();
 
+        }
+
+        self.fillFormBuilderItems = function () {
+            $('#formBuilder').children().remove().end().append('<option selected value="-1">--select--</option>')
+            $.each(self.contentPieces(), function (i, item) {
+                $('#formBuilder').append($('<option>', {
+                    value: item.value,
+                    text: item.text
+                }));
+            });
         }
 
         self.SetupKendoEditor = function () {
@@ -368,23 +378,37 @@ function (Boiler, ItemsModel, template, childModule, settings) {
                  "fontName", "fontSize", "foreColor", "backColor", "justifyLeft",
                  "justifyCenter", "justifyRight", "justifyFull", "insertUnorderedList",
                  "insertOrderedList", "indent", "outdent", "formatBlock", "createLink",
-                 "unlink", "insertImage", "subscript", "superscript", "insertHtml",
+                 "unlink", "insertImage", "subscript", "superscript",
+                {
+                    name: "formBuilder",
+                    template: $("#formBuilder-template").html()
+                },
                  "viewHtml"
                  ],
-                    insertHtml: self.contentPieces(),
                     value: self.html()
 
                 });
 
-                self.editor = $("#Html_1_90").data("kendoEditor");
-                // bind to the paste event
-                self.editor.bind("execute", function (e) {
-                    if (e.name == 'inserthtml') {
-                        e.preventDefault = true;
-                        // handle event
-                        self.gatherFormInputs(e.command.options.value)
+                self.fillFormBuilderItems(); //knockout bindings aren't working for me in the template
+
+                $("#formBuilder").kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    change: function (e) {
+                        // $("#editor").data("kendoEditor").body.style.backgroundColor = e.sender.value();
+                        self.gatherFormInputs(e.sender.value())
                     }
                 });
+
+                self.editor = $("#Html_1_90").data("kendoEditor");
+                //                // bind to the paste event
+                //                self.editor.bind("execute", function (e) {
+                //                    if (e.name == 'inserthtml') {
+                //                        e.preventDefault = true;
+                //                        // handle event
+                //                        self.gatherFormInputs(e.command.options.value)
+                //                    }
+                //                });
             }
             else {
                 self.editor.value(self.html());
