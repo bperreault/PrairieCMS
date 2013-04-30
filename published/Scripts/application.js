@@ -32,7 +32,7 @@ define(["Boiler", "./settings", "./modules/modules"], function (Boiler, settings
         });
 
         //note:at this time (2/2/13) ConfigureImageUploaders will not work unless the dom element is in the page on page load.
-        //
+        //need to do this using knockout kendo and in the html. see golf whisperer
         this.ConfigureImageUploaders = function (sender, args) {
             $('#files').kendoUpload({
                 multiple: true,

@@ -128,7 +128,9 @@ namespace PrairieCMS.Core
                 sb.Append("</ul>");
             }
 
-            menu_component = menu_component.Replace("{menu_component}", sb.ToString());
+            //menu_component = "<article class=\"menucomponent\"><ul class=\"dropdown-menu\" role=\"menu\"></ul></article>        "
+          
+            menu_component = menu_component.Replace("[menu_component]", sb.ToString());
             return menu_component;
         }
 

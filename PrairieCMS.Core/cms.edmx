@@ -32,10 +32,6 @@
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
             <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
           </AssociationSet>
-          <AssociationSet Name="FK_cmsContent_Type_Mapping_cms_Page_Map" Association="cmsEntities.Store.FK_cmsContent_Type_Mapping_cms_Page_Map">
-            <End Role="cms_Page_Map" EntitySet="cms_Page_Map" />
-            <End Role="cmsContent_Type_Mapping" EntitySet="cmsContent_Type_Mapping" />
-          </AssociationSet>
           <AssociationSet Name="FK_Content_Type_Level_Mapping" Association="cmsEntities.Store.FK_Content_Type_Level_Mapping">
             <End Role="cmsLevel_Mapping" EntitySet="cmsLevel_Mapping" />
             <End Role="cmsContent_Type" EntitySet="cmsContent_Type" />
@@ -94,6 +90,7 @@
           <Property Name="contentName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="fkLevelMappingId" Type="int" />
           <Property Name="templateHtml" Type="nvarchar" MaxLength="500" />
+          <Property Name="inputForm" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="cmsContent_Type_Mapping">
           <Key>
@@ -255,18 +252,6 @@
             </Principal>
             <Dependent Role="cms_Page_Map">
               <PropertyRef Name="fkEditorRoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_cmsContent_Type_Mapping_cms_Page_Map">
-          <End Role="cms_Page_Map" Type="cmsEntities.Store.cms_Page_Map" Multiplicity="1" />
-          <End Role="cmsContent_Type_Mapping" Type="cmsEntities.Store.cmsContent_Type_Mapping" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cms_Page_Map">
-              <PropertyRef Name="pkMapID" />
-            </Principal>
-            <Dependent Role="cmsContent_Type_Mapping">
-              <PropertyRef Name="fkParent" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -442,6 +427,7 @@
           <NavigationProperty Name="cmsLevel_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Level_Mapping" FromRole="cmsContent_Type" ToRole="cmsLevel_Mapping" />
           <NavigationProperty Name="cmsContent_Type_Mapping" Relationship="PrairieCMS.Core.data.FK_Content_Type_Mapping_Content_Type" FromRole="cmsContent_Type" ToRole="cmsContent_Type_Mapping" />
           <Property Type="String" Name="templateHtml" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="inputForm" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="cmsContent_Type_Mapping">
           <Key>
@@ -741,6 +727,7 @@
           <EntitySetMapping Name="cmsContent_Type">
             <EntityTypeMapping TypeName="PrairieCMS.Core.data.cmsContent_Type">
               <MappingFragment StoreEntitySet="cmsContent_Type">
+                <ScalarProperty Name="inputForm" ColumnName="inputForm" />
                 <ScalarProperty Name="templateHtml" ColumnName="templateHtml" />
                 <ScalarProperty Name="pkContentTypeId" ColumnName="pkContentTypeId" />
                 <ScalarProperty Name="contentName" ColumnName="contentName" />

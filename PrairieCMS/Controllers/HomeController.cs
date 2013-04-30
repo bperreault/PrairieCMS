@@ -21,6 +21,11 @@ namespace PrairieCMS.Controllers
         public ActionResult Index(string id="")
         {
             cmsModel cm = null;
+            if (Request.Form.AllKeys.Length > 0)
+            {
+                EmailRepository.SendFormByEmail( Request.Form, id );
+            }
+
             if (!string.IsNullOrWhiteSpace(id))
             {
                 cm = cmsRepository.PageContent(id);

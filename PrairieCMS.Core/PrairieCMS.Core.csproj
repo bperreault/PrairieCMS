@@ -143,6 +143,7 @@
     <Compile Include="Repositories\ContentRepository.cs" />
     <Compile Include="Repositories\ContentTypeRepository.cs" />
     <Compile Include="Repositories\ContentTypeMappingRepository.cs" />
+    <Compile Include="Repositories\EmailRepository.cs" />
     <Compile Include="Repositories\WrapperRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />

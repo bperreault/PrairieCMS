@@ -23,6 +23,7 @@ namespace PrairieCMS.Core
         public string contentName { get; set; }
         public Nullable<int> fkLevelMappingId { get; set; }
         public string templateHtml { get; set; }
+        public string inputForm { get; set; }
     
         public virtual cmsLevel_Mapping cmsLevel_Mapping { get; set; }
         public virtual ICollection<cmsContent_Type_Mapping> cmsContent_Type_Mapping { get; set; }
