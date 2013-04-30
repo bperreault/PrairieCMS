@@ -1,9 +1,10 @@
-﻿@model PrairieCMS.Core.Models.cmsModel
+﻿
+@model PrairieCMS.Core.Models.cmsModel
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
             <hgroup class="title">
-                <h1>@Model.title</h1>
+                <h1>@Model.title.</h1>
                 <h3>@Model.message</h3>
             </hgroup>            
         </div>
@@ -14,9 +15,8 @@
 @section scripts{
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
-    <script src="/Scripts/libs/kendo/kendo.web.min.js" type="text/javascript" charset="utf-8"></script>   
-    <script src="/Scripts/libs/knockout/knockout-2.1.0.js" type="text/javascript" charset="utf-8"></script> 
-    <script src="/Scripts/libs/underscore/underscore-1.3.3.js" type="text/javascript"  charset="utf-8"></script>
+    <script src="/Scripts/libs/knockout/knockout-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/libs/underscore/underscore-1.3.3.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/signals/signals.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/crossroads/crossroads.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/flot/jquery.flot.min.js" type="text/javascript" charset="utf-8"></script>
@@ -24,41 +24,46 @@
     <script src="/Scripts/libs/hasher/hasher.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/pubsub/pubsub-20120708.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/boilerplate/groundwork.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/Scripts/libs/knockout/knockout-kendo.min.js" type="text/javascript" charset="utf-8"></script>
-   
+    <script src="/Scripts/libs/kendo/kendo.web.min.js"  type="text/javascript" charset="utf-8"></script>      
     <script type="text/javascript" data-main="/Scripts/main" src="/Scripts/libs/require/require.js"></script>
 }
-<div>
-    <div id="globalMessage" class="errormessage">
-    </div>
-    <div id="IsBusy" class="busyIndicator notBusy">
-    </div>
-    <ul class="breadcrumb">
+
+<div class="shadow">
+<div id="globalMessage" class="errormessage">
+</div>
+<div id="IsBusy" class="busyIndicator notBusy">
+</div>
+<ul class="breadcrumb">
+    
+</ul>
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="adminTabs">
+        <li>
+            <a href="#menu">Menus</a></li>
+          <li>
+            <a href="#wrapper">Page Wrapper</a></li> 
+        <li>
+            <a href="#body">Content</a></li>
+        <li>
+            <a href="#contentType">Types of Content</a></li>
+        <li>
+            <a href="#contentTypeMap">Page Setup</a></li>
+        <li>
+            <a href="#siteSetup">Site Setup</a></li>
+        <li>
+            <a href="#assignment">Assign Content to Page</a></li>  
     </ul>
-    <div class="tabbable">
-        <ul class="nav nav-tabs" id="adminTabs">
-            <li>
-                <a href="#menu">Menus</a></li>
-            <li>
-                <a href="#wrapper">Page Wrapper</a></li>
-            <li>
-                <a href="#body">Content</a></li>
-            <li>
-                <a href="#contentType">Types of Content</a></li>
-            <li>
-                <a href="#contentTypeMap">Page Setup</a></li>
-            <li>
-                <a href="#siteSetup">Site Setup</a></li>
-            <li>
-                <a href="#assignment">Assign Content to Page</a></li>
-        </ul>
-        <div class="imageuploader shadow gradback">
-        </div>
-        <div id="page-content" class="tab-content">
-        </div>
+    
+    <div class="imageuploader shadow gradback">	
+    	            
     </div>
-    <div class="content-wrapper">
+
+    <div id="page-content" class="tab-content">
     </div>
-    <div id="forminputseditor">
-    </div>
+
+</div>
+<div class="content-wrapper">
+   
+</div>
+
 </div>

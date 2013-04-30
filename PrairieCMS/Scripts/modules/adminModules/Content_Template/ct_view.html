@@ -1,8 +1,8 @@
- <script type="text/x-kendo-template" id="formBuilder-template">
-        <label for='formBuilder'>Form Builder:</label>
+<script type="text/x-kendo-template" id="formBuilder-template">
+        <label for='formBuilder' class="smaller">Form Builder:</label>
         <select id='formBuilder' ></select>
-    </script>
-    <div class="row">
+</script>
+<div class="row">
     <div class="span12">
         <div class="span2 pagelist">
             <h5>
@@ -23,18 +23,20 @@
                         The content template is the body of your web page.<br />
                         <small>The wrapper for your page commonly contains header logo and footer details, it
                             will default to 'Mobile Web Wrapper' but you can select a different one on the WRAPPER
-                            tab. </small>
-                        <br />
+                            tab.
+                            <br />
+                        </small>
                     </p>
                 </div>
                 <div class="row">
                     <div class="span4">
                         <ul>
                             <li>
-                                Enter a name for this Page<br />
-                                <small>the page name is also the url path for this page ( home , contact , about )</small>
-                                <br />
-                                <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: ContentName" />
+                                Enter a name/url for this Page<br />
+                                <small>the page name is also the url path for this page ( home , contact , about )
+                                    <br />
+                                </small>
+                                <input type="text" name="Content_Name_0_89" id="Content_Name_0_89" data-bind="value: ContentName, valueUpdate: 'afterkeydown'" />
                             </li>
                             <li>
                                 Select the Wrapper for your page.<br />
@@ -44,8 +46,9 @@
                             <li>
                                 Enter a title for this Page<br />
                                 <small>the title is displayed in the browser top bar and should be descriptive of your
-                                    page's functionality. (do you also want to add your web site titel following a dash?)</small>
-                                <br />
+                                    page's functionality. (do you also want to add your web site titel following a dash?)
+                                    <br />
+                                </small>
                                 <input type="text" name="Page_Title" id="Page_Title" data-bind="value: pageTitle" />
                             </li>
                         </ul>
@@ -54,30 +57,23 @@
                         <ul>
                             <li>
                                 Select the role of people who can edit this page<br />
-                                <small>super admin's always have access</small>
-                                <br />
+                                <small>super admin's always have access
+                                    <br />
+                                </small>
                                 <select class="select-input" name="fkEditorRoleID" id="fkEditorRoleID" data-bind="options: rolesList, value: selectedRole(),optionsValue: 'RoleId', optionsText: 'RoleName',optionsCaption: '--select--'" />
                             </li>
                             <li>
                                 Enter tags for this page<br />
                                 <small>tags should be comma separated and are used to describe functionality to search
-                                    engines</small>
-                                <br />
+                                    engines
+                                    <br />
+                                </small>
                                 <input type="text" name="tags" id="tags" data-bind="value: tags" />
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="span9">
-                        Enter the html for your page.<br />
-                        <small>This html will be inserted into the chosen wrapper at the location specified
-                            by {content_template}</small>
-                        <br />
-                        <textarea rows="40" cols="80" class="input-block-level" id="Html_1_90" name="Html_1_90"></textarea>
-                    </div>
-                </div>
-                <div class="row">
+                 <div class="row">
                     <div class="span9">
                         <input type="button" class="btn-primary" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
                         &nbsp;
@@ -86,8 +82,22 @@
                         <input type="hidden" id="contentId" name="contentId" data-bind="value: fkContentID" />
                     </div>
                 </div>
-                <div id="forminputseditor"></div>
+                <div class="row">
+                    <div class="span9">
+                        Enter the html for your page.<br />
+                        <small>This html will be inserted into the chosen wrapper at the location specified
+                            by {content_template}
+                            <br />
+                        </small>
+                        <div id="editordiv">
+                        <textarea rows="40" cols="80" class="input-block-level" id="Html_1_90" name="Html_1_90"></textarea>
+                        </div>
+                    </div>
+                </div>
+               
+                <div id="forminputseditor">
+                </div>
             </div>
         </div>
     </div>
-</div>
+</div> 

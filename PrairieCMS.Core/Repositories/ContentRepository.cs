@@ -68,6 +68,7 @@ namespace PrairieCMS.Core
             one.pageTitle = obj.cms_Page_Map.pageTitle;
             one.tags = obj.cms_Page_Map.tags;
             one.isActive = obj.cms_Page_Map.isActive.HasValue ? (bool)obj.cms_Page_Map.isActive : false;
+            one.cmsPageMapId = obj.cms_Page_Map.pkMapID;
 
             one.fkLevelMappingId = (int)obj.cmsContent_Type.fkLevelMappingId;
             one.pkBcId = obj.pkBcId;
@@ -105,6 +106,7 @@ namespace PrairieCMS.Core
             cmsEntities cr = new cmsEntities();
             List<ContentSelectionItems> contentList = (from con in cr.cms_Page_Map
                                                        where !string.IsNullOrEmpty(con.pageName)
+                                                       where (bool)con.isActive
                                                        select new ContentSelectionItems()
                                                        {
                                                            ContentId = con.pkMapID,
@@ -114,6 +116,7 @@ namespace PrairieCMS.Core
 
             List<FormSelectionItems> contentPieces = (from con in cr.cmsContent_Type
                                                        where con.fkLevelMappingId > 1
+                                                       where con.fkLevelMappingId != 5 //email content type
                                                       select new FormSelectionItems()
                                                        {
                                                            text = con.contentName,
@@ -245,9 +248,9 @@ namespace PrairieCMS.Core
         public static string removeContentItem(int contentid)
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.Content_Template.Where(r => r.pkContentID == contentid).FirstOrDefault();
-
-            cr.Entry(obj).State = System.Data.EntityState.Deleted;
+            var pageman = cr.cms_Page_Map.Where(r => r.fkContentID == contentid);
+            foreach( cms_Page_Map obj in pageman)
+                obj.isActive = false;
             try
             {
                 cr.SaveChanges();

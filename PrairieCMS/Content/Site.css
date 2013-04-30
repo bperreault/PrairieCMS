@@ -59,7 +59,7 @@ mark {
     visibility: hidden;
 }
 h3, h1 {
-	color:#C5E4F9;
+	color:#1A757A; /*3FFFF5;C5E4F9;*/
 }
  h2, 
 h4, h5, h6 {
@@ -880,3 +880,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F0F7FC', end
     min-height: 500px;
      background-color: #FFFFFF;
 }
+
+/*these are styles for the input forms that are shown out of the editor*/
+.formcontrol{ padding:15px; padding-top:0;}
+
+.formcontrol input, .formcontrol textarea {
+    width: 250px;
+}
+
+.formcontrol input[type="checkbox"],
+.formcontrol input[type="submit"],
+.formcontrol input[type="button"],
+.formcontrol button {
+    width: auto;
+}
+#insertItemButton{margin-left:15px;}
+.preview{margin-left:15px;display:block;}
+.pagelist{border:solid 1px #c7d1d6; background-color:#F0F7FC;
+          padding:20px; margin:15px;}
+.smaller{font-size:.9em; font-weight:normal;}          

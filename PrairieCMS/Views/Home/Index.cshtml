@@ -4,3 +4,11 @@
 }
 
     @Html.Raw(Model.html)
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sendAnswers').bind('click', function () {
+            alert('hi');
+            $('form').submit();
+        });
+    });
+</script>

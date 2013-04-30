@@ -880,3 +880,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#F0F7FC', end
     min-height: 500px;
      background-color: #FFFFFF;
 }
+
+/*these are styles for the input forms that are shown out of the editor*/
+.formcontrol{ padding:15px; padding-top:0;}
+
+.formcontrol input, .formcontrol textarea {
+    width: 250px;
+}
+
+.formcontrol input[type="checkbox"],
+.formcontrol input[type="submit"],
+.formcontrol input[type="button"],
+.formcontrol button {
+    width: auto;
+}
+#insertItemButton{margin-left:15px;}
+.preview{margin-left:15px;display:block;}

@@ -25,6 +25,7 @@ namespace PrairieCMS.Core.Models
     public class ContentModel
     {
         //combines both cms_Page_Map and ContentTemplate
+        public int cmsPageMapId { get; set; }
       public int pkMapID {get;set;}      
       public int pkBcId { get; set; } //content type mapping id if there is one for this model.
       public string pageName {get;set;}
