@@ -68,6 +68,7 @@ namespace PrairieCMS.Core
             one.pageTitle = obj.cms_Page_Map.pageTitle;
             one.tags = obj.cms_Page_Map.tags;
             one.isActive = obj.cms_Page_Map.isActive.HasValue ? (bool)obj.cms_Page_Map.isActive : false;
+            one.cmsPageMapId = obj.cms_Page_Map.pkMapID;
 
             one.fkLevelMappingId = (int)obj.cmsContent_Type.fkLevelMappingId;
             one.pkBcId = obj.pkBcId;
@@ -99,26 +100,34 @@ namespace PrairieCMS.Core
             return cm;
         }
 
-        public static List< ContentModel> GetExistingContent()
+        public static FormDataItems GetExistingContent()
         {
+            FormDataItems fdi = new FormDataItems();
             cmsEntities cr = new cmsEntities();
-            var obj = cr.cms_Page_Map.Where(r => !string.IsNullOrEmpty(r.pageName) ).ToList();
-            List<ContentModel> cm = new List<ContentModel>();
-            for (int ii = 0; ii < obj.Count(); ii++)
-            {
-                ContentModel one = new ContentModel();
-                one.ContentId = obj[ii].fkContentID;
-               //// one.ContentName = obj[ii].Content_Template.contentName;
-                one.pageName = obj[ii].pageName;
-                one.fkEditorRoleID = obj[ii].fkEditorRoleID;
-                one.tags = obj[ii].tags;
-                one.pageTitle = obj[ii].pageTitle;
-                one.fkMasterThemeID = obj[ii].fkMasterThemeID;
-                one.pkMapID = obj[ii].pkMapID;
-                cm.Add(one);
-            }
+            List<ContentSelectionItems> contentList = (from con in cr.cms_Page_Map
+                                                       where !string.IsNullOrEmpty(con.pageName)
+                                                       where (bool)con.isActive
+                                                       select new ContentSelectionItems()
+                                                       {
+                                                           ContentId = con.pkMapID,
+                                                           ContentName = con.pageName
+                                                       }).ToList();
+            fdi.contentList = contentList;
+
+            List<FormSelectionItems> contentPieces = (from con in cr.cmsContent_Type
+                                                       where con.fkLevelMappingId > 1
+                                                       where con.fkLevelMappingId != 5 //email content type
+                                                      select new FormSelectionItems()
+                                                       {
+                                                           text = con.contentName,
+                                                           value = con.contentName,
+                                                           html = con.templateHtml,
+                                                           inputForm = con.inputForm
+                                                       }).ToList();
+            fdi.contentPieces = contentPieces;
+
             cr = null;
-            return cm;
+            return fdi;
         }
 
         public static cmsPageMap GetMcMById(int mcmId )
@@ -239,9 +248,9 @@ namespace PrairieCMS.Core
         public static string removeContentItem(int contentid)
         {
             cmsEntities cr = new cmsEntities();
-            var obj = cr.Content_Template.Where(r => r.pkContentID == contentid).FirstOrDefault();
-
-            cr.Entry(obj).State = System.Data.EntityState.Deleted;
+            var pageman = cr.cms_Page_Map.Where(r => r.fkContentID == contentid);
+            foreach( cms_Page_Map obj in pageman)
+                obj.isActive = false;
             try
             {
                 cr.SaveChanges();

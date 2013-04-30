@@ -27,9 +27,9 @@ namespace PrairieCMS.Controllers
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult removeContentItem(int menuid)
+        public JsonResult removeContentItem(int contentid)
         {
-            string returnstr = ContentRepository.removeContentItem(menuid);
+            string returnstr = ContentRepository.removeContentItem(contentid);
             return Json(returnstr, JsonRequestBehavior.AllowGet);
         }
 

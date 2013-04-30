@@ -9,10 +9,10 @@ namespace PrairieCMS
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery")
-                .Include("~/Scripts/libs/jquery/jquery-{version}.js")
-                .Include("~/Scripts/libs/bootstrap/bootstrap.js")
-                .Include("~/Scripts/libs/toastr.js")
-                );
+               .Include("~/Scripts/libs/jquery/jquery-{version}.js")
+               .Include("~/Scripts/libs/bootstrap/bootstrap.js")
+               .Include("~/Scripts/libs/toastr.js")
+               );
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/libs/jquery/jquery-ui-{version}.js"));

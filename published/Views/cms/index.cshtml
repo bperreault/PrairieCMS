@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <hgroup class="title">
                 <h1>@Model.title.</h1>
-                <h2>@Model.message</h2>
+                <h3>@Model.message</h3>
             </hgroup>            
         </div>
     </section>
@@ -24,10 +24,11 @@
     <script src="/Scripts/libs/hasher/hasher.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/pubsub/pubsub-20120708.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/libs/boilerplate/groundwork.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/Scripts/libs/kendo/kendo.web.min.js"  type="text/javascript" charset="utf-8"></script>
-
+    <script src="/Scripts/libs/kendo/kendo.web.min.js"  type="text/javascript" charset="utf-8"></script>      
     <script type="text/javascript" data-main="/Scripts/main" src="/Scripts/libs/require/require.js"></script>
 }
+
+<div class="shadow">
 <div id="globalMessage" class="errormessage">
 </div>
 <div id="IsBusy" class="busyIndicator notBusy">
@@ -53,7 +54,7 @@
             <a href="#assignment">Assign Content to Page</a></li>  
     </ul>
     
-    <div class="imageuploader">	
+    <div class="imageuploader shadow gradback">	
     	            
     </div>
 
@@ -65,3 +66,4 @@
    
 </div>
 
+</div>

@@ -23,7 +23,9 @@ namespace PrairieCMS.Web.Controllers
         //cms_page_map
         public JsonResult GetContent()
         {
-            List<ContentModel> ct = ContentRepository.GetExistingContent(  );
+            //self.contentList(data.contentList);
+            //self.contentPieces(data.contentPieces);
+            FormDataItems ct = ContentRepository.GetExistingContent(  );
             return Json(ct, JsonRequestBehavior.AllowGet);
         }
 

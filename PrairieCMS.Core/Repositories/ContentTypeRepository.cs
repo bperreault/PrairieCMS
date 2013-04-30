@@ -16,7 +16,24 @@ namespace PrairieCMS.Core
         public ContentTypeRepository()
         {
         }
-        
+
+        public static cmsContentTypeModel GetEmailFormTemplate()
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = cr.cmsContent_Type.Where(r => r.contentName == "Survey Form Email").FirstOrDefault();
+            cmsContentTypeModel one = new cmsContentTypeModel();
+            if (obj == null)
+            {
+                one.errorMessage = "Email Form was not found.";
+                return one;
+            }
+            one.pkContentTypeId = obj.pkContentTypeId;
+            one.contentName = obj.contentName;
+            one.fkLevelMappingId = (int)obj.fkLevelMappingId;
+            one.templateHtml = obj.templateHtml;
+            return one;
+        }
+
         public static  cmsContentTypeModel GetContentTypeById( int ContentTypeId)
         {
             cmsEntities cr = new cmsEntities();
@@ -33,7 +50,6 @@ namespace PrairieCMS.Core
             one.templateHtml = obj.templateHtml;
             return one;
         }
-
         
         public static List< cmsContentTypeModel> GetExistingContentType()
         {

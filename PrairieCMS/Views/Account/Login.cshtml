@@ -8,7 +8,7 @@
     <h1>@ViewBag.Title.</h1>
 </hgroup>
 
-<section id="loginForm">
+<section id="loginForm" class="shadow gradback">
 <h2>Please Log in</h2>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
@@ -32,7 +32,7 @@
                 @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
             </li>
         </ol>
-        <input type="submit" value="Log in" class="btn" />
+        <input type="submit" value="Log in" class="btn-primary" />
     </fieldset>
 
 }
