@@ -1,2 +1,17 @@
-
-<h1>Welcome!</h1>
+<h5>Content</h5>
+<div class="row">
+    <div class="span8">
+     <a href="/cms#body" >Create a New Page.</a>
+ </div>
+</div>
+<div class="row">
+ <div class="span8">
+   <ul id="" data-bind="foreach: contentList">
+        <li class='pagelist'>
+            <a href="#" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }">
+                <span data-bind="text: ContentName"></span></a>
+        </li>
+    </ul>
+ </div>
+</div>
+            

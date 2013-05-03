@@ -14,7 +14,7 @@ function (Boiler, settings, Content_TemplateComponent, SiteMapComponent, Content
 
         var controller = new Boiler.UrlController($(".tab-content"));
         controller.addRoutes({
-            "/": new LandingPageComponent(),
+            "/": new LandingPageComponent(context),
             "menu": new SiteMapComponent(context),
             "body": new Content_TemplateComponent(context),
             "body/{id}": new Content_TemplateComponent(context),
