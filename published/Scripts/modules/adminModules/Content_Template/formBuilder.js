@@ -161,11 +161,6 @@ define(["Boiler"], function (Boiler) {
                 $('.preview input[type=button]').val($('#label').val());
             });
 
-            $('#name').blur(function () {
-                $('.preview input[type=button]').attr('id', $('#name').val());
-                $('.preview input[type=button]').attr('name', $('#name').val());
-            });
-
         };
 
         self.checkbox_formjs = function () {
@@ -293,7 +288,7 @@ define(["Boiler"], function (Boiler) {
             });
             $('#Choices').blur(function () {
                 var choices = $('#Choices').val().split('\n');
-               
+
                 var htmlline = "<ul>";
                 for (var ii = 0; ii < choices.length; ii++) {
 

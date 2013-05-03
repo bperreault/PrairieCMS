@@ -1,5 +1,5 @@
 <script type="text/x-kendo-template" id="formBuilder-template">
-        <label for='formBuilder'>Form Builder:</label>
+        <label for='formBuilder' class="smaller">Form Builder:</label>
         <select id='formBuilder' ></select>
 </script>
 <div class="row">
@@ -73,6 +73,15 @@
                         </ul>
                     </div>
                 </div>
+                 <div class="row">
+                    <div class="span9">
+                        <input type="button" class="btn-primary" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
+                        &nbsp;
+                        <input type="button" value='Start Over' class="btn" data-bind="click: startOver" />
+                        <input type="button" class="btn-small float-right" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
+                        <input type="hidden" id="contentId" name="contentId" data-bind="value: fkContentID" />
+                    </div>
+                </div>
                 <div class="row">
                     <div class="span9">
                         Enter the html for your page.<br />
@@ -85,15 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="span9">
-                        <input type="button" class="btn-primary" id="contentSubmit1" data-bind="click: saveContent, value: buttontext, enable: contentSubmit" />
-                        &nbsp;
-                        <input type="button" value='Start Over' class="btn" data-bind="click: startOver" />
-                        <input type="button" class="btn-small float-right" value='Delete' data-bind="visible: deleteVisible, click: removeContentItem" />
-                        <input type="hidden" id="contentId" name="contentId" data-bind="value: fkContentID" />
-                    </div>
-                </div>
+               
                 <div id="forminputseditor">
                 </div>
             </div>

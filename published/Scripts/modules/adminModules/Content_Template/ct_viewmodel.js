@@ -1,5 +1,5 @@
-define(["Boiler", './forms/fd_viewmodel', 'text!./forms/fd_view.html', "./modules", '../settings', './formBuilder'],
-function (Boiler, ItemsModel, template, childModule, settings, forminputseditor) {
+define(["Boiler", './forms/fd_viewmodel', 'text!./forms/fd_view.html', "./modules", '../settings', './formBuilder', "sbsBusyIndicator"],
+function (Boiler, ItemsModel, template, childModule, settings, forminputseditor, sbsBusyIndicator) {
 
     var ViewModel = function (moduleContext, contentToEdit) {
 
@@ -32,7 +32,6 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
         self.cmsPageMapId = ko.observable("-1");
 
         self.editor = null;
-        self.dostartover = false;
 
         self.backToHome = function () {
             Boiler.UrlController.goTo("/");
@@ -104,14 +103,13 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
                                 else {
                                     self.wrapperList(data);
 
-                                    if (contentToEdit && !self.dostartover) {
+
+                                    if (contentToEdit) {
                                         self.getContentByFriendlUrl(self.contentSetByUrl);
                                     }
                                     else {
-
                                         self.SetupKendoEditor();
                                     }
-                                    self.dostartover = false;
                                 }
                             }
                         });
@@ -125,10 +123,8 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
         };
 
         self.startOver = function () {
-            self.dostartover = true;
-            self.initialize();
-
             moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Start Over']);
+            Boiler.UrlController.goTo("/");
         };
 
         self.getContentByFriendlUrl = function (friendlyUrl) {
@@ -146,7 +142,8 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
                     self.contentSubmit(true);
 
                     if (data.errorMessage) {
-                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content Item Error: ' + data.errorMessage]);
+                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", data.errorMessage + " - Setup for New"]);
+                        self.addNewNamedItem(friendlyUrl);
                     }
                     else {
                         self.setUp(data)
@@ -180,6 +177,29 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
                     }
                 }
             });
+        };
+
+        self.addNewNamedItem = function (name) {
+            self.ContentName(name);
+            self.fkLevelMappingId(-1);
+            self.html("");
+
+            self.SetupKendoEditor();
+
+            self.fkMasterThemeID(1);
+            self.pageTitle(name);
+            self.selectedRole(1);
+            self.tags("");
+            self.pkMapID(-1);
+            self.pkBcId(-1);
+            self.pageName(name);
+            self.isActive(true);
+            self.cmsPageMapId(-1);
+
+            self.setContentId(-1);
+            moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'New: ' + self.ContentName()]);
+            self.buttontext("Save changes");
+            self.deleteVisible(false)
         };
 
         self.setUp = function (data) {
@@ -276,17 +296,20 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
         };
 
         self.removeContentItem = function () {
-            if (self.fkContentID === undefined || self.fkContentID == -1) {
+            if (self.fkContentID() === undefined || self.fkContentID() == -1) {
                 moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'nothing selected']);
                 return;
             }
-            self.MenuSubmit(false);
+            sbsBusyIndicator.showBusy();
+            self.contentSubmit(false);
+            self.deleteVisible(false);
+
             $.ajax({
                 type: "POST",
                 url: moduleContext.getSettings().urls.content_item_delete,
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({
-                    menuid: self.fkContentID
+                    contentid: self.fkContentID()
                 }),
                 dataType: 'json',
                 success: function (data, status) {
@@ -295,10 +318,11 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
                         moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'Menu Error: ' + self.errorMessage()]);
                         return;
                     }
-                    self.dostartover = true;
                     self.startOver();
-                    self.errorMessage(data);
 
+                    moduleContext.notify("NOTIFICATION", ["#contentMessage1", data]);
+
+                    sbsBusyIndicator.hideBusy();
                 }
             });
 
@@ -405,8 +429,7 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor)
                 dataTextField: "text",
                 dataValueField: "value",
                 change: function (e) {
-
-                    self.gatherFormInputs(e.sender.value())
+                    self.gatherFormInputs(e.sender.value());
                 }
             });
 
