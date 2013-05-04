@@ -637,21 +637,10 @@ tr.pager td {
         }
 
     /* menu */
-    nav {
-        margin-bottom: 5px;
-    }
-
-    ul#menu {
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-        ul#menu li {
-            margin: 0;
-            padding: 0;
-        }
-
+  .navbar .nav .dropdown-toggle .caret {
+  margin-left: 5px;
+  margin-top: 8px;
+}  
 
     /* main layout
     ----------------------------------------------------------*/

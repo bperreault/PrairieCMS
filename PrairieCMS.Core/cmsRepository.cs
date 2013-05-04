@@ -89,7 +89,10 @@ namespace PrairieCMS.Core
                 // and place the content into the master template in the proper referenced DOM items
                 string body = sb.ToString();
                 body = mt.html.Replace("{content_template}", body);
-                body = body.Replace("{menu_component}", MenuRepository.GetTopLevelMenusHtml());
+                if (body.Contains("{menu_component}"))
+                {
+                    body = body.Replace("{menu_component}", MenuRepository.GetTopLevelMenusHtml());
+                }
                 return body;
             }
             catch (Exception exp)

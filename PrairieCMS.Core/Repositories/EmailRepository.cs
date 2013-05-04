@@ -57,6 +57,7 @@ namespace PrairieCMS.Core
                         ConfigurationManager.AppSettings["networkcredentialsuser"],
                         ConfigurationManager.AppSettings["networkcredentialspass"]);
                     client.Credentials = myCred;
+                    client.EnableSsl = true;
                 }
                 bool bOut = false;
                 if (!String.IsNullOrEmpty(mailer.ToList))

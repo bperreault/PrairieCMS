@@ -115,34 +115,46 @@ namespace PrairieCMS.Core
                 var submnuItems = gmmr.Where(m => m.fkSiteMapParentId == mnu.pkSiteMapItemID).ToList();
                 if (submnuItems == null)
                     continue;
-                if (submnuItems.Count == 1)
-                    sb.Append(getMenuItem( mnu));
-                else
-                    sb.Append(getMenuHeader( mnu));
-
-                sb.Append("<ul  class=\"dropdown-menu\">");
-                foreach (var submnu in submnuItems)
+                if (submnuItems.Count == 0)
                 {
-                    sb.Append(getMenuItem( submnu));
+                    sb.Append(getMenuItem(mnu));
                 }
-                sb.Append("</ul>");
+                else
+                {
+                    string menuheader = getMenuHeader(mnu);
+
+                    StringBuilder submenu = new StringBuilder();
+                    submenu.Append("<ul  class=\"dropdown-menu\">");
+                    foreach (var submnu in submnuItems)
+                    {
+                        submenu.Append(getMenuSubItem(submnu));
+                    }
+                    submenu.Append("</ul>");
+
+                    sb.Append(  menuheader.Replace("[submenu]", submenu.ToString()) );
+                }
             }
 
-            //menu_component = "<article class=\"menucomponent\"><ul class=\"dropdown-menu\" role=\"menu\"></ul></article>        "
-          
+
             menu_component = menu_component.Replace("[menu_component]", sb.ToString());
             return menu_component;
         }
 
-        public static string getMenuItem(GetMainMenu_Result menuObj)
+        public static string getMenuSubItem(GetMainMenu_Result menuObj)
         {
             string html = string.Format( "<li><a tabindex=\"-1\" href=\"{0}\">{1}</a></li>", menuObj.relativeUrl , menuObj.SiteMapItemName);
             return html;
         }
 
-        public static string getMenuHeader(GetMainMenu_Result menuObj)
+        public static string getMenuItem(GetMainMenu_Result menuObj)
         {
-            string html = string.Format("<li  class=\"dropdown-submenu\"><a tabindex=\"-1\" href=\"{0}\">{1}</a></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+            string html = string.Format("<li><a tabindex=\"-1\" href=\"{0}\">{1}</a></li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+            return html;
+        }
+
+        public static string getMenuHeader(GetMainMenu_Result menuObj)
+        {          
+            string html = string.Format("<li  class=\"dropdown\"><a tabindex=\"-1\" href=\"{0}\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" >{1}<b class=\"caret\"></b></a>[submenu]</li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
             return html;
         }
 
