@@ -26,6 +26,7 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
             {
                 requestContext.RouteData.Values["controller"] = "Home";
                 requestContext.RouteData.Values["action"] = "index";
+                return base.GetHttpHandler(requestContext);
             }
             else if (!string.IsNullOrEmpty( page.controller))
             {
@@ -39,10 +40,19 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
                 requestContext.RouteData.Values["action"] = page1;
             }
 
-            requestContext.RouteData.Values["id"] = page1;
+            requestContext.RouteData.Values["id"] = getIdFromUrl(friendlyUrl);
 
             return base.GetHttpHandler(requestContext);
         }
+
+        protected string getIdFromUrl(string friendlyUrl)
+        {
+            string[] pieces = friendlyUrl.Split('/');
+            
+            return pieces[pieces.Length - 1];
+
+        }
+
         protected string getPageFromUrl(string friendlyUrl)
         {
             string[] pieces = friendlyUrl.Split('/');

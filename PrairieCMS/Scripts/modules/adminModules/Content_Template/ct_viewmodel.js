@@ -12,7 +12,7 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor,
         self.ContentName = ko.observable("");
         self.html = ko.observable("");
         self.contentSubmit = ko.observable(false);
-        self.buttontext = ko.observable('Create self Content');
+        self.buttontext = ko.observable('Create Content');
         self.selectedItem = ko.observable();
         self.wrapperList = ko.observableArray([]);
         self.rolesList = ko.observableArray([]);
@@ -300,6 +300,8 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor,
                 moduleContext.notify("NOTIFICATION", ["#menuItemMessage1", 'nothing selected']);
                 return;
             }
+            if (!confirm('Are you sure you want to delete this content?'))
+                return;
             sbsBusyIndicator.showBusy();
             self.contentSubmit(false);
             self.deleteVisible(false);

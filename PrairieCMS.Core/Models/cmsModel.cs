@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Configuration;
+using System.IO;
 
 namespace PrairieCMS.Core.Models
 {
@@ -22,6 +23,19 @@ namespace PrairieCMS.Core.Models
         {
             title = ConfigurationManager.AppSettings["AppTitle"];
             message = ConfigurationManager.AppSettings["AppMessage"];
+        }
+
+        public string WriteOut(string dirlocation)
+        {
+            var filename = Path.Combine(dirlocation , friendlyUrl + ".html");
+
+            using (var file = new StreamWriter( filename ))
+            {
+                file.Write(html);
+                file.Flush();
+                file.Close();
+            }
+            return filename;
         }
     }
 }

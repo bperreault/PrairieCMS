@@ -13,12 +13,17 @@ function (Boiler) {
         }
 
         this.getPageForEdit = function (pageInfo) {
-
             self.contentSetByUrl = pageInfo.ContentName;
             Boiler.UrlController.goTo("body/" + pageInfo.ContentName);
         }
 
+        this.previewPage = function (contentname) {
+            return "export/page/" + contentname;
+        }
+
         self.initialize = function () {
+
+            $("#adminTabs li:contains('Dashboard')").addClass("active");
 
             var url = moduleContext.getSettings().urls.list_of_content;
 
@@ -40,6 +45,9 @@ function (Boiler) {
             });
         };
 
+        self.saveAllSiteFilesToHtml = function () {
+            Boiler.UrlController.goTo("export/");
+        };
 
     };
 

@@ -1,4 +1,4 @@
-define(['Boiler', './settings','./imagesUpload/iu_component'],
+define(['Boiler', './settings','./filesUpload/iu_component'],
 
 
 function (Boiler, settings,  ImagesComponent) {

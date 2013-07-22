@@ -1,0 +1,16 @@
+<h5>Files Maintenance</h5>
+
+<div class="row">
+ <div class="span8">
+   <ul id="" data-bind="foreach: fileList">
+        <li class='pagelist'>
+            <a href="#" data-bind="click: function(data, event) { $parent.getFileForEdit( this ) }">
+                <span class="btn" data-bind="text: FileName"></span></a> 
+                <a href="#" class="float-right" data-bind="click: function(data, event) { $parent.getFileForEdit( this ) }">
+                Edit</a>
+        </li>
+    </ul>
+
+ </div>
+</div>
+            

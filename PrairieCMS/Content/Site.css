@@ -748,7 +748,20 @@ tr.pager td {
           #recipients, 
           #package, 
           #job {background-color:#fff;}
-          
+
+/*adjusting appearance*/
+.nav 
+{
+    margin-bottom:0;
+    }
+.tab-content,#bpjscontainer_1 {
+    padding-left: .5em;
+    margin-bottom:.5em;
+    border-left: 1px solid #DDDDDD;
+    display: block;
+}       
+
+/*main content area appearance adjustments.*/   
 .moreProminent a {background-color:#E8C9A9;} 
 .lessProminent a {color:#333333; }
 .moreProminent a {color:#000000; }
@@ -831,9 +844,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 }
 
 .shadow {
--moz-box-shadow: 3px 3px 4px #ccc;
--webkit-box-shadow: 3px 3px 4px #ccc;
-box-shadow: 3px 3px 4px #ccc;
+-moz-box-shadow: 1px 1px 1px #ccc;
+-webkit-box-shadow: 1px 1px 1px #ccc;
+box-shadow: 1px 1px 1px #ccc;
 -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#cccccc')";
 filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#cccccc');
 azimuth:     -webkit-border-radius: 8px;
@@ -841,6 +854,8 @@ azimuth:     -webkit-border-radius: 8px;
     border-radius: 8px;
  
 }
+.rounded{    -moz-border-radius: 8px;
+    border-radius: 8px;}
 #body div.row {margin:15px;}
 #body div.row p , #body div.row small{display:none;}
 .gradback{   background: #F0F7FC; /* Old browsers */

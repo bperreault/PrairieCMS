@@ -44,8 +44,10 @@ define(["Boiler", "sbsBusyIndicator"], function (Boiler, sbsBusyIndicator) {
                         self.src('')
                         self.urlVisibility("notBusy");
                         self.imgVisible(false);
-                        self.src(e.XMLHttpRequest.responseText);
-                        self.imgVisible(true);
+                        var imgFileName = e.XMLHttpRequest.responseText;
+                        self.src(imgFileName);
+                        if (imgFileName.indexOf('mages/') > 0) //only if path has images in it.
+                            self.imgVisible(true);
                         self.urlVisibility("busy");
                         if ($('#modal-scroll-container').length) {
                             $('#modal-scroll-container').tinyscrollbar_update('relative');

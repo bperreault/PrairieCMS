@@ -1,7 +1,7 @@
 <h5>Content</h5>
 <div class="row">
     <div class="span8">
-     <a href="/cms#body" >Create a New Page.</a>
+     <a href="/cms#body" >Create a New Page</a>&nbsp;&nbsp;<a href="#" data-bind="click: saveAllSiteFilesToHtml" >Export Site</a>
  </div>
 </div>
 <div class="row">
@@ -9,7 +9,10 @@
    <ul id="" data-bind="foreach: contentList">
         <li class='pagelist'>
             <a href="#" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }">
-                <span data-bind="text: ContentName"></span></a>
+                <span class="btn" data-bind="text: ContentName"></span></a> 
+                <a href="#" class="float-right" data-bind="click: function(data, event) { $parent.getPageForEdit( this ) }">
+                Edit</a>
+                <a data-bind="attr: { href: $parent.previewPage( ContentName ) } " class="float-right" target="_blank" >Preview</a>
         </li>
     </ul>
  </div>

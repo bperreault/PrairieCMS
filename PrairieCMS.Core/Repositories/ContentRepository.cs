@@ -7,7 +7,7 @@ using System.Data.Entity.Infrastructure;
 using PrairieCMS.Core.Models;
 using System.Web.Mvc;
 using System.Web;
-
+using System.IO;
 
 namespace PrairieCMS.Core
 {
@@ -33,6 +33,7 @@ namespace PrairieCMS.Core
             fillContent(obj, one);
             return one;
         }
+
 
         public static ContentModel GetContentById(int pkMapID)
         {
