@@ -4,49 +4,15 @@ function (Boiler) {
     var ViewModel = function (moduleContext) {
 
         var self = this;
-        self.contentList = ko.observableArray([]);
-        self.selectedContent = ko.observable();
-
+        self.fileLocation = ko.observable();
+        self.url = moduleContext.getSettings().urls.exportContent;
 
         self.backToHome = function () {
             Boiler.UrlController.goTo("/");
         }
 
-        this.getPageForEdit = function (pageInfo) {
-            self.contentSetByUrl = pageInfo.ContentName;
-            Boiler.UrlController.goTo("body/" + pageInfo.ContentName);
-        }
-
-        this.previewPage = function (contentname) {
-            return "export/page/" + contentname;
-        }
-
         self.initialize = function () {
 
-            $("#adminTabs li:contains('Dashboard')").addClass("active");
-
-            var url = moduleContext.getSettings().urls.list_of_content;
-
-            $.ajax({
-                type: "GET",
-                url: url,
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: 'json',
-                success: function (data, status) {
-                    if (data.errorMessage) {
-                        moduleContext.notify("NOTIFICATION", ["#contentMessage1", 'Content List Error: ' + data.errorMessage]);
-                    }
-                    else {
-                       
-                        self.contentList(data.contentList);
-
-                    }
-                }
-            });
-        };
-
-        self.saveAllSiteFilesToHtml = function () {
-            Boiler.UrlController.goTo("export/");
         };
 
     };

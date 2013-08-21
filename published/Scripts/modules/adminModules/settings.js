@@ -13,7 +13,8 @@ define([], function() {
             content_item_delete: "/content/removeContentItem",
             list_of_wrappers: "/formData/GetWrappers",
             wrapper_data: "/wrapper/GetwrapperById",
-            edit_wrapper: "/wrapper/save_wrapper_option"
+            edit_wrapper: "/wrapper/save_wrapper_option",
+            exportContent: "/export/createHtmlContent"
 		}
 	}
 }); 

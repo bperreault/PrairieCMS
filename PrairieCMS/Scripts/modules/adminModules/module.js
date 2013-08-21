@@ -25,7 +25,7 @@ function (Boiler, settings, Content_TemplateComponent, SiteMapComponent, Content
             "siteSetup": new SiteSetupComponent(context),
             "assignment": new cms_Page_MapComponent(context),
             "wrapper": new Master_TemplateComponent(context),
-            "export": new ExportComponent(context)
+            "export": new ExportComponent(context),
             "filesmtce": new FilesComponent(context)
         });
         controller.start();

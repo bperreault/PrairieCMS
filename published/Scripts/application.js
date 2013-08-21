@@ -31,48 +31,48 @@ define(["Boiler", "./settings", "./modules/modules"], function (Boiler, settings
             $(this).parent().addClass("active");
         });
 
-        //note:at this time (2/2/13) ConfigureImageUploaders will not work unless the dom element is in the page on page load.
-        //need to do this using knockout kendo and in the html. see golf whisperer
-        this.ConfigureImageUploaders = function (sender, args) {
-            $('#files').kendoUpload({
-                multiple: true,
-                showFileList: true,
-                async: {
-                    saveUrl: moduleContext.getSettings().urls.image_uploadUrl
-                },
-                error:  function (e) {
-                    sbsBusyIndicator.hideBusy();
-                    if (e.operation == 'upload' && e.response != '0') {
-                        self.responsetext(e.response);
-                        self.src('')
-                        self.imgVisible(false);
-                        self.src(e.response);
-                        self.imgVisible(true);
-                        if ($('#modal-scroll-container').length) {
-                            $('#modal-scroll-container').tinyscrollbar_update('relative');
-                        }
+//////        //note:at this time (2/2/13) ConfigureImageUploaders will not work unless the dom element is in the page on page load.
+//////        //need to do this using knockout kendo and in the html. see golf whisperer
+//////        this.ConfigureImageUploaders = function (sender, args) {
+//////            $('#files').kendoUpload({
+//////                multiple: true,
+//////                showFileList: true,
+//////                async: {
+//////                    saveUrl: moduleContext.getSettings().urls.image_uploadUrl
+//////                },
+//////                error:  function (e) {
+//////                    sbsBusyIndicator.hideBusy();
+//////                    if (e.operation == 'upload' && e.response != '0') {
+//////                        self.responsetext(e.response);
+//////                        self.src('')
+//////                        self.imgVisible(false);
+//////                        self.src(e.response);
+//////                        self.imgVisible(true);
+//////                        if ($('#modal-scroll-container').length) {
+//////                            $('#modal-scroll-container').tinyscrollbar_update('relative');
+//////                        }
 
-                    }
+//////                    }
 
-                },
-                complete: function (e) {
-                    sbsBusyIndicator.hideBusy();
-                    if (e.operation == 'upload' && e.response != '0') {
-                        self.responsetext(e.response);
-                        self.src('')
-                        self.imgVisible(false);
-                        self.src(e.response);
-                        self.imgVisible(true);
-                        if ($('#modal-scroll-container').length) {
-                            $('#modal-scroll-container').tinyscrollbar_update('relative');
-                        }
+//////                },
+//////                complete: function (e) {
+//////                    sbsBusyIndicator.hideBusy();
+//////                    if (e.operation == 'upload' && e.response != '0') {
+//////                        self.responsetext(e.response);
+//////                        self.src('')
+//////                        self.imgVisible(false);
+//////                        self.src(e.response);
+//////                        self.imgVisible(true);
+//////                        if ($('#modal-scroll-container').length) {
+//////                            $('#modal-scroll-container').tinyscrollbar_update('relative');
+//////                        }
 
-                    }
+//////                    }
 
-                }
-            });
+//////                }
+//////            });
 
-        }
+//////        }
     };
 
     return Application;

@@ -125,6 +125,7 @@
     <Compile Include="Content_Template.cs">
       <DependentUpon>cmsEntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Events\ServingEventArgs.cs" />
     <Compile Include="FriendlyURLHandling\FriendlyUrlRouteHandler.cs" />
     <Compile Include="FriendlyURLHandling\PageManager.cs" />
     <Compile Include="GetMainMenu_Result.cs">

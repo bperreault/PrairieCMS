@@ -11,6 +11,7 @@ using WebMatrix.WebData;
 using PrairieCMS.Filters;
 using PrairieCMS.Core.Models;
 using PrairieCMS.Core;
+using PrairieCMS.Core.Events;
 
 
 namespace PrairieCMS.Controllers
@@ -61,5 +62,35 @@ namespace PrairieCMS.Controllers
             }
             return View(cm);
         }
+
+
+
+        /// <summary>
+        /// Occurs when the page is being served to the output stream.
+        /// </summary>
+        public static event EventHandler<ServingEventArgs> Serving;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        public static void OnServing(HomeController comment, ServingEventArgs arg)
+        {
+            if (Serving != null)
+            {
+                Serving(comment, arg);
+            }
+        }
+
+        /// <summary>
+        /// Raises the Serving event
+        /// </summary>
+        public void OnServing(ServingEventArgs eventArgs)
+        {
+            if (Serving != null)
+            {
+                Serving(this, eventArgs);
+            }
+        }
+
+
     }
 }

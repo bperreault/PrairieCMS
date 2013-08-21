@@ -197,7 +197,7 @@ define(["Boiler"], function (Boiler) {
                 function (e) {
                     e.preventDefault();
                     var newoption = "<option value='" + self.getName($('#value').val()) + "'>" + $('#text').val() + "</option>";
-                    alert(newoption);
+                    //alert(newoption);
                     $('.preview .questionSelect').children.add(newoption);
                 }
             );
