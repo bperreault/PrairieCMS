@@ -1,18 +1,20 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Web;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PrairieCMS.Core")]
+[assembly: AssemblyTitle("PrairiePluginLib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Prairie Software")]
-[assembly: AssemblyProduct("PrairieCMS.Core")]
+[assembly: AssemblyProduct("PrairiePluginLib")]
 [assembly: AssemblyCopyright("Copyright © Prairie Software 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: PreApplicationStartMethod(typeof(PrairiePluginLib.PreApplicationInit), "InitializePlugins")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -20,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("91dc56c5-05b0-41ef-975a-da56f8a69a6f")]
+[assembly: Guid("ec3ad4a2-89fa-4ca1-aafc-da3723053e4e")]
 
 // Version information for an assembly consists of the following four values:
 //

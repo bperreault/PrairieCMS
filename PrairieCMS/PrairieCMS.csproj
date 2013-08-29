@@ -294,6 +294,7 @@
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\unsub.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\HTMLPage1.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -333,6 +334,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="plugins\temp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -344,6 +346,10 @@
     <ProjectReference Include="..\PrairieCMS.Core\PrairieCMS.Core.csproj">
       <Project>{4AAD7755-7928-4C54-BFED-BABBEDCFD041}</Project>
       <Name>PrairieCMS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrairiePluginLib\PrairiePluginLib.csproj">
+      <Project>{0928D4AB-A858-4FAD-8220-29980952BC36}</Project>
+      <Name>PrairiePluginLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

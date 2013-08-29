@@ -16,6 +16,8 @@ namespace PrairieCMS
     {
         protected void Application_Start()
         {
+            PrairiePluginLib.PluginBootstrapper.Initialize();
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
