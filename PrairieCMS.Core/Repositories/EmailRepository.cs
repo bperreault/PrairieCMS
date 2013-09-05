@@ -90,7 +90,7 @@ namespace PrairieCMS.Core
                 }
                 catch (System.Net.Mail.SmtpException x)
                 {
-                    throw x;
+                    //throw x;
                     //TODO: CMC - Log Exception, Do we really want to throw this back up the stack?
                     //throw new Exception("Email not sent: " + x.Message + "; message details: " + message.ToString());
                     //log this

@@ -11,6 +11,9 @@ namespace PrairieCMS.Core.Models
     public class ContentSelectionItems {
         public int ContentId { get; set; }
         public string ContentName { get; set; }
+        public int ParentMenuId { get; set; }
+        public int MenuId { get; set; }
+        public string listClass { get; set; }
     }
     public class FormSelectionItems { //text: "label 2", value:
         public string text { get; set; }

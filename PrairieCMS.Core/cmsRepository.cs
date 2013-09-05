@@ -91,7 +91,7 @@ namespace PrairieCMS.Core
                 body = mt.html.Replace("{content_template}", body);
                 if (body.Contains("{menu_component}"))
                 {
-                    body = body.Replace("{menu_component}", MenuRepository.GetTopLevelMenusHtml());
+                    body = body.Replace("{menu_component}", MenuRepository.GetTopLevelMenusHtml(mp.pageName));
                 }
                 return body;
             }

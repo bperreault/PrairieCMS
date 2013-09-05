@@ -10,7 +10,6 @@ using System.Web;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace PrairieCMS.Core
 {

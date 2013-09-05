@@ -12,6 +12,7 @@ using PrairieCMS.Filters;
 using PrairieCMS.Core.Models;
 using PrairieCMS.Core;
 using PrairieCMS.Core.Events;
+using FormSystem;
 
 
 namespace PrairieCMS.Controllers
@@ -22,9 +23,16 @@ namespace PrairieCMS.Controllers
         public ActionResult Index(string id="")
         {
             cmsModel cm = null;
+            string message = string.Empty;
             if (Request.Form.AllKeys.Length > 0)
             {
-                EmailRepository.SendFormByEmail( Request.Form, id );
+                //EmailRepository.SendFormByEmail( Request.Form, id );
+               
+                message = FormProcessor.ProcessForm(Request.Form, id, true, false); //send email and record at dcmlfs if supported
+
+                if (message.Equals( "Thank-you, your information has been recorded." ))
+                     message = "<p style='color:#ff0000;'>Thank-you, the answers have been saved.</p>";
+
             }
 
             if (!string.IsNullOrWhiteSpace(id))
@@ -36,6 +44,8 @@ namespace PrairieCMS.Controllers
                 cm = cmsRepository.HomeContent();
             }
 
+            cm.html = cm.html.Replace("{form_submit_message}", message);
+            
             return View(cm);
         }
 
