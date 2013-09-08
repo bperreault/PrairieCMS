@@ -23,3 +23,24 @@ require
 signals
 underscore
 toastr
+
+Begin Documentation:
+
+Plugin Architecture:
+
+Table CMSLevelMapping contains entries for content types supported by the software.
+Page
+Sub_Page
+Form
+Sub_Div
+Email
+Module
+
+Table CMSContent_Type contains the code which is used for each content type.  
+These level definitions are not fully coded.
+An example of one that works is Form and these are the user defined form items that can be inserted into the content of the page.
+Module content type defines the tags which can be inserted into the content of the page - {{MessagesView}} for example will load up an instance of IMessagesView if one exists and the IMessagesView will be responsible for injecting html into the page.
+
+To use a plugin module, add a reference to PrairiePluginLib to your project.  In your project, add a public class that implements interface IModule.  IModule interface defines a method called GetHtml() - this will be called by Prairie CMS when the content which is being loaded contains an embedded string which matches the pattern:
+"{{" + YourModule.EntryControllerName + "}}";
+

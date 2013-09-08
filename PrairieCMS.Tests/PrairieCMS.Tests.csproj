@@ -109,10 +109,6 @@
       <Project>{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}</Project>
       <Name>PrairieCMS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PrairieMessages\PrairieMessages.csproj">
-      <Project>{9efb4a4c-406d-429d-bd00-5fba72bbc1e0}</Project>
-      <Name>PrairieMessages</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

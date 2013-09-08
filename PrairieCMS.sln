@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieSwing", "PrairieSwin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairiePluginLib", "PrairiePluginLib\PrairiePluginLib.csproj", "{0928D4AB-A858-4FAD-8220-29980952BC36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieMessages", "PrairieMessages\PrairieMessages.csproj", "{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieMessages", "..\PrairieMessages\PrairieMessages.csproj", "{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
