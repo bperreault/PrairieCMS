@@ -31,6 +31,7 @@ namespace PrairieSwing
         //ideally there will be a service here which can be plugged in as below with Castle Windsor.
             public void Install()
             {
+
                 //var container = ServiceLocator.Current.GetInstance<IWindsorContainer>();
 
                 //container.Kernel.AddFacility<WcfFacility>();
@@ -44,6 +45,11 @@ namespace PrairieSwing
                 //container.Register(Component.For<AgendaPrefill>());
 
                 //container.Resolve<AgendaPrefill>().Prefill();
+            }
+
+            public string GetHtml()
+            {
+                return "<h1>Prairie Swing Module!!!!</h1>";
             }
         
     }

@@ -32,5 +32,6 @@ namespace PrairiePluginLib
         /// Installs the plugin with all the scripts, css and DI 
         /// </summary>
         void Install();
+        string GetHtml();
     }
 }

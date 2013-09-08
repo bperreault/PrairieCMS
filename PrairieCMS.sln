@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieCMS", "PrairieCMS\PrairieCMS.csproj", "{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieCMS.Tests", "PrairieCMS.Tests\PrairieCMS.Tests.csproj", "{4938F42A-0988-4377-A7FE-6352748899E7}"
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieSwing", "PrairieSwing\PrairieSwing.csproj", "{BE1AA93D-FD8D-4ABD-A86B-8F809A2928D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairiePluginLib", "PrairiePluginLib\PrairiePluginLib.csproj", "{0928D4AB-A858-4FAD-8220-29980952BC36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrairieMessages", "PrairieMessages\PrairieMessages.csproj", "{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{0928D4AB-A858-4FAD-8220-29980952BC36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0928D4AB-A858-4FAD-8220-29980952BC36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0928D4AB-A858-4FAD-8220-29980952BC36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EFB4A4C-406D-429D-BD00-5FBA72BBC1E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,12 +15,13 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
 
             cmsModel page = null;
             string page1 = friendlyUrl;
+            PageManager pm = new PageManager();
 
             if (!string.IsNullOrEmpty(friendlyUrl))
-                page = PageManager.GetPageByFriendlyUrl(friendlyUrl);
+                page = pm.GetPageByFriendlyUrl(friendlyUrl);
 
             if (page == null)
-                page = PageManager.GetPageByFriendlyUrl("home");
+                page = pm.GetPageByFriendlyUrl("home");
 
             if (string.IsNullOrEmpty(friendlyUrl))
             {

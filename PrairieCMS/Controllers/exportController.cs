@@ -41,7 +41,7 @@ namespace PrairieCMS.Web.Controllers
             cmsModel cms = new cmsModel();
             try
             {
-                cms = cmsRepository.PageContent(contentname);
+                cms = new cmsRepository().PageContent(contentname);
             }
             catch (Exception exp)
             {

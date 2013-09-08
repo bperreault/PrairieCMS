@@ -34,14 +34,14 @@ namespace PrairieCMS.Controllers
                      message = "<p style='color:#ff0000;'>Thank-you, the answers have been saved.</p>";
 
             }
-
+            cmsRepository cms = new cmsRepository();
             if (!string.IsNullOrWhiteSpace(id))
             {
-                cm = cmsRepository.PageContent(id);
+                cm = cms.PageContent(id);
             }
             else
             {
-                cm = cmsRepository.HomeContent();
+                cm = cms.HomeContent();
             }
 
             cm.html = cm.html.Replace("{form_submit_message}", message);
@@ -53,7 +53,7 @@ namespace PrairieCMS.Controllers
         public ActionResult pages()
         {
             var allPaths = Request.Path;
-            cmsModel cm = cmsRepository.PageContent(allPaths);
+            cmsModel cm = new cmsRepository().PageContent(allPaths);
             if (cm.html == string.Empty)
             {
 
@@ -65,7 +65,7 @@ namespace PrairieCMS.Controllers
         public ActionResult Handle()
         {
             var allPaths = Request.Path;
-            cmsModel cm = cmsRepository.PageContent(allPaths);
+            cmsModel cm = new cmsRepository().PageContent(allPaths);
             if (cm.html == string.Empty)
             {
 
