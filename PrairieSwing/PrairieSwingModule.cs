@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using PrairiePluginLib;
 using System.Reflection;
+using System.Collections.Specialized;
 
 namespace PrairieSwing
 {
@@ -50,6 +51,17 @@ namespace PrairieSwing
             public string GetHtml()
             {
                 return "<h1>Prairie Swing Module!!!!</h1>";
+            }
+
+
+            public string GetRequestedContent(string friendlyUrl, string json)
+            {
+                return "<h1>content for json request</h1>";
+            }
+
+            public string GetAdminPages()
+            {
+                return "<h1>admin pages</h1>";
             }
         
     }

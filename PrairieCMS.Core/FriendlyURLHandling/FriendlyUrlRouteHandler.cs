@@ -17,11 +17,23 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
             string page1 = friendlyUrl;
             PageManager pm = new PageManager();
 
+ 
             if (!string.IsNullOrEmpty(friendlyUrl))
-                page = pm.GetPageByFriendlyUrl(friendlyUrl);
+            {
+                //check for this: (plugin supported public entry)friendlyUrl = "PrairieMessages.MessagesController.getSeriesForView"
+                bool thisIsCallToModule = PrairiePluginLib.PluginManager.LocateIfModule(friendlyUrl);
+                if (thisIsCallToModule)
+                {
+                    page = new cmsModel() { controller = "Home", action = "bridge" };
+                }
+                else
+                {
+                    page = pm.GetPageNoContentByFriendlyUrl(friendlyUrl);
+                }
+            }
 
-            if (page == null)
-                page = pm.GetPageByFriendlyUrl("home");
+            if (page == null && !hasController(friendlyUrl))
+                page = pm.GetPageNoContentByFriendlyUrl("home");
 
             if (string.IsNullOrEmpty(friendlyUrl))
             {
@@ -29,7 +41,7 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
                 requestContext.RouteData.Values["action"] = "index";
                 return base.GetHttpHandler(requestContext);
             }
-            else if (!string.IsNullOrEmpty( page.controller))
+            else if (page != null && !string.IsNullOrEmpty( page.controller))
             {
                 requestContext.RouteData.Values["controller"] = page.controller;
                 requestContext.RouteData.Values["action"] = page.action;
@@ -44,6 +56,17 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
             requestContext.RouteData.Values["id"] = getIdFromUrl(friendlyUrl);
 
             return base.GetHttpHandler(requestContext);
+        }
+
+        bool hasController(string friendlyUrl)
+        {
+            if (string.IsNullOrEmpty(friendlyUrl))
+                return false;
+
+            if (friendlyUrl.IndexOf("/") < 1 && friendlyUrl.Contains("."))
+                return false; //bridge
+
+            return true;
         }
 
         protected string getIdFromUrl(string friendlyUrl)

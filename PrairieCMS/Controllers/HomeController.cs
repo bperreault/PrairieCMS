@@ -13,6 +13,8 @@ using PrairieCMS.Core.Models;
 using PrairieCMS.Core;
 using PrairieCMS.Core.Events;
 using FormSystem;
+using PrairiePluginLib;
+using System.IO;
 
 
 namespace PrairieCMS.Controllers
@@ -24,7 +26,9 @@ namespace PrairieCMS.Controllers
         {
             cmsModel cm = null;
             string message = string.Empty;
-            if (Request.Form.AllKeys.Length > 0)
+            if (Request.Form.AllKeys != null 
+                && Request.Form.AllKeys.Length > 0 
+                && Request.Form.AllKeys[0] != null)
             {
                 //EmailRepository.SendFormByEmail( Request.Form, id );
                
@@ -73,7 +77,20 @@ namespace PrairieCMS.Controllers
             return View(cm);
         }
 
-
+        [AllowAnonymous]
+        public JsonResult bridge()
+        {
+            var friendlyUrl = HttpContext.Request.RawUrl;
+            if (friendlyUrl.StartsWith("/"))
+                friendlyUrl = friendlyUrl.Substring(1);
+            string json;
+            using (var reader = new StreamReader(Request.InputStream))
+            {
+                json = reader.ReadToEnd();
+            }
+            string dataReturn = PluginManager.Current.GetBridgedContent(friendlyUrl, json);
+            return Json(dataReturn, JsonRequestBehavior.AllowGet);
+        }
 
         /// <summary>
         /// Occurs when the page is being served to the output stream.

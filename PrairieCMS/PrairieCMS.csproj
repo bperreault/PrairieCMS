@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +39,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common">
@@ -52,21 +55,22 @@
       <HintPath>..\..\..\PrairieCMS\referenced\FormSystem.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\GolfWhisperer\packages\JsonNet40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -121,6 +125,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
@@ -175,6 +180,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\cmsController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Controllers\pluginController.cs" />
     <Compile Include="Controllers\exportController.cs" />
     <Compile Include="Controllers\WrapperController.cs" />
     <Compile Include="Controllers\SiteMapController.cs" />
@@ -192,6 +198,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="adminpage.html" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -277,6 +284,9 @@
     <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_component.js" />
     <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_view.html" />
     <Content Include="Scripts\modules\adminModules\cms_Site_Map\sm_viewmodel.js" />
+    <Content Include="Scripts\modules\adminModules\Plugin_Mtce\p_component.js" />
+    <Content Include="Scripts\modules\adminModules\Plugin_Mtce\p_view.html" />
+    <Content Include="Scripts\modules\adminModules\Plugin_Mtce\p_viewmodel.js" />
     <Content Include="Scripts\modules\adminModules\Files_Mtce\f_component.js" />
     <Content Include="Scripts\modules\adminModules\Files_Mtce\f_view.html" />
     <Content Include="Scripts\modules\adminModules\Files_Mtce\f_viewmodel.js" />
@@ -311,6 +321,7 @@
     <Content Include="Scripts\settings.js" />
     <Content Include="Scripts\unsub.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="testmessages.html" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\accent.png" />

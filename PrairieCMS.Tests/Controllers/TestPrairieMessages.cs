@@ -12,5 +12,12 @@ namespace PrairieCMS.Tests.Controllers
             string messagesstring = new PrairieMessages.MessagesController().GetContent();
             Assert.IsTrue(!string.IsNullOrEmpty(messagesstring));
         }
+
+        [TestMethod]
+        public void TestGetAdmin()
+        {
+            string messagesstring = new PrairieMessages.MessagesController().GetAdminPages();
+            Assert.IsTrue(!string.IsNullOrEmpty(messagesstring));
+        }
     }
 }

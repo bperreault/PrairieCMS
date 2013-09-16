@@ -3,12 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PrairieCMS.Core.Models;
+using PrairiePluginLib;
 
 
 namespace PrairieCMS.Core
 {
     public class cmsRepository
     {
+
+        /// <summary>
+        /// PageNoContent is called by FriendlyUrlRouteHandler to see if there is a defined page for the route,
+        /// we don't load content as it's not used by the caller.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public cmsModel PageNoContent(string path)
+        {
+            cmsEntities cr = new cmsEntities();
+            var obj = cr.cms_Page_Map.Where(r => r.pageName.Equals(path)).FirstOrDefault();
+            cmsModel one = null;
+            if (obj != null)
+            {
+                one = new cmsModel();
+                one.tags = obj.tags;
+                one.title = obj.pageTitle;
+                one.controller = "home";
+                one.action = "index";
+                one.friendlyUrl = path;
+            }
+           
+            return one;
+        
+        }
+
 
         public cmsModel PageContent( string path)
         {
@@ -47,7 +74,7 @@ namespace PrairieCMS.Core
         
         public static string GetStarterHtml()
         {
-            return "<html><title></title><body><a href='cms'>Admin</a></body></html>";
+            return "<a href='cms'>Admin</a>";
         }
        
         //!!!!was!!!!!!getting duplicates in [cms_Page_Map] which means below ctm was first or default - 
@@ -147,7 +174,7 @@ namespace PrairieCMS.Core
                     sp2.endpos = endat + pos;
                     string EntryControllerName = HtmlView.Substring(sp2.startpos, sp2.endpos - sp2.startpos);
 
-                    sp2.text = PrairiePluginLib.PluginBootstrapper.GetContentFromModule(EntryControllerName);
+                    sp2.text = PluginManager.Current.GetContentFromModule(EntryControllerName);
                     
                     d.Add(sp2);
                     pos = pos + (sp2.endpos-sp2.startpos) + 2; //get to the other side of }}

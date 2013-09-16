@@ -105,6 +105,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\PrairieMessages\PrairieMessages.csproj">
+      <Project>{9efb4a4c-406d-429d-bd00-5fba72bbc1e0}</Project>
+      <Name>PrairieMessages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PrairieCMS\PrairieCMS.csproj">
       <Project>{D8ABEA66-D58C-4D92-B4CA-73C6034F0DD8}</Project>
       <Name>PrairieCMS</Name>
