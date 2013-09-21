@@ -7,7 +7,7 @@
 body {
     color: #333;
     font-size: .85em;
-    font-family: Verdana, Helvetica, Sans-Serif;
+    font-family: 'Open Sans',Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
 }
@@ -154,8 +154,7 @@ z-index: 1000;
 
 .carousel  {
     background-color: #FFFFFF;
-    height:22em;
-    padding:1em;
+    padding:.3em;
 }
     .carousel .image {
         height: 22em;
