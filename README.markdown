@@ -1,4 +1,5 @@
-[Prairie CMS](http://prairiesoft.co/) - Prairie Software CMS
+<img src="http://www.faxt.com/images/PrairieCMS-logo.png" alt="Prairie CMS" />
+[Prairie CMS](http://prairiesoft.co/)
 =================================================================
 Prairie Software is developing this CMS.  Some features are:  A data-driven plugin architecture enables flexibility in content.  An example of a plubin that is under development for this CMS is a page to present video content (Church services from YouTube).
 
