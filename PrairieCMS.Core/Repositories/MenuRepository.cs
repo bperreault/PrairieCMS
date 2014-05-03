@@ -116,11 +116,15 @@ namespace PrairieCMS.Core
                 if (submnuItems == null)
                     continue;
                 bool isActive = false;
-                if (activeMenuRelativeUrl.ToLower().Equals(mnu.relativeUrl.ToLower()))
+                try
                 {
-                    isActive = true;
+                    if (activeMenuRelativeUrl.ToLower().Equals(mnu.relativeUrl.ToLower()))
+                    {
+                        isActive = true;
+                    }
+                }catch(Exception){
+                //ignore no url error
                 }
-                
 
                 if (submnuItems.Count == 0)
                 {

@@ -199,6 +199,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="adminpage.html" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.video.play.png" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -214,6 +218,7 @@
     <Content Include="Content\ie7.css" />
     <Content Include="Content\ie8.css" />
     <Content Include="Content\images\pages\newHere1.jpg" />
+    <Content Include="Content\Jplayer.swf" />
     <Content Include="Content\main2012.css" />
     <Content Include="Content\PrairieCMS.css" />
     <Content Include="Content\images\busy.gif" />
@@ -247,6 +252,7 @@
     <Content Include="Scripts\libs\flot\jquery.flot.min.js" />
     <Content Include="Scripts\libs\flot\jquery.flot.resize.js" />
     <Content Include="Scripts\libs\hasher\hasher.min.js" />
+    <Content Include="Scripts\libs\jquery\jquery.jplayer.min.js" />
     <Content Include="Scripts\libs\jquery\jquery.min.js" />
     <Content Include="Scripts\libs\kendo\kendo.web.js" />
     <Content Include="Scripts\libs\kendo\kendo.web.min.js" />
@@ -322,7 +328,9 @@
     <Content Include="Scripts\unsub.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="testmessages.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -381,6 +389,8 @@
     <Content Include="upload\imageupload.ashx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
+    <Content Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
   </ItemGroup>
   <PropertyGroup>
