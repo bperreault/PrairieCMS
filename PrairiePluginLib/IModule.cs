@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace PrairiePluginLib
@@ -32,5 +33,8 @@ namespace PrairiePluginLib
         /// Installs the plugin with all the scripts, css and DI 
         /// </summary>
         void Install();
+        string GetHtml();
+        string GetRequestedContent(string friendlyUrl, string json);
+        string GetAdminPages();
     }
 }

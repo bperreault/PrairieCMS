@@ -10,7 +10,6 @@ using System.Web;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace PrairieCMS.Core
 {
@@ -31,9 +30,10 @@ namespace PrairieCMS.Core
 
             //create html files for all the content
             var pgs = ContentRepository.GetExistingContent();
+            cmsRepository cmsr = new cmsRepository();
             foreach (var pg in pgs.contentList)
             {
-                cmsModel cms = cmsRepository.PageContent(pg.ContentName);
+                cmsModel cms = cmsr.PageContent(pg.ContentName);
                 filenames.Add(cms.WriteOut(siteDirectory.FullName));
             }
             

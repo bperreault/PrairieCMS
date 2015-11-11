@@ -98,7 +98,7 @@ namespace PrairieCMS.Core
             return obj;
         }
 
-        public static string GetTopLevelMenusHtml()
+        public static string GetTopLevelMenusHtml(string activeMenuRelativeUrl)
         {
             //"menu_component"
             cmsEntities cr = new cmsEntities();
@@ -115,18 +115,35 @@ namespace PrairieCMS.Core
                 var submnuItems = gmmr.Where(m => m.fkSiteMapParentId == mnu.pkSiteMapItemID).ToList();
                 if (submnuItems == null)
                     continue;
+                bool isActive = false;
+                try
+                {
+                    if (activeMenuRelativeUrl.ToLower().Equals(mnu.relativeUrl.ToLower()))
+                    {
+                        isActive = true;
+                    }
+                }catch(Exception){
+                //ignore no url error
+                }
+
                 if (submnuItems.Count == 0)
                 {
-                    sb.Append(getMenuItem(mnu));
+                    sb.Append(getMenuItem(mnu, isActive));
                 }
                 else
                 {
-                    string menuheader = getMenuHeader(mnu);
+                    string menuheader = getMenuHeader(mnu, isActive);
 
                     StringBuilder submenu = new StringBuilder();
                     submenu.Append("<ul  class=\"dropdown-menu\">");
                     foreach (var submnu in submnuItems)
                     {
+                        //this marks the menu tab if a sub menu item is active
+                        if (activeMenuRelativeUrl.ToLower().Equals(submnu.relativeUrl.ToLower()))
+                        {
+                            isActive = true;
+                            menuheader = getMenuHeader(mnu, isActive);
+                        }
                         submenu.Append(getMenuSubItem(submnu));
                     }
                     submenu.Append("</ul>");
@@ -146,15 +163,23 @@ namespace PrairieCMS.Core
             return html;
         }
 
-        public static string getMenuItem(GetMainMenu_Result menuObj)
+        public static string getMenuItem(GetMainMenu_Result menuObj, bool isActive)
         {
-            string html = string.Format("<li><a tabindex=\"-1\" href=\"{0}\">{1}</a></li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+            string html = string.Empty;
+            if (isActive)
+                html = string.Format("<li class=\"active\"><a tabindex=\"-1\" href=\"{0}\">{1}</a></li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+            else
+                html = string.Format("<li><a tabindex=\"-1\" href=\"{0}\">{1}</a></li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
             return html;
         }
 
-        public static string getMenuHeader(GetMainMenu_Result menuObj)
-        {          
-            string html = string.Format("<li  class=\"dropdown\"><a tabindex=\"-1\" href=\"{0}\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" >{1}<b class=\"caret\"></b></a>[submenu]</li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+        public static string getMenuHeader(GetMainMenu_Result menuObj, bool isActive)
+        {
+            string html = string.Empty;
+            if (isActive)
+                html = string.Format("<li class=\"active dropdown\"><a tabindex=\"-1\" href=\"{0}\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" >{1}<b class=\"caret\"></b></a>[submenu]</li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
+                    else
+                html = string.Format("<li class=\"dropdown\"><a tabindex=\"-1\" href=\"{0}\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" >{1}<b class=\"caret\"></b></a>[submenu]</li><li class=\"divider-vertical\"></li>", menuObj.relativeUrl, menuObj.SiteMapItemName);
             return html;
         }
 
@@ -192,5 +217,64 @@ namespace PrairieCMS.Core
             return mod;
         }
 
+        /// <summary>
+        /// fill in the content list with mnu info where applicable. 
+        /// used on the dashboard to show available pages in an easy to understand manner
+        /// </summary>
+        /// <param name="contentList"></param>
+        /// <returns></returns>
+        public static List<ContentSelectionItems> GetDashboardTree(List<ContentSelectionItems> contentList)
+        {
+           
+            List<ContentSelectionItems> newContentList = new List<ContentSelectionItems>();
+            using ( cmsEntities cr = new cmsEntities() )
+            {
+                List<GetMainMenu_Result> gmmr = cr.GetMainMenu().ToList();           
+                var toplevelitems = gmmr.Where(m => m.fkSiteMapParentId == -1);
+                foreach (var mnu in toplevelitems)
+                {
+                    var submnuItems = gmmr.Where(m => m.fkSiteMapParentId == mnu.pkSiteMapItemID).ToList();
+                    if (submnuItems == null)
+                        continue;
+                 
+                    string relativeUrl = mnu.relativeUrl.ToLower();
+                    var contentitm = contentList.Where(m => m.ContentName.ToLower().Equals(relativeUrl)).FirstOrDefault();
+                    if (contentitm == null)
+                        continue;
+                
+                    contentitm.ParentMenuId = mnu.fkSiteMapParentId;
+                    contentitm.MenuId = mnu.pkSiteMapItemID;
+                    contentitm.listClass = "pagelist";
+                    newContentList.Add(contentitm);
+
+                   foreach (var submnu in submnuItems)
+                    {
+                        relativeUrl = submnu.relativeUrl.ToLower();
+                       contentitm = contentList.Where(m => m.ContentName.ToLower().Equals(relativeUrl)).FirstOrDefault();
+                       if (contentitm == null)
+                           continue;
+                       contentitm.ParentMenuId = submnu.fkSiteMapParentId;
+                       contentitm.MenuId = submnu.pkSiteMapItemID;
+                       contentitm.listClass = "sublistitem";
+                       newContentList.Add(contentitm);
+                    }
+                
+                }
+           }
+            foreach (var content in contentList)
+            {
+                var newcontent = newContentList.Where(m => m.ContentId == content.ContentId).FirstOrDefault();
+                if (newcontent == null)
+                {
+                    content.ParentMenuId = -1;
+                    content.MenuId = -1;
+                    content.listClass = "pagelist";
+                    newContentList.Add(content);
+                }
+            }
+            return newContentList;
+        }
+
+        
     }
 }

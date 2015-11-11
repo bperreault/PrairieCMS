@@ -40,19 +40,22 @@ namespace PrairiePluginLib
         {
             Directory.CreateDirectory(TempPluginFolder.FullName);
 
-            //clear out plugins
-            foreach (var f in TempPluginFolder.GetFiles("*.dll", SearchOption.AllDirectories))
+            try
             {
-                f.Delete();
-            }
+                //clear out plugins
+                foreach (var f in TempPluginFolder.GetFiles("*.dll", SearchOption.AllDirectories))
+                {
+                    f.Delete();
+                }
 
-            //copy files
-            foreach (var plug in PluginFolder.GetFiles("*.dll", SearchOption.AllDirectories))
-            {
-                var di = Directory.CreateDirectory(TempPluginFolder.FullName);
-                File.Copy(plug.FullName, Path.Combine(di.FullName, plug.Name), true);
+                //copy files
+                foreach (var plug in PluginFolder.GetFiles("*.dll", SearchOption.AllDirectories))
+                {
+                    var di = Directory.CreateDirectory(TempPluginFolder.FullName);
+                    File.Copy(plug.FullName, Path.Combine(di.FullName, plug.Name), true);
+                }
             }
-
+            catch (Exception exp) { }
             //This will put the plugin assemblies in the 'Load' context
             var assemblies = TempPluginFolder.GetFiles("*.dll", SearchOption.AllDirectories)
                     .Select(x => AssemblyName.GetAssemblyName(x.FullName))

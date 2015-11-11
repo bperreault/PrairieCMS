@@ -16,9 +16,9 @@ function (Boiler) {
             self.contentSetByUrl = pageInfo.ContentName;
             Boiler.UrlController.goTo("body/" + pageInfo.ContentName);
         }
-
+        
         this.previewPage = function (contentname) {
-            return "export/page/" + contentname;
+            return "/" + contentname;
         }
 
         self.initialize = function () {

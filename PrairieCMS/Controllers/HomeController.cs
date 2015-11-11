@@ -12,6 +12,9 @@ using PrairieCMS.Filters;
 using PrairieCMS.Core.Models;
 using PrairieCMS.Core;
 using PrairieCMS.Core.Events;
+using FormSystem;
+using PrairiePluginLib;
+using System.IO;
 
 
 namespace PrairieCMS.Controllers
@@ -22,20 +25,31 @@ namespace PrairieCMS.Controllers
         public ActionResult Index(string id="")
         {
             cmsModel cm = null;
-            if (Request.Form.AllKeys.Length > 0)
+            string message = string.Empty;
+            if (Request.Form.AllKeys != null 
+                && Request.Form.AllKeys.Length > 0 
+                && Request.Form.AllKeys[0] != null)
             {
-                EmailRepository.SendFormByEmail( Request.Form, id );
-            }
+                //EmailRepository.SendFormByEmail( Request.Form, id );
+               
+                message = FormProcessor.ProcessForm(Request.Form, id, true, false); //send email and record at dcmlfs if supported
 
+                if (message.Equals( "Thank-you, your information has been recorded." ))
+                     message = "<p style='color:#ff0000;'>Thank-you, the answers have been saved.</p>";
+
+            }
+            cmsRepository cms = new cmsRepository();
             if (!string.IsNullOrWhiteSpace(id))
             {
-                cm = cmsRepository.PageContent(id);
+                cm = cms.PageContent(id);
             }
             else
             {
-                cm = cmsRepository.HomeContent();
+                cm = cms.HomeContent();
             }
 
+            cm.html = cm.html.Replace("{form_submit_message}", message);
+            
             return View(cm);
         }
 
@@ -43,7 +57,7 @@ namespace PrairieCMS.Controllers
         public ActionResult pages()
         {
             var allPaths = Request.Path;
-            cmsModel cm = cmsRepository.PageContent(allPaths);
+            cmsModel cm = new cmsRepository().PageContent(allPaths);
             if (cm.html == string.Empty)
             {
 
@@ -55,7 +69,7 @@ namespace PrairieCMS.Controllers
         public ActionResult Handle()
         {
             var allPaths = Request.Path;
-            cmsModel cm = cmsRepository.PageContent(allPaths);
+            cmsModel cm = new cmsRepository().PageContent(allPaths);
             if (cm.html == string.Empty)
             {
 
@@ -63,7 +77,20 @@ namespace PrairieCMS.Controllers
             return View(cm);
         }
 
-
+        [AllowAnonymous]
+        public JsonResult bridge()
+        {
+            var friendlyUrl = HttpContext.Request.RawUrl;
+            if (friendlyUrl.StartsWith("/"))
+                friendlyUrl = friendlyUrl.Substring(1);
+            string json;
+            using (var reader = new StreamReader(Request.InputStream))
+            {
+                json = reader.ReadToEnd();
+            }
+            string dataReturn = PluginManager.Current.GetBridgedContent(friendlyUrl, json);
+            return Json(dataReturn, JsonRequestBehavior.AllowGet);
+        }
 
         /// <summary>
         /// Occurs when the page is being served to the output stream.

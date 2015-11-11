@@ -5,9 +5,12 @@
 
     @Html.Raw(Model.html)
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#sendAnswers').bind('click', function () {
-            $('form').submit();
+    try{
+        $(document).ready(function () {
+            $('#sendAnswers').bind('click', function () {
+                $('form').submit();
+            });
         });
-    });
+    }
+    catch(e){}
 </script>

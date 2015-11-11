@@ -113,6 +113,10 @@ namespace PrairieCMS.Core
                                                            ContentId = con.pkMapID,
                                                            ContentName = con.pageName
                                                        }).ToList();
+
+            //this is info for the dashboard tree display
+            contentList = MenuRepository.GetDashboardTree(contentList);
+
             fdi.contentList = contentList;
 
             List<FormSelectionItems> contentPieces = (from con in cr.cmsContent_Type
@@ -160,7 +164,7 @@ namespace PrairieCMS.Core
                 mcm = new cms_Page_Map();
                 mcm.createdBy = "cms";
                 mcm.createdOn = DateTime.Now;
-               
+                mcm.isActive = true;
                 cr.Entry(mcm).State = System.Data.EntityState.Added;
             }
             

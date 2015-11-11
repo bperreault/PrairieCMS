@@ -14,10 +14,12 @@ namespace PrairieCMS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("images/{*pathInfo}");
+
             //routes.MapRoute(
-            //    name: "Home",
+            //    name: "cms",
             //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            //    defaults: new { controller = "cms", action = "Index", id = UrlParameter.Optional }
             //);
 
             routes.MapRoute(

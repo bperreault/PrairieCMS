@@ -9,9 +9,16 @@ namespace PrairieCMS.Core.Controllers.FriendlyURLHandling
 
         public class PageManager
         {
-            public static cmsModel GetPageByFriendlyUrl(string friendlyUrl)
+
+            public cmsModel GetPageNoContentByFriendlyUrl(string friendlyUrl)
             {
-                cmsModel page = cmsRepository.PageContent(friendlyUrl);
+                cmsModel page = new cmsRepository().PageNoContent(friendlyUrl);
+                return page;                
+            }
+
+            public cmsModel GetPageByFriendlyUrl(string friendlyUrl)
+            {
+                cmsModel page = new cmsRepository().PageContent(friendlyUrl);
                 return page;                
             }
         }

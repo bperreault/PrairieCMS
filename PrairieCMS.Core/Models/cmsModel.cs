@@ -31,6 +31,7 @@ namespace PrairieCMS.Core.Models
 
             using (var file = new StreamWriter( filename ))
             {
+                html = html.Replace("{form_submit_message}", "");
                 file.Write(html);
                 file.Flush();
                 file.Close();

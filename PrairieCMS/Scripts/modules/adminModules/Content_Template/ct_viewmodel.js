@@ -402,7 +402,9 @@ function (Boiler, ItemsModel, template, childModule, settings, forminputseditor,
                 }));
             });
         }
-
+        this.previewPage = function (contentname) {
+            return "/" + contentname;
+        }
         self.SetupKendoEditor = function () {
 
             if (self.editor != null) {

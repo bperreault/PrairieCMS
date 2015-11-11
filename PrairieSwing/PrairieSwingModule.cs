@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using PrairiePluginLib;
 using System.Reflection;
+using System.Collections.Specialized;
 
 namespace PrairieSwing
 {
@@ -31,6 +32,7 @@ namespace PrairieSwing
         //ideally there will be a service here which can be plugged in as below with Castle Windsor.
             public void Install()
             {
+
                 //var container = ServiceLocator.Current.GetInstance<IWindsorContainer>();
 
                 //container.Kernel.AddFacility<WcfFacility>();
@@ -44,6 +46,22 @@ namespace PrairieSwing
                 //container.Register(Component.For<AgendaPrefill>());
 
                 //container.Resolve<AgendaPrefill>().Prefill();
+            }
+
+            public string GetHtml()
+            {
+                return "<h1>Prairie Swing Module!!!!</h1>";
+            }
+
+
+            public string GetRequestedContent(string friendlyUrl, string json)
+            {
+                return "<h1>content for json request</h1>";
+            }
+
+            public string GetAdminPages()
+            {
+                return "<h1>admin pages</h1>";
             }
         
     }

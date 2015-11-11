@@ -7,7 +7,6 @@ using System.Data.Entity.Infrastructure;
 using PrairieCMS.Core.Models;
 using System.Configuration;
 using System.Collections.Specialized;
-using Newtonsoft.Json.Linq;
 
 namespace PrairieCMS.Core
 {

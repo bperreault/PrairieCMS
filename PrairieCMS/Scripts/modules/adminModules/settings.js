@@ -14,7 +14,9 @@ define([], function() {
             list_of_wrappers: "/formData/GetWrappers",
             wrapper_data: "/wrapper/GetwrapperById",
             edit_wrapper: "/wrapper/save_wrapper_option",
-            exportContent: "/export/createHtmlContent"
+            exportContent: "/export/createHtmlContent",
+            modulesList: "plugin/GetModules",
+            getPluginAdminPages: "plugin/getPluginAdminPages"
 		}
 	}
 }); 
