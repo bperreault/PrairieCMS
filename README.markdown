@@ -1,9 +1,10 @@
 <img src="http://www.faxt.com/images/PrairieCMS-logo.png" alt="Prairie CMS" />
 [Prairie CMS](http://prairiesoft.co/)
 =================================================================
-<<<<<<< HEAD
-<<<<<<< HEAD
 Prairie Software is developing this CMS.  Some features are:  This CMS includes a static website generator. This CMS could be easily integrated into an existing web site, it's .MVC.   It was also built with the goal in mind of making individual areas of responsibility for editors.   So a person with the right to edit one area can't access others. 
+=======
+Prairie Software is developing this CMS.  Some features are:  A data-driven plugin architecture enables flexibility in content.  An example of a plubin that is under development for this CMS is a page to present video content (Church services from YouTube).
+>>>>>>> origin/develop
 =======
 Prairie Software is developing this CMS.  Some features are:  A data-driven plugin architecture enables flexibility in content.  An example of a plubin that is under development for this CMS is a page to present video content (Church services from YouTube).
 >>>>>>> origin/develop
@@ -32,11 +33,6 @@ require
 signals
 underscore
 toastr
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/develop
 
 Begin Documentation:
 
@@ -58,7 +54,3 @@ Module content type defines the tags which can be inserted into the content of t
 To use a plugin module, add a reference to PrairiePluginLib to your project.  In your project, add a public class that implements interface IModule.  IModule interface defines a method called GetHtml() - this will be called by Prairie CMS when the content which is being loaded contains an section of content defined as a Module in the ContentType table.
 
 Admin pages for plugins are accessed through the IModule interface
-<<<<<<< HEAD
->>>>>>> origin/develop
-=======
->>>>>>> origin/develop
